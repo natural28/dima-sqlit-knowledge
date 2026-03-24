@@ -1,0 +1,70 @@
+# Настройки Jekyll для GitHub Pages
+title: База знаний — Дима SQL-ит
+description: Статьи и материалы по Data Analyst: SQL, Python, BI, AI и автоматизация
+url: "https://dima-sqlit.ru"
+baseurl: ""
+
+# Настройки темы
+theme: jekyll-theme-minimal
+
+# Настройки Markdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Настройки перmalinkов
+permalink: /posts/:title/
+
+# Настройки для сборки
+exclude:
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  - convert_posts.py
+  - generate_posts_json.py
+  - parse_posts.py
+  - cleanup_posts.py
+  - cleanup_duplicates.py
+  - update_posts_format.py
+  - convert_md_to_html.py
+  - export
+  - .vscode
+  - .gitignore
+  - HOW_TO_RUN.md
+  - GITHUB_SETUP.md
+  - POSTS_MANAGEMENT.md
+
+# Настройки для GitHub Pages
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Настройки SEO
+twitter:
+  username: dima_sqlit
+
+social:
+  name: Дима SQL-ит
+  links:
+    - https://t.me/dima_sqlit
+    - https://mentor.dima-sqlit.ru
+
+# Настройки для поиска
+search: true
+
+# Настройки для категорий
+collections:
+  posts:
+    output: true
+    permalink: /posts/:title/
+
+# Настройки для страниц
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "default"
+      author: "Дима SQL-ит"

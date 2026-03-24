@@ -1,0 +1,581 @@
+{
+  "total": 64,
+  "posts": [
+    {
+      "title": "Claude Opus 4.6 (бесплатно) — а точнее MiMo-V2-Pro:",
+      "slug": "claude-opus-46-besplatno-a-tochnee-mimo-v2-pro",
+      "date": "2026-03-21",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🔥 **Claude Opus 4.6 (бесплатно) — а точнее MiMo-V2-Pro:**\n\nДа, вы не ослышались — бесплатный аналог уровня Claude Sonnet и Claude Opus. И я сам в это..."
+    },
+    {
+      "title": "Рабочий кейс: как декораторы спасают мои выгрузки данных:",
+      "slug": "rabochiy-keys-kak-dekoratory-spasayut-moi-vygruzki",
+      "date": "2026-03-17",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🐍 **Рабочий кейс: как декораторы спасают мои выгрузки данных:**\n\nУ нас на проекте данные постоянно перекладываются из одной СУБД в другую почти в режи..."
+    },
+    {
+      "title": "Давайте подробнее про харды",
+      "slug": "davayte-podrobnee-pro-hardy",
+      "date": "2026-03-16",
+      "category": "bi",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "**Давайте подробнее про харды ****🤓****\n**\nЧасто понятие аналитика варьируется от компании к компании и порой Аналитик может частично выполнять работу..."
+    },
+    {
+      "title": "IT-ипотека и личные финансы: как управлять деньгами, когда вписался в крупную покупку:",
+      "slug": "it-ipoteka-i-lichnye-finansy-kak-upravlyat-dengami",
+      "date": "2026-03-13",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🏠 **IT-ипотека и личные финансы: как управлять деньгами, когда вписался в крупную покупку:**\n\nНе так давно я взял IT-ипотеку (да-да, об этом будет отд..."
+    },
+    {
+      "title": "Бесплатный вайбкодинг с Qwen3-coder-next:",
+      "slug": "besplatnyy-vaybkoding-s-qwen3-coder-next",
+      "date": "2026-03-11",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "👨‍💻 **Бесплатный вайбкодинг с Qwen3-coder-next:**\n\nСейчас такое время, что не использовать нейронки — это значит быть на несколько шагов назад. Все во..."
+    },
+    {
+      "title": "Airflow против Crontab: когда не стоит усложнять и проще использовать Crontab?",
+      "slug": "airflow-protiv-crontab-kogda-ne-stoit-uslozhnyat-i",
+      "date": "2026-03-04",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "✅ **Airflow против Crontab: когда не стоит усложнять и проще использовать Crontab?**\n\nВ мире дата-инжиниринга Airflow — это стандарт. Но часто бывает..."
+    },
+    {
+      "title": "Handy: как превращать голос в текст и не терять гениальные идеи:",
+      "slug": "handy-kak-prevraschat-golos-v-tekst-i-ne-teryat-ge",
+      "date": "2026-03-02",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🎙 **Handy: как превращать голос в текст и не терять гениальные идеи:**\n\nБывает так: сидишь, пилишь сложную задачу или пишешь код, и тут в голову пришл..."
+    },
+    {
+      "title": "SQL-хак: как проверить любой запрос без таблиц и админских прав за 5 секунд",
+      "slug": "sql-hak-kak-proverit-lyuboy-zapros-bez-tablits-i-a",
+      "date": "2026-02-27",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🚀 **SQL-хак: как проверить любой запрос без таблиц и админских прав за 5 секунд**\n\nПредставьте ситуацию: вы пишете сложный SQL-запрос. Возможно, там х..."
+    },
+    {
+      "title": "Скользящее среднее (Moving Average): как увидеть реальный тренд сквозь шум данных",
+      "slug": "skolzyaschee-srednee-moving-average-kak-uvidet-rea",
+      "date": "2026-02-25",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "📈 **Скользящее среднее (Moving Average): как увидеть реальный тренд сквозь шум данных**\n\nПредставьте ситуацию: вы строите бизнесу график дневной выруч..."
+    },
+    {
+      "title": "Как правильно переносить строки в Python-коде: простые правила и примеры",
+      "slug": "kak-pravilno-perenosit-stroki-v-python-kode-prosty",
+      "date": "2026-02-16",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🤔 ** Как правильно переносить строки в Python-коде: простые правила и примеры**\n\nДумаю, часто у многих возникает один и тот же вопрос: как правильно п..."
+    },
+    {
+      "title": "Бесплатные материалы для изучения GIT — базовый минимум для аналитики:",
+      "slug": "besplatnye-materialy-dlya-izucheniya-git-bazovyy-m",
+      "date": "2026-02-05",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🤓 **Бесплатные материалы для изучения GIT — базовый минимум для аналитики:**\n\nМногие слышали о системе контроля версий, она же — GIT. Для аналитики не..."
+    },
+    {
+      "title": "Сбер заставил меня купить новый телефон",
+      "slug": "sber-zastavil-menya-kupit-novyy-telefon",
+      "date": "2026-02-02",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "✅ **Сбер заставил меня купить новый телефон**:\n\nВ посте про [итоги года](https://t.me/dima_sqlit/116) я писал, что сделал несколько интересных покупок..."
+    },
+    {
+      "title": "Бесплатно изучаем ООП на Python: нужно ли это аналитику?",
+      "slug": "besplatno-izuchaem-oop-na-python-nuzhno-li-eto-ana",
+      "date": "2026-01-21",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🐍 **Бесплатно изучаем ООП на Python: нужно ли это аналитику?**\n\nСлышал много споров на тему: «Нужно ли аналитику знать ООП (Объектно-Ориентированное П..."
+    },
+    {
+      "title": "Что такое Асинхронность? Разбираемся на простых примерах:",
+      "slug": "chto-takoe-asinhronnost-razbiraemsya-na-prostyh-pr",
+      "date": "2026-01-19",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "😉 **Что такое Асинхронность? Разбираемся на простых примерах:**\n\nДрузья, всем привет. Многие, слышали понятие Асинхронность и думали: «Ну, это какая-т..."
+    },
+    {
+      "title": "Идемпотентность и Детерминированность: что это и почему аналитику важно это знать:",
+      "slug": "idempotentnost-i-determinirovannost-chto-eto-i-poc",
+      "date": "2026-01-16",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "😅 **Идемпотентность и Детерминированность: что это и почему аналитику важно это знать:**\n\nДрузья, всем привет. Сегодня поговорим про два термина, кото..."
+    },
+    {
+      "title": "Здоровье в IT: как я поддерживаю свое физическое состояние. Часть 3 —",
+      "slug": "zdorove-v-it-kak-ya-podderzhivayu-svoe-fizicheskoe",
+      "date": "2026-01-11",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🍌** Здоровье в IT: как я поддерживаю свое физическое состояние. Часть 3 —**<u> про Спорт:</u>\n\nПривет! В прошлых частях я рассказал про БАДы и про Мен..."
+    },
+    {
+      "title": "Итог:",
+      "slug": "itog",
+      "date": "2026-01-04",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🪙 Получаем Gemini 3 PRO бесплатно:\n\nДрузья, всем привет.\nЕсть реальная возможность потестить Gemini 3 PRO в Business-версии абсолютно бесплатно на 30..."
+    },
+    {
+      "title": "2026 год: чего ждать? Мой взгляд и ключевые тренды",
+      "slug": "2026-god-chego-zhdat-moy-vzglyad-i-klyuchevye-tren",
+      "date": "2026-01-03",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🔮 **2026 год: чего ждать? Мой взгляд и ключевые тренды**\n\nДрузья, всем привет.\nПервый пост в этом году решил написать о том, что реально будет важно в..."
+    },
+    {
+      "title": "Подведу итоги канала при помощи",
+      "slug": "podvedu-itogi-kanala-pri-pomoschi",
+      "date": "2025-12-30",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "👨‍💻 **Подведу итоги канала при помощи **[сервиса](https://tgwrapped.com/)**, как многие это делают, а я не отстают от тренда)**\n\nНачнем сразу с ТОП 3..."
+    },
+    {
+      "title": "1️⃣",
+      "slug": "1",
+      "date": "2025-12-25",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🥰 Как эффективно искать работу на HeadHunter — без массовых откликов и скриптов:\n\nСлышал от многих, что на hh.ru нужно отправлять по 50+ откликов в де..."
+    },
+    {
+      "title": "Ловушка оператора OR в SQL и Python:",
+      "slug": "lovushka-operatora-or-v-sql-i-python",
+      "date": "2025-12-23",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "❔ **Ловушка оператора OR в SQL и Python:** \n\nМало кто понимает, что OR — ленивый оператор, который проверяет условия слева направо и останавливается н..."
+    },
+    {
+      "title": "Итоги года и большое спасибо вам:",
+      "slug": "itogi-goda-i-bolshoe-spasibo-vam",
+      "date": "2025-12-18",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🎉 **Итоги года и большое спасибо вам:**\n\nХочу подвести итоги года и просто сказать спасибо.\n\nКанал я начал активно вести с начала июля этого года.\nЦел..."
+    },
+    {
+      "title": "Бесплатные материалы для изучения Python — базовый минимум для аналитики:",
+      "slug": "besplatnye-materialy-dlya-izucheniya-python-bazovy",
+      "date": "2025-12-08",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🐍 **Бесплатные материалы для изучения Python — базовый минимум для аналитики:**\n\nПродолжаю делиться бесплатными материалами.\nСегодня на очереди Python..."
+    },
+    {
+      "title": "Матемарткетинг - мой первый раз. День 1:",
+      "slug": "matemartketing---moy-pervyy-raz-den-1",
+      "date": "2025-11-20",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "👍**Матемарткетинг - мой первый раз. День 1:**\n\nСегодня мой первый раз, как я побывал на <u>Матемаркетинге</u>. \n\n<u>Что успел сделать:</u>🔵\n\n• Посмотр..."
+    },
+    {
+      "title": "SQL-лайфхаки — номера в GROUP BY и как избежать целых чисел в расчётах при делении:",
+      "slug": "sql-layfhaki-nomera-v-group-by-i-kak-izbezhat-tsel",
+      "date": "2025-11-18",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "💯 **SQL-лайфхаки — номера в GROUP BY и как избежать целых чисел в расчётах при делении:**\n\n<u>Группировка в SQL: по именам и по номерам столбцов</u> 🔵..."
+    },
+    {
+      "title": "Как посчитать произведение в SQL, если есть только SUM — разберем задачу с собеседования:",
+      "slug": "kak-poschitat-proizvedenie-v-sql-esli-est-tolko-su",
+      "date": "2025-11-13",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🗒 **Как посчитать произведение в SQL, если есть только SUM — разберем задачу с собеседования:**\n\nИногда на собеседовании спрашивают:\n\"Вот у тебя есть..."
+    },
+    {
+      "title": "Привет!",
+      "slug": "privet-kak-analitik-dannyh-ya-chasto-vzaimodeystvu",
+      "date": "2025-11-12",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "Привет!\nКак аналитик данных, я часто взаимодействую с дата-инженерами: они строят витрины, настраивают пайплайны для данных и помогают с инфраструктур..."
+    },
+    {
+      "title": "SQL-фишки — которые выведут (Junior / Middle / Senior) аналитиков на новый уровень:",
+      "slug": "sql-fishki-kotorye-vyvedut-junior-middle-senior-an",
+      "date": "2025-11-10",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🖥  **SQL-фишки — которые выведут (Junior / Middle / Senior) аналитиков на новый уровень:**\n\nЗапросы в SQL бывают громоздкими (много условий в блоке wh..."
+    },
+    {
+      "title": "GPT-5.1 (Polaris Alpha) — новая топовая LLM модель (и её можно попробовать бесплатно):",
+      "slug": "gpt-51-polaris-alpha-novaya-topovaya-llm-model-i-e",
+      "date": "2025-11-08",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🧠 **GPT-5.1 (Polaris Alpha) — новая топовая LLM модель (и её можно попробовать бесплатно):**\n\nСейчас в комьюнити активно обсуждают новую модель Polari..."
+    },
+    {
+      "title": "Принцип \"явное лучше чем не явное\" в жизни, работе, sql, python:",
+      "slug": "printsip-yavnoe-luchshe-chem-ne-yavnoe-v-zhizni-ra",
+      "date": "2025-11-05",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🤔 **Принцип \"явное лучше чем не явное\" в жизни, работе, sql, python:**\n\nВыражение \"явное лучше чем не явное\" (\"Explicit is better than implicit\")  — о..."
+    },
+    {
+      "title": "Как посчитать медиану в SQL — разберем задачу с собеседования:",
+      "slug": "kak-poschitat-medianu-v-sql-razberem-zadachu-s-sob",
+      "date": "2025-10-31",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🤫 **Как посчитать медиану в SQL — разберем задачу с собеседования:**\n\nНа собеседованиях аналитиков часто спрашивают про медиану: \"Как её посчитать в S..."
+    },
+    {
+      "title": "Что значит data-driven и почему профессия  — Аналитика никогда не устареет:",
+      "slug": "chto-znachit-data-driven-i-pochemu-professiya-anal",
+      "date": "2025-10-29",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🖥 **Что значит data-driven и почему профессия  — Аналитика никогда не устареет:**\n\nСегодня хочу разобраться, зачем вообще нужна аналитика данных и поч..."
+    },
+    {
+      "title": "Сводные таблицы в SQL: простой способ с CASE WHEN:",
+      "slug": "svodnye-tablitsy-v-sql-prostoy-sposob-s-case-when",
+      "date": "2025-10-27",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🤨 **Сводные таблицы в SQL: простой способ с CASE WHEN:**\n\nСводные таблицы — это трюк в SQL, чтобы собрать данные в компактный вид. Вместо того чтобы п..."
+    },
+    {
+      "title": "Здоровье в IT: как я поддерживаю свое ментальное состояние. Часть 2 —",
+      "slug": "zdorove-v-it-kak-ya-podderzhivayu-svoe-mentalnoe-s",
+      "date": "2025-10-18",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🍌** Здоровье в IT: как я поддерживаю свое ментальное состояние. Часть 2 —**<u> про Менталку:</u>\n\nПривет! В прошлой [части](https://t.me/dima_sqlit/58..."
+    },
+    {
+      "title": "Привет!",
+      "slug": "privet-hochu-segodnya-podelitsya-kanalom-natali-g",
+      "date": "2025-10-08",
+      "category": "ai",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "Привет!\nХочу сегодня поделиться каналом Натальи, где она рассказывает свой путь самостоятельного развития от инженера-конструктора на заводе до senior..."
+    },
+    {
+      "title": "Важность типов данных в SQL: почему данные не джойнятся, функции не применяются:",
+      "slug": "vazhnost-tipov-dannyh-v-sql-pochemu-dannye-ne-dzho",
+      "date": "2025-10-02",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "😱 **Важность типов данных в SQL: почему данные не джойнятся, функции не применяются:**\n\nАналитики часто сталкиваются с ситуациями, когда SQL-запросы д..."
+    },
+    {
+      "title": "Как загружать данные из CSV, Excel или Pandas DataFrame во временные таблицы ClickHouse:",
+      "slug": "kak-zagruzhat-dannye-iz-csv-excel-ili-pandas-dataf",
+      "date": "2025-09-30",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "😭 **Как загружать данные из CSV, Excel или Pandas DataFrame во временные таблицы ClickHouse:**\n\nРаботая с ClickHouse, часто сталкиваешься с ситуацией:..."
+    },
+    {
+      "title": "Копируем данные из DataFrame к себе в буфер обмена без лишних шагов с сохранением файлов:",
+      "slug": "kopiruem-dannye-iz-dataframe-k-sebe-v-bufer-obmena",
+      "date": "2025-09-27",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🤩 **Копируем данные из DataFrame к себе в буфер обмена без лишних шагов с сохранением файлов:**\n\nАналитики часто сталкиваются с задачей — нужно быстро..."
+    },
+    {
+      "title": "Как отслеживать прогресс цикла в Python — от простых print до tqdm:",
+      "slug": "kak-otslezhivat-progress-tsikla-v-python-ot-prosty",
+      "date": "2025-09-25",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🤩 **Как отслеживать прогресс цикла в Python — от простых print до tqdm:**\n\nМногие новички (и не только) в Python сталкиваются с длинными циклами — нап..."
+    },
+    {
+      "title": "Райан Гослинг нашел канал в котором автор делится,...",
+      "slug": "rayan-gosling-nashel-kanal-v-kotorom-avtor-delitsy",
+      "date": "2025-09-24",
+      "category": "bi",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "Райан Гослинг нашел канал в котором автор делится, как он вкатился в IT после 30 лет в Аналитику данных\n\nВ [Бегущем по лезвию данных](https://t.me/dat..."
+    },
+    {
+      "title": "Временные таблицы (TEMP TABLE) vs Материализованные представления (MATERIALIZED VIEW) в SQL — простое объяснение: что это такое и в чём разница? Часть 2.",
+      "slug": "vremennye-tablitsy-temp-table-vs-materializovannye",
+      "date": "2025-09-22",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🧐 **Временные таблицы (TEMP TABLE) vs Материализованные представления (MATERIALIZED VIEW) в SQL — простое объяснение: что это такое и в чём разница? Ч..."
+    },
+    {
+      "title": "GitHub Copilot Pro за 400 рублей: доступ к GPT-5 mini с unlimited запросами для IT, аналитики, разработки и повседневной жизни:",
+      "slug": "github-copilot-pro-za-400-rubley-dostup-k-gpt-5-mi",
+      "date": "2025-09-18",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🔥 **GitHub Copilot Pro за 400 рублей: доступ к GPT-5 mini с unlimited запросами для IT, аналитики, разработки и повседневной жизни:**\n\nЕсли вы работае..."
+    },
+    {
+      "title": "А вы знали, что не все аналитики в IT ежедневно пишут SQL-запросы — для некоторых это редкий гость?",
+      "slug": "a-vy-znali-chto-ne-vse-analitiki-v-it-ezhednevno-p",
+      "date": "2025-09-17",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "**А вы знали, что не все аналитики в IT ежедневно пишут SQL-запросы — для некоторых это редкий гость? ****🤩**\n\nЯ слышал краем уха о системных аналитик..."
+    },
+    {
+      "title": "CTE vs Представления (VIEW - вьюхи) в SQL — простое объяснение: что это такое и в чём разница? Часть 1.",
+      "slug": "cte-vs-predstavleniya-view---vyuhi-v-sql-prostoe-o",
+      "date": "2025-09-15",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "😲 **CTE vs Представления (VIEW - вьюхи) в SQL — простое объяснение: что это такое и в чём разница? Часть 1.**\n\nМногие путают CTE (Common Table Express..."
+    },
+    {
+      "title": "👨‍💻",
+      "slug": "post-60",
+      "date": "2025-09-05",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "**👨‍💻**** Как выгрузить большой объём данных (SQL, API и т.п.) по частям в Python с помощью батчинга:**\n\nКогда данных слишком много — например, тысячи..."
+    },
+    {
+      "title": "Здоровье в IT: как я борюсь с сидячим образом жизни. Часть 1 —",
+      "slug": "zdorove-v-it-kak-ya-boryus-s-sidyachim-obrazom-zhi",
+      "date": "2025-09-03",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🍌** Здоровье в IT: как я борюсь с сидячим образом жизни. Часть 1 —**<u> про БАДы:</u>\n\nЕсли вы, как и я, проводите кучу времени за компьютером, то зна..."
+    },
+    {
+      "title": "Бесплатные нейросети для аналитики и кода: Qwen, DeepSeek и Google Notebook AI — без ограничений:",
+      "slug": "besplatnye-neyroseti-dlya-analitiki-i-koda-qwen-de",
+      "date": "2025-09-01",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🤩 **Бесплатные нейросети для аналитики и кода: Qwen, DeepSeek и Google Notebook AI — без ограничений:**\n\nЕсли вы хотите упростить себе работу с SQL, P..."
+    },
+    {
+      "title": "Как работают конструкции ANY и ALL в SQL — объяснение на простых примерах:",
+      "slug": "kak-rabotayut-konstruktsii-any-i-all-v-sql-obyasne",
+      "date": "2025-08-29",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "⚡️ **Как работают конструкции ANY и ALL в SQL — объяснение на простых примерах:**\n\nБудем работать вот с такой таблицей:\n\n```\nТаблица: employees\n\nid  n..."
+    },
+    {
+      "title": "Казалось бы, агрегатные функции в SQL (SUM, AVG, COUNT) просто считают значения — что тут сложного? Но есть скрытая ловушка: как они ведут себя с NULL?",
+      "slug": "kazalos-by-agregatnye-funktsii-v-sql-sum-avg-count",
+      "date": "2025-08-27",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "👨‍💻 **Казалось бы, агрегатные функции в SQL (SUM, AVG, COUNT) просто считают значения — что тут сложного? Но есть скрытая ловушка: как они ведут себя..."
+    },
+    {
+      "title": "онимание тревожности: почему она возникает в мире неопределённостей и как с ней справляться. (",
+      "slug": "onimanie-trevozhnosti-pochemu-ona-voznikaet-v-mire",
+      "date": "2025-08-24",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "📕 П**онимание тревожности: почему она возникает в мире неопределённостей и как с ней справляться. (**[1-я часть — находится в посте выше](https://t.me..."
+    },
+    {
+      "title": "Мое понимание мира - прими неопределённость или почему истины нет, а есть только вероятность:",
+      "slug": "moe-ponimanie-mira---primi-neopredelyonnost-ili-po",
+      "date": "2025-08-23",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "📕 **Мое понимание мира - прими неопределённость или почему истины нет, а есть только вероятность:**\n\nЯ часто думаю о мире вокруг. Всё, что мы видим и..."
+    },
+    {
+      "title": "Что посмотреть на выходных и мои размышления о фильмах Тарантино:",
+      "slug": "chto-posmotret-na-vyhodnyh-i-moi-razmyshleniya-o-f",
+      "date": "2025-08-22",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🍿 **Что посмотреть на выходных и мои размышления о фильмах Тарантино:**\n\n🍸 Вот и пятничка, решил отойти от сложных тем и обсудить с вами, какие фильмы..."
+    },
+    {
+      "title": "Machine Learning в Бизнесе - как просто сделать Прогноз Временных Рядов при помощи Prophet",
+      "slug": "machine-learning-v-biznese---kak-prosto-sdelat-pro",
+      "date": "2025-08-21",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🪙 **Machine Learning в Бизнесе - как просто сделать Прогноз Временных Рядов при помощи Prophet**:\n\nСегодня расскажу, как спрогнозировать выручку (GMV)..."
+    },
+    {
+      "title": "Всем привет! Хочу порекомендовать канал [@@ds_meme...",
+      "slug": "vsem-privet-hochu-porekomendovat-kanal-dsmeme",
+      "date": "2025-08-20",
+      "category": "general",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "Всем привет! Хочу порекомендовать канал [@@ds_memes](https://t.me/ds_memes) с большим количеством мемов про IT / DS. \n\nМемы публикуются 4+ раза в день..."
+    },
+    {
+      "title": "Как за 5 минут превратить CSV файлы в полноценную базу данных через SQLite в DBeaver:",
+      "slug": "kak-za-5-minut-prevratit-csv-fayly-v-polnotsennuyu",
+      "date": "2025-08-12",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🔥 **Как за 5 минут превратить CSV файлы в полноценную базу данных через SQLite в DBeaver:**\n\n💎 <u>Представьте:</u> \nУ вас куча CSV файлов с данными, и..."
+    },
+    {
+      "title": "🛡 Как правильно хранить пароли и другую чувствител...",
+      "slug": "kak-pravilno-hranit-paroli-i-druguyu-chuvstvitel",
+      "date": "2025-08-11",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "🛡 Как правильно хранить пароли и другую чувствительную информацию в ваших скриптах и проектах в python\n\n• Скорее всего многие — хранят пароли прямо в..."
+    },
+    {
+      "title": "SQL Ловушка: почему оператор NOT IN ломается, а EXISTS работает",
+      "slug": "sql-lovushka-pochemu-operator-not-in-lomaetsya-a-e",
+      "date": "2025-08-06",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "⚠️ **SQL Ловушка: почему оператор NOT IN ломается, а EXISTS работает**:\n\nРассмотрим классическую проблему с которой встречались многие.\n\n📊 Пример данн..."
+    },
+    {
+      "title": "Две простые \"магические\" команды в Jupyter Notebook (Hub), которые стоит использовать каждый день",
+      "slug": "dve-prostye-magicheskie-komandy-v-jupyter-notebook",
+      "date": "2025-08-04",
+      "category": "python",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "**Две простые \"магические\" команды в Jupyter Notebook (Hub), которые стоит использовать каждый день** 🤔\n\n👍 Сегодня поговорим о двух простых, но неверо..."
+    },
+    {
+      "title": "Бесплатная нейросеть от Google для работы с любыми материалами — NotebookLM",
+      "slug": "besplatnaya-neyroset-ot-google-dlya-raboty-s-lyuby",
+      "date": "2025-07-31",
+      "category": "ai",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "**Бесплатная нейросеть от Google для работы с любыми материалами — NotebookLM** 🚬\n\n😱 Бесплатных нейросетей сейчас полно, но почти все они ограничены п..."
+    },
+    {
+      "title": "Ускоряем написание кода - горячие клавиши, которые работают в DBeaver, Jupyter Notebook, VS Code и других IDE",
+      "slug": "uskoryaem-napisanie-koda---goryachie-klavishi-koto",
+      "date": "2025-07-28",
+      "category": "python",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "**Ускоряем написание кода - горячие клавиши, которые работают в DBeaver, Jupyter Notebook, VS Code и других IDE** 🚀\n\n<u>🔥</u><u> Горячих клавиш в IDE..."
+    },
+    {
+      "title": "Кто такой аналитик? Спойлер: каждый из нас",
+      "slug": "kto-takoy-analitik-spoyler-kazhdyy-iz-nas",
+      "date": "2025-07-20",
+      "category": "bi",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "**Кто такой аналитик? Спойлер: каждый из нас ****🥶**\n\nПредставьте будний день. Вы встаёте, выглядываете в окно, сверяетесь с прогнозом  погоды — видит..."
+    },
+    {
+      "title": "Telegram-бот, который работает, пока ты отдыхаешь",
+      "slug": "telegram-bot-kotoryy-rabotaet-poka-ty-otdyhaesh",
+      "date": "2025-06-29",
+      "category": "python",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "**Telegram-бот, который работает, пока ты отдыхаешь**\n\nСегодня покажу, как за пару минут настроить простого Telegram-бота на Python, который будет сла..."
+    },
+    {
+      "title": "Вы приняты! Или как пройти любое собеседование и получить работу мечты",
+      "slug": "vy-prinyaty-ili-kak-proyti-lyuboe-sobesedovanie-i",
+      "date": "2025-05-29",
+      "category": "python",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "**Вы приняты! Или как пройти любое собеседование и получить работу мечты**\n\n1️⃣ Перед собеседованием уделите 10 минут и изучите вакансию, так вы уже в..."
+    },
+    {
+      "title": "Как работать с оконными функциями в SQL",
+      "slug": "sql-window-functions",
+      "date": "2024-01-15",
+      "category": "sql",
+      "reactions": 0,
+      "telegram_link": null,
+      "excerpt": "## Что такое оконные функции?\n\nОконные функции — это мощный инструмент SQL, который позволяет выполнять вычисления над набором строк, связанных с теку..."
+    }
+  ]
+}

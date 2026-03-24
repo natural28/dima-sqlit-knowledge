@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>База знаний — Дима SQL-ит</title>
+  <meta name="description" content="База знаний по Data Analyst: SQL, Python, BI, AI и автоматизация. Статьи и посты из Telegram канала Дима SQL-ит.">
+  <meta name="keywords" content="Data Analyst, SQL, Python, BI, AI, база знаний, статьи, обучение">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <style>
+    :root {
+      --bg-dark: #050507;
+      --text-main: #b4bacf;
+      --text-header: #ffffff;
+      --accent-gradient: linear-gradient(135deg, #a45eff 0%, #4f46e5 100%);
+      --accent-color: #a45eff;
+      --accent-green: #10b981;
+      --radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-dark);
+      background-image: radial-gradient(circle at 50% -20%, #2e1065 0%, #050507 60%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { text-decoration: none; color: inherit; transition: var(--transition); }
+    ul { list-style: none; padding: 0; margin: 0; }
+    * { box-sizing: border-box; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    header {
+      padding: 40px 0;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-header);
+      margin-bottom: 10px;
+    }
+
+    .logo span {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .tagline {
+      font-size: 16px;
+      color: #9ca3af;
+    }
+
+    nav {
+      margin-top: 20px;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 5px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      background: rgba(164, 94, 255, 0.15);
+      border-color: var(--accent-color);
+      color: #fff;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 0;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--text-header);
+      margin: 0 0 20px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #9ca3af;
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+
+    .search-box {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 16px 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 20px rgba(164, 94, 255, 0.2);
+    }
+
+    .search-box input::placeholder {
+      color: #6b7280;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent-color);
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    .categories {
+      padding: 40px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      color: var(--text-header);
+      margin-bottom: 30px;
+      font-weight: 700;
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .category-card {
+      background: linear-gradient(160deg, rgba(30, 30, 40, 0.6) 0%, rgba(20, 20, 25, 0.8) 100%);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .category-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(164, 94, 255, 0.5);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .category-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .category-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-header);
+      margin: 0 0 8px;
+    }
+
+    .category-count {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    .posts {
+      padding: 40px 0;
+    }
+
+    .posts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .post-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 20px;
+      transition: var(--transition);
+    }
+
+    .post-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(164, 94, 255, 0.3);
+      transform: translateX(5px);
+    }
+
+    .post-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-header);
+      margin: 0 0 8px;
+    }
+
+    .post-meta {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 8px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .post-excerpt {
+      font-size: 14px;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+
+    .post-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--accent-color);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .post-link:hover {
+      color: #fff;
+    }
+
+    .telegram-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #0088cc;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+
+    .telegram-link:hover {
+      color: #00aaff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6b7280;
+      font-size: 13px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    footer a {
+      color: var(--accent-color);
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+
+    .filter-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      color: var(--text-main);
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: rgba(164, 94, 255, 0.15);
+      border-color: var(--accent-color);
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 32px; }
+      .categories-grid { grid-template-columns: 1fr; }
+      .stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">База знаний <span>Дима SQL-ит</span></div>
+      <p class="tagline">Статьи и материалы по Data Analyst</p>
+      <nav>
+        <a href="/">🏠 Главная</a>
+        <a href="https://mentor.dima-sqlit.ru">🎯 Менторство</a>
+        <a href="https://t.me/dima_sqlit">📱 Telegram канал</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>📚 База знаний</h1>
+      <p>Все мои посты из Telegram в структурированном виде. Ищите по темам или используйте поиск.</p>
+      <div class="search-box">
+        <input type="text" placeholder="🔍 Поиск по статьям..." id="search">
+      </div>
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-number" id="total-posts">80+</div>
+          <div class="stat-label">Статей</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">6</div>
+          <div class="stat-label">Категорий</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">2024-2025</div>
+          <div class="stat-label">Годы</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="categories">
+      <h2 class="section-title">Категории</h2>
+      <div class="categories-grid">
+        <a href="#" class="category-card" data-category="sql">
+          <div class="category-icon">🎯</div>
+          <h3 class="category-title">SQL</h3>
+          <p class="category-count">Запросы, оптимизация, трюки</p>
+        </a>
+
+        <a href="#" class="category-card" data-category="python">
+          <div class="category-icon">🐍</div>
+          <h3 class="category-title">Python</h3>
+          <p class="category-count">Скрипты, автоматизация, библиотеки</p>
+        </a>
+
+        <a href="#" class="category-card" data-category="bi">
+          <div class="category-icon">📊</div>
+          <h3 class="category-title">BI инструменты</h3>
+          <p class="category-count">Дашборды, метрики, визуализация</p>
+        </a>
+
+        <a href="#" class="category-card" data-category="ai">
+          <div class="category-icon">🤖</div>
+          <h3 class="category-title">AI и нейросети</h3>
+          <p class="category-count">ChatGPT, Copilot, ML</p>
+        </a>
+
+        <a href="#" class="category-card" data-category="career">
+          <div class="category-icon">🚀</div>
+          <h3 class="category-title">Карьера</h3>
+          <p class="category-count">Собеседования, резюме, развитие</p>
+        </a>
+
+        <a href="#" class="category-card" data-category="automation">
+          <div class="category-icon">⚡</div>
+          <h3 class="category-title">Автоматизация</h3>
+          <p class="category-count">Боты, скрипты, Airflow</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="posts">
+      <h2 class="section-title">Все статьи</h2>
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="sql">SQL</button>
+        <button class="filter-btn" data-filter="python">Python</button>
+        <button class="filter-btn" data-filter="bi">BI</button>
+        <button class="filter-btn" data-filter="ai">AI</button>
+        <button class="filter-btn" data-filter="career">Карьера</button>
+        <button class="filter-btn" data-filter="automation">Автоматизация</button>
+      </div>
+      <div class="posts-list" id="posts-list">
+        <!-- Посты будут загружены через JavaScript -->
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2024-2025 Дима SQL-ит • <a href="https://t.me/dima_sqlit">Telegram канал</a> • <a href="https://mentor.dima-sqlit.ru">Менторство</a></p>
+    </footer>
+  </div>
+
+  <script>
+    // Данные о постах (будут загружены из JSON)
+    let postsData = [];
+
+    // Загрузка постов из JSON файла
+    async function loadPosts() {
+      try {
+        const response = await fetch('/posts/index.json');
+        const data = await response.json();
+        postsData = data.posts;
+        renderPosts(postsData);
+        updateStats();
+      } catch (error) {
+        console.error('Ошибка загрузки постов:', error);
+        // Если JSON не загрузился, показываем сообщение
+        document.getElementById('posts-list').innerHTML = `
+          <div style="text-align: center; padding: 40px; color: #9ca3af;">
+            <p>Загрузка постов...</p>
+            <p style="font-size: 12px;">Если посты не загрузились, обновите страницу</p>
+          </div>
+        `;
+      }
+    }
+
+    // Рендеринг постов
+    function renderPosts(posts) {
+      const postsList = document.getElementById('posts-list');
+      
+      if (posts.length === 0) {
+        postsList.innerHTML = '<p style="text-align: center; color: #9ca3af;">Посты не найдены</p>';
+        return;
+      }
+
+      postsList.innerHTML = posts.map(post => `
+        <article class="post-item" data-category="${post.category}">
+          <h3 class="post-title">
+            <a href="/posts/${post.slug}/">${post.title}</a>
+            ${post.telegram_link ? `<a href="${post.telegram_link}" target="_blank" class="telegram-link">📱 Источник</a>` : ''}
+          </h3>
+          <p class="post-meta">
+            <span>📅 ${post.date}</span>
+            <span>🏷️ ${post.category}</span>
+          </p>
+          <p class="post-excerpt">${post.excerpt}</p>
+          <a href="/posts/${post.slug}/" class="post-link">Читать далее →</a>
+        </article>
+      `).join('');
+    }
+
+    // Обновление статистики
+    function updateStats() {
+      document.getElementById('total-posts').textContent = postsData.length + '+';
+    }
+
+    // Фильтрация постов
+    function filterPosts(category) {
+      const filtered = category === 'all' 
+        ? postsData 
+        : postsData.filter(post => post.category.toLowerCase() === category);
+      renderPosts(filtered);
+    }
+
+    // Поиск постов
+    function searchPosts(query) {
+      const filtered = postsData.filter(post => 
+        post.title.toLowerCase().includes(query.toLowerCase()) ||
+        post.excerpt.toLowerCase().includes(query.toLowerCase())
+      );
+      renderPosts(filtered);
+    }
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPosts();
+
+      // Обработчики фильтров
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+          filterPosts(e.target.dataset.filter);
+        });
+      });
+
+      // Обработчик категорий
+      document.querySelectorAll('.category-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          const category = card.dataset.category;
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          document.querySelector(`.filter-btn[data-filter="${category}"]`).classList.add('active');
+          filterPosts(category);
+        });
+      });
+
+      // Обработчик поиска
+      document.getElementById('search').addEventListener('input', (e) => {
+        searchPosts(e.target.value);
+      });
+    });
+  </script>
+</body>
+</html>
