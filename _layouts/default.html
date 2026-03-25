@@ -5,7 +5,7 @@
   <title>{{ page.title }} — База знаний Дима SQL-ит</title>
   <meta name="description" content="{{ page.title }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/favicon.ico">
   <style>
     :root {
       --bg-dark: #050507;
@@ -56,6 +56,7 @@
     .logo span {
       background: var(--accent-gradient);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
@@ -220,7 +221,7 @@
     <header>
       <div class="logo">База знаний <span>Дима SQL-ит</span></div>
       <nav>
-        <a href="/">🏠 Главная</a>
+        <a href="{{ site.baseurl }}/">🏠 Главная</a>
         <a href="https://mentor.dima-sqlit.ru">🎯 Менторство</a>
         <a href="https://t.me/dima_sqlit">📱 Telegram канал</a>
       </nav>
@@ -230,7 +231,7 @@
       {{ content }}
     </article>
 
-    <a href="/" class="back-link">← Назад к списку статей</a>
+    <a href="{{ site.baseurl }}/" class="back-link">← Назад к списку статей</a>
 
     <footer>
       <p>© 2024-2025 Дима SQL-ит • <a href="https://t.me/dima_sqlit">Telegram канал</a> • <a href="https://mentor.dima-sqlit.ru">Менторство</a></p>
