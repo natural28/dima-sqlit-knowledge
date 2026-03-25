@@ -2,7 +2,7 @@
 title: База знаний — Дима SQL-ит
 description: "Статьи и материалы по Data Analyst: SQL, Python, BI, AI и автоматизация"
 url: "https://dima-sqlit.ru"
-baseurl: ""
+baseurl: "/dima-sqlit-knowledge"
 
 # Настройки темы
 theme: jekyll-theme-minimal
