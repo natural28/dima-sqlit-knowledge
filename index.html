@@ -6,7 +6,7 @@
   <meta name="description" content="База знаний по Data Analyst: SQL, Python, BI, AI и автоматизация. Статьи и посты из Telegram канала Дима SQL-ит.">
   <meta name="keywords" content="Data Analyst, SQL, Python, BI, AI, база знаний, статьи, обучение">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="/dima-sqlit-knowledge/favicon.ico">
   <style>
     :root {
       --bg-dark: #050507;
@@ -332,7 +332,7 @@
       <div class="logo">База знаний <span>Дима SQL-ит</span></div>
       <p class="tagline">Статьи и материалы по Data Analyst</p>
       <nav>
-        <a href="">🏠 Главная</a>
+        <a href="/dima-sqlit-knowledge/">🏠 Главная</a>
         <a href="https://mentor.dima-sqlit.ru">🎯 Менторство</a>
         <a href="https://t.me/dima_sqlit">📱 Telegram канал</a>
       </nav>
@@ -429,7 +429,7 @@
     // Загрузка постов из JSON файла
     async function loadPosts() {
       try {
-        const response = await fetch('posts/index.json');
+        const response = await fetch('/dima-sqlit-knowledge/posts/index.json');
         const data = await response.json();
         postsData = data.posts;
         renderPosts(postsData);
@@ -458,7 +458,7 @@
       postsList.innerHTML = posts.map(post => `
         <article class="post-item" data-category="${post.category}">
           <h3 class="post-title">
-            <a href="posts/${post.slug}/">${post.title}</a>
+            <a href="/dima-sqlit-knowledge/posts/${post.slug}/">${post.title}</a>
             ${post.telegram_link ? `<a href="${post.telegram_link}" target="_blank" class="telegram-link">📱 Источник</a>` : ''}
           </h3>
           <p class="post-meta">
@@ -466,7 +466,7 @@
             <span>🏷️ ${post.category}</span>
           </p>
           <p class="post-excerpt">${post.excerpt}</p>
-          <a href="posts/${post.slug}/" class="post-link">Читать далее →</a>
+          <a href="/dima-sqlit-knowledge/posts/${post.slug}/" class="post-link">Читать далее →</a>
         </article>
       `).join('');
     }
