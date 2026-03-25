@@ -429,7 +429,7 @@
     // Загрузка постов из JSON файла
     async function loadPosts() {
       try {
-        const response = await fetch('/posts/index.json');
+        const response = await fetch('posts/index.json');
         const data = await response.json();
         postsData = data.posts;
         renderPosts(postsData);
@@ -458,7 +458,7 @@
       postsList.innerHTML = posts.map(post => `
         <article class="post-item" data-category="${post.category}">
           <h3 class="post-title">
-            <a href="/posts/${post.slug}/">${post.title}</a>
+            <a href="posts/${post.slug}/">${post.title}</a>
             ${post.telegram_link ? `<a href="${post.telegram_link}" target="_blank" class="telegram-link">📱 Источник</a>` : ''}
           </h3>
           <p class="post-meta">
@@ -466,7 +466,7 @@
             <span>🏷️ ${post.category}</span>
           </p>
           <p class="post-excerpt">${post.excerpt}</p>
-          <a href="/posts/${post.slug}/" class="post-link">Читать далее →</a>
+          <a href="posts/${post.slug}/" class="post-link">Читать далее →</a>
         </article>
       `).join('');
     }
