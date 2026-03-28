@@ -1,12 +1,13 @@
-# Как загружать данные из CSV, Excel или Pandas DataFrame во временные таблицы ClickHouse:
-
-**Дата:** 2025-09-30  
-**Категория:** Sql  
-**Источник:** [Открыть в Telegram](https://t.me/c/2216284248/75)
-
 ---
-
-😭 **Как загружать данные из CSV, Excel или Pandas DataFrame во временные таблицы ClickHouse:**
+layout: default
+title: "Как загружать данные из CSV, Excel или Pandas DataFrame во временные таблицы ClickHouse:"
+date: 2025-09-30
+category: sql
+slug: kak-zagruzhat-dannye-iz-csv-excel-ili-pandas-dataf
+excerpt: "😭 **Как загружать данные из CSV, Excel или Pandas DataFrame во временные таблицы ClickHouse:**  Работая с ClickHouse, часто сталкиваешься с ситуацией:..."
+description: "😭 **Как загружать данные из CSV, Excel или Pandas DataFrame во временные таблицы ClickHouse:**  Работая с ClickHouse, часто сталкиваешься с ситуацией:..."
+telegram_link: "https://t.me/c/2216284248/75"
+---
 
 Работая с ClickHouse, часто сталкиваешься с ситуацией: тебе дали список из десятков тысяч user_id или сотен городов, и нужно отфильтровать данные по ним. Но часто возникают проблемы следующего характера:
 ❗️ Нет прав на создание таблиц (даже временных)

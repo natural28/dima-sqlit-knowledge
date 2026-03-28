@@ -1,9 +1,11 @@
-# Как работать с оконными функциями в SQL
-
-**Дата:** 2024-01-15  
-**Категория:** SQL  
-**Теги:** SQL, оконные функции, аналитика
-
+---
+layout: default
+title: "Как работать с оконными функциями в SQL"
+date: 2024-01-15
+category: sql
+slug: sql-window-functions
+excerpt: "## Что такое оконные функции?  Оконные функции — это мощный инструмент SQL, который позволяет выполнять вычисления над набором строк, связанных с теку..."
+description: "## Что такое оконные функции?  Оконные функции — это мощный инструмент SQL, который позволяет выполнять вычисления над набором строк, связанных с теку..."
 ---
 
 ## Что такое оконные функции?
@@ -158,7 +160,3 @@ SELECT *, SUM(amount) OVER (ORDER BY date) as running_total FROM transactions
 - [Документация PostgreSQL](https://www.postgresql.org/docs/current/tutorial-window.html)
 - [Оконные функции в MySQL](https://dev.mysql.com/doc/refman/8.0/en/window-functions.html)
 - [Практика на LeetCode](https://leetcode.com/problemset/database/)
-
----
-
-[← Назад к списку статей](/posts/)

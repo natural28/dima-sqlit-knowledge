@@ -2,10 +2,9 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>{{ page.title }} — База знаний Дима SQL-ит</title>
-  <meta name="description" content="{{ page.title }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/favicon.ico">
+  {% seo %}
   <style>
     :root {
       --bg-dark: #050507;
@@ -93,8 +92,26 @@
       font-size: 32px;
       font-weight: 800;
       color: var(--text-header);
-      margin: 0 0 20px;
+      margin: 0 0 12px;
       line-height: 1.3;
+    }
+
+    .article-meta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    .article-meta a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    .article-meta a:hover {
+      color: #fff;
     }
 
     .article h2 {
@@ -219,22 +236,28 @@
 <body>
   <div class="container">
     <header>
-      <div class="logo">База знаний <span>Дима SQL-ит</span></div>
+      <div class="logo">База знаний <span>Дима SQL-it</span></div>
       <nav>
-        <a href="{{ site.baseurl }}/">🏠 Главная</a>
-        <a href="https://mentor.dima-sqlit.ru">🎯 Менторство</a>
-        <a href="https://t.me/dima_sqlit">📱 Telegram канал</a>
+        <a href="{{ site.baseurl }}/">Главная</a>
+        <a href="https://mentor.dima-sqlit.ru">Менторство</a>
+        <a href="https://t.me/dima_sqlit">Telegram канал</a>
       </nav>
     </header>
 
     <article class="article">
+      <h1>{{ page.title }}</h1>
+      <div class="article-meta">
+        {% if page.date %}<span>{{ page.date | date: "%Y-%m-%d" }}</span>{% endif %}
+        {% if page.category %}<span>{{ page.category | upcase }}</span>{% endif %}
+        {% if page.telegram_link %}<a href="{{ page.telegram_link }}" target="_blank" rel="noopener noreferrer">Источник в Telegram</a>{% endif %}
+      </div>
       {{ content }}
     </article>
 
-    <a href="{{ site.baseurl }}/" class="back-link">← Назад к списку статей</a>
+    <a href="{{ site.baseurl }}/" class="back-link">← Назад к списку постов</a>
 
     <footer>
-      <p>© 2024-2025 Дима SQL-ит • <a href="https://t.me/dima_sqlit">Telegram канал</a> • <a href="https://mentor.dima-sqlit.ru">Менторство</a></p>
+      <p>© 2024-2026 Дима SQL-it • <a href="https://t.me/dima_sqlit">Telegram канал</a> • <a href="https://mentor.dima-sqlit.ru">Менторство</a></p>
     </footer>
   </div>
 </body>

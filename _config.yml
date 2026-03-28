@@ -35,6 +35,8 @@ exclude:
   - HOW_TO_RUN.md
   - GITHUB_SETUP.md
   - POSTS_MANAGEMENT.md
+  - WORKFLOW.md
+  - POST_TEMPLATE.md
 
 # Настройки для GitHub Pages
 plugins:
