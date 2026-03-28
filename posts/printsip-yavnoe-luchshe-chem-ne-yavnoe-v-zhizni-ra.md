@@ -1,12 +1,13 @@
-# Принцип "явное лучше чем не явное" в жизни, работе, sql, python:
-
-**Дата:** 2025-11-05  
-**Категория:** Sql  
-**Источник:** [Открыть в Telegram](https://t.me/c/2216284248/93)
-
 ---
-
-🤔 **Принцип "явное лучше чем не явное" в жизни, работе, sql, python:**
+layout: default
+title: "Принцип \"явное лучше чем не явное\" в жизни, работе, sql, python:"
+date: 2025-11-05
+category: sql
+slug: printsip-yavnoe-luchshe-chem-ne-yavnoe-v-zhizni-ra
+excerpt: "🤔 **Принцип \"явное лучше чем не явное\" в жизни, работе, sql, python:**  Выражение \"явное лучше чем не явное\" (\"Explicit is better than implicit\")  — о..."
+description: "🤔 **Принцип \"явное лучше чем не явное\" в жизни, работе, sql, python:**  Выражение \"явное лучше чем не явное\" (\"Explicit is better than implicit\")  — о..."
+telegram_link: "https://t.me/c/2216284248/93"
+---
 
 Выражение "явное лучше чем не явное" ("Explicit is better than implicit")  — одна из основных заповедей Zen of Python, которая применима не только к коду.
 Давайте разберем этот принцип на простых примерах:
