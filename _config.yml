@@ -2,7 +2,7 @@
 title: База знаний — Дима SQL-ит
 description: "Статьи и материалы по Data Analyst: SQL, Python, BI, AI и автоматизация"
 url: "https://dima-sqlit.ru"
-baseurl: "/dima-sqlit-knowledge"
+baseurl: ""
 
 # Настройки темы
 theme: jekyll-theme-minimal
@@ -11,7 +11,7 @@ theme: jekyll-theme-minimal
 markdown: kramdown
 kramdown:
   input: GFM
-  hard_wrap: false
+  hard_wrap: true
 
 # Настройки перmalinkов
 permalink: /posts/:title/

@@ -249,7 +249,13 @@
       <div class="article-meta">
         {% if page.date %}<span>{{ page.date | date: "%Y-%m-%d" }}</span>{% endif %}
         {% if page.category %}<span>{{ page.category | upcase }}</span>{% endif %}
-        {% if page.telegram_link %}<a href="{{ page.telegram_link }}" target="_blank" rel="noopener noreferrer">Источник в Telegram</a>{% endif %}
+        {% if page.sources %}
+          {% for source in page.sources %}
+            <a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.label | default: "Источник" }}</a>
+          {% endfor %}
+        {% elsif page.telegram_link %}
+          <a href="{{ page.telegram_link }}" target="_blank" rel="noopener noreferrer">Источник в Telegram</a>
+        {% endif %}
       </div>
       {{ content }}
     </article>

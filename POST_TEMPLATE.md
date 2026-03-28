@@ -6,7 +6,11 @@ category: sql
 slug: zagolovok-posta
 excerpt: "Короткий анонс для карточки на главной."
 description: "Короткое SEO-описание поста."
-telegram_link: "https://t.me/..."
+sources:
+  - label: "Telegram"
+    url: "https://t.me/..."
+  - label: "Статья"
+    url: "https://example.com/..."
 ---
 
 ## О чем статья
