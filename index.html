@@ -2,7 +2,7 @@
 title: "База знаний — Дима SQL-it"
 description: "База знаний по Data Analyst: SQL, Python, BI, AI и автоматизация. Статьи и посты из Telegram канала Дима SQL-it."
 ---
-{% assign all_posts = site.pages | where_exp: "item", "item.path contains 'posts/' and item.name != 'index.json'" | sort: "date" | reverse %}
+{% assign all_posts = site.pages | where: "dir", "/posts/" | where_exp: "item", "item.ext == '.md'" | sort: "date" | reverse %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
