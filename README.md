@@ -1,227 +1,127 @@
-# База знаний — Дима SQL-ит
+# База знаний — Дима SQL-it
 
-Статический сайт с базой знаний по Data Analyst, созданный на основе постов из Telegram канала.
+Статический сайт на Jekyll для GitHub Pages.
 
-## 🚀 Быстрый старт
+Сейчас проект устроен так:
 
-### 1. Создать репозиторий на GitHub
+- статьи лежат в `posts/*.md`
+- каждая статья рендерится через `_layouts/default.html`
+- главная страница собирает список статей из тех же markdown-файлов
+- для уже существующих постов поддерживается `telegram_link`
+- для новых постов можно использовать `sources:` с одной или несколькими ссылками
 
-1. Зайти на https://github.com
-2. Нажать "New repository"
-3. Назвать репозиторий: `dima-sqlit-knowledge`
-4. Выбрать "Public"
-5. Нажать "Create repository"
+## Что уже сделано
 
-### 2. Загрузить файлы
+- восстановлен рендер постов на GitHub Pages
+- возвращена кнопка `Назад к списку постов` из layout
+- удалены хардкодные ссылки назад из самих markdown-файлов
+- добавлен локальный запуск через Jekyll
+- убран `wdm`, который ломался на Ruby 3.4
 
-```bash
-# Клонировать репозиторий
-git clone https://github.com/YOUR_USERNAME/dima-sqlit-knowledge.git
+## Структура
 
-# Скопировать файлы в репозиторий
-cp -r knowledge-base/* dima-sqlit-knowledge/
-
-# Перейти в папку репозитория
-cd dima-sqlit-knowledge
-
-# Добавить файлы в git
-git add .
-
-# Сделать коммит
-git commit -m "Initial commit: база знаний"
-
-# Отправить на GitHub
-git push origin main
+```text
+.
+├── _config.yml
+├── _layouts/
+│   └── default.html
+├── posts/
+│   └── *.md
+├── index.html
+├── Gemfile
+├── POST_TEMPLATE.md
+└── WORKFLOW.md
 ```
 
-### 3. Настроить GitHub Pages
+## Как запустить локально
 
-1. Зайти в настройки репозитория (Settings)
-2. Прокрутить вниз до секции "Pages"
-3. В "Source" выбрать "Deploy from a branch"
-4. В "Branch" выбрать `main` и `/ (root)`
-5. Нажать "Save"
+1. Установи Ruby with DevKit для Windows.
+2. Открой новый PowerShell.
+3. Перейди в папку проекта:
 
-### 4. Настроить домен
-
-#### Вариант A: Через DNS (рекомендуется)
-
-Добавить A записи в DNS настройках домена:
-
-```
-@  A  185.199.108.153
-@  A  185.199.109.153
-@  A  185.199.110.153
-@  A  185.199.111.153
+```powershell
+cd C:\Users\natural\Downloads\si\dima-sqlit-knowledge
 ```
 
-Или CNAME запись:
+4. Установи зависимости:
 
-```
-www  CNAME  YOUR_USERNAME.github.io
-```
-
-#### Вариант B: Через CNAME файл
-
-Файл `CNAME` уже создан с содержимым `dima-sqlit.ru`.
-
-### 5. Включить HTTPS
-
-1. В настройках GitHub Pages (Settings → Pages)
-2. Поставить галочку "Enforce HTTPS"
-3. Подождать 5-10 минут для создания сертификата
-
-## 📁 Структура проекта
-
-```
-knowledge-base/
-├── index.html              # Главная страница
-├── _config.yml             # Конфигурация Jekyll
-├── CNAME                   # Настройка домена
-├── README.md               # Этот файл
-├── posts/                  # Статьи в формате Markdown
-│   ├── sql-window-functions.md
-│   ├── python-airflow-reports.md
-│   └── ...
-└── categories/             # Страницы категорий
-    ├── sql.md
-    ├── python.md
-    └── ...
+```powershell
+gem install bundler
+bundle install
 ```
 
-## ✍️ Как добавлять статьи
+5. Запусти сайт:
 
-### 1. Создать файл
-
-Создать новый `.md` файл в папке `posts/`:
-
-```bash
-touch posts/my-new-article.md
+```powershell
+bundle exec jekyll serve --livereload
 ```
 
-### 2. Написать содержимое
+6. Открой в браузере:
 
-```markdown
-# Название статьи
-
-**Дата:** 2024-01-20  
-**Категория:** SQL  
-**Теги:** SQL, оптимизация
-
----
-
-## Введение
-
-Текст статьи...
-
-## Основная часть
-
-Код и примеры...
-
-## Заключение
-
-Выводы...
-
----
-
-[← Назад к списку статей](/posts/)
+```text
+http://127.0.0.1:4000/dima-sqlit-knowledge/
 ```
 
-### 3. Обновить главную страницу
+## Как остановить сервер
 
-Добавить статью в список на `index.html`:
+В том же окне PowerShell нажми:
 
-```html
-<article class="post-item">
-  <h3 class="post-title">Название статьи</h3>
-  <p class="post-meta">📅 2024-01-20 • 🏷️ SQL</p>
-  <p class="post-excerpt">Краткое описание...</p>
-  <a href="/posts/my-new-article/" class="post-link">Читать далее →</a>
-</article>
+```text
+Ctrl + C
 ```
 
-### 4. Обновить категорию
+Если PowerShell спросит подтверждение остановки, нажми:
 
-Если статья относится к категории, добавить в соответствующий файл в `categories/`.
-
-## 🎨 Кастомизация
-
-### Изменить цвета
-
-В `_config.yml` или в CSS файлах изменить переменные:
-
-```css
-:root {
-  --accent-color: #a45eff;  /* Основной цвет */
-  --accent-green: #10b981;  /* Зеленый акцент */
-}
+```text
+Y
 ```
 
-### Добавить аналитику
+## Как добавить новую статью
 
-В `_config.yml` добавить:
+1. Скопируй шаблон из `POST_TEMPLATE.md`
+2. Создай новый файл в `posts/`, например:
+
+```text
+posts/moy-novyy-post.md
+```
+
+3. Заполни front matter и текст статьи
+4. Запусти локальный сервер
+5. Проверь главную страницу и сам пост
+6. Закоммить изменения и запушь ветку
+
+## Формат источников
+
+Для старых постов можно оставлять:
 
 ```yaml
-google_analytics: UA-XXXXXXXX-X
+telegram_link: "https://t.me/..."
 ```
 
-Или в `index.html` перед `</head>`:
+Для новых постов лучше использовать:
 
-```html
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXX-X"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-XXXXXXXX-X');
-</script>
+```yaml
+sources:
+  - label: "Telegram"
+    url: "https://t.me/..."
+  - label: "Habr"
+    url: "https://habr.com/..."
+  - label: "Сайт"
+    url: "https://example.com/..."
 ```
 
-## 🔍 SEO оптимизация
+## Если что-то снова ломается
 
-### Мета-теги
+Проверь по порядку:
 
-Каждая страница должна иметь:
+1. Есть ли нормальный `title`, `date`, `category`, `slug` в посте
+2. Запускается ли `bundle exec jekyll serve --livereload`
+3. Открываешь ли именно адрес с `dima-sqlit-knowledge`
+4. Нет ли в markdown старых ручных ссылок назад
 
-```html
-<title>Название — База знаний Дима SQL-ит</title>
-<meta name="description" content="Описание страницы...">
-<meta name="keywords" content="ключевые, слова">
-```
+## Полезные файлы
 
-### Open Graph
-
-Для соцсетей:
-
-```html
-<meta property="og:title" content="Название">
-<meta property="og:description" content="Описание">
-<meta property="og:image" content="URL картинки">
-<meta property="og:url" content="URL страницы">
-```
-
-### Sitemap
-
-Jekyll автоматически генерирует `sitemap.xml`.
-
-## 📱 Мобильная версия
-
-Сайт адаптивен и хорошо отображается на мобильных устройствах.
-
-## 🛠 Технологии
-
-- **Jekyll** — генератор статических сайтов
-- **GitHub Pages** — хостинг
-- **HTML/CSS** — верстка
-- **Markdown** — контент
-
-## 📞 Контакты
-
-- **Telegram канал:** https://t.me/dima_sqlit
-- **Менторство:** https://mentor.dima-sqlit.ru
-- **Связь:** https://t.me/catdem
-
-## 📄 Лицензия
-
-MIT License
+- `POST_TEMPLATE.md` — шаблон новой статьи
+- `WORKFLOW.md` — короткий рабочий процесс
+- `_layouts/default.html` — шаблон страницы поста
+- `index.html` — главная страница

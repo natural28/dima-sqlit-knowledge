@@ -1,15 +1,15 @@
 # Workflow
 
-## Add a new article
+## Как добавить новую статью
 
-1. Create a new Markdown file in `posts/`.
-2. Use the slug as the file name. Example:
+1. Создай новый Markdown-файл в `posts/`.
+2. Используй slug как имя файла. Пример:
    `posts/moy-novyy-post.md`
-3. Add front matter at the top of the file.
-4. Write the article body below it.
-5. Save the file and check it locally.
+3. Добавь front matter в начало файла.
+4. Ниже напиши текст статьи.
+5. Сохрани файл и проверь его локально.
 
-Example file:
+Пример:
 
 ```md
 ---
@@ -20,7 +20,11 @@ category: sql
 slug: moy-novyy-post
 excerpt: "Короткий анонс для карточки на главной."
 description: "Короткое SEO-описание статьи."
-telegram_link: "https://t.me/..."
+sources:
+  - label: "Telegram"
+    url: "https://t.me/..."
+  - label: "Статья"
+    url: "https://example.com/..."
 ---
 
 ## О чем статья
@@ -28,20 +32,17 @@ telegram_link: "https://t.me/..."
 Текст статьи...
 ```
 
-## Why Live Server does not work
+## Почему Live Server не подходит
 
-`Live Server` serves files as-is. This project needs `Jekyll` because:
+`Live Server` просто отдает файлы как есть. Этому проекту нужен именно `Jekyll`, потому что:
 
-- `{{ site.baseurl }}` and other Liquid tags must be rendered
-- collection pages from `posts/` must be built
-- layouts from `_layouts/` must be applied
+- должны отрендериться `{{ site.baseurl }}` и другие Liquid-переменные
+- должны собраться страницы из `posts/`
+- должен примениться layout из `_layouts/`
 
-Because of that, plain static hosting is not enough for local preview.
+## Как посмотреть сайт локально
 
-## Local preview
-
-1. Install Ruby with DevKit for Windows.
-2. In the project root run:
+Выполни:
 
 ```powershell
 gem install bundler
@@ -49,30 +50,22 @@ bundle install
 bundle exec jekyll serve --livereload
 ```
 
-3. Open:
+Потом открой:
 
 ```text
 http://127.0.0.1:4000/dima-sqlit-knowledge/
 ```
 
-4. Open a post page and verify:
+## Как остановить сервер
 
-- content is visible
-- links work
-- the article opens from the home page
+В том же окне PowerShell нажми:
 
-## Recommended publish flow
+```text
+Ctrl + C
+```
 
-1. Create or edit the article in `posts/*.md`.
-2. Run local preview with `bundle exec jekyll serve --livereload`.
-3. Check the home page and the article page.
-4. Commit changes to a feature branch.
-5. Push the branch and open a pull request.
+Если PowerShell спросит подтверждение, нажми:
 
-## Current architecture
-
-The site now uses Markdown as the source of truth:
-
-- the article page is rendered from `posts/*.md`
-- the home page list is generated from the same Markdown files
-- SEO fields also come from front matter in the Markdown file
+```text
+Y
+```
