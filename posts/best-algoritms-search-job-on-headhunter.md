@@ -1,9 +1,9 @@
 ---
 layout: default
-title: "1️⃣"
+title: "Как эффективно искать работу на HeadHunter — без массовых откликов и скриптов"
 date: 2025-12-25
 category: sql
-slug: 1
+slug: best-algoritms-search-job-on-headhunter
 telegram_link: "https://t.me/c/2216284248/115"
 ---
 🥰 Как эффективно искать работу на HeadHunter — без массовых откликов и скриптов:
