@@ -1,12 +1,12 @@
 ---
 layout: default
-title: "Итог:"
+title: "Получаем Gemini 3 PRO бесплатно"
 date: 2026-01-04
 category: sql
-slug: itog
+slug: get-gemini-pro-for-free
 telegram_link: "https://t.me/c/2216284248/118"
 ---
-🪙 Получаем Gemini 3 PRO бесплатно:
+Получаем Gemini 3 PRO бесплатно:
 
 Друзья, всем привет.
 Есть реальная возможность потестить Gemini 3 PRO в Business-версии абсолютно бесплатно на 30 дней — благодаря акции от Google.
