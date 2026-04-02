@@ -1,9 +1,9 @@
 ---
 layout: default
-title: "👨‍💻"
+title: "Как выгрузить большой объём данных (SQL, API и т.п.) по частям в Python с помощью батчинга"
 date: 2025-09-05
 category: sql
-slug: post-60
+slug: how-download-bigdata-batch
 telegram_link: "https://t.me/c/2216284248/60"
 ---
 **👨‍💻**** Как выгрузить большой объём данных (SQL, API и т.п.) по частям в Python с помощью батчинга:**
