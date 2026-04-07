@@ -140,8 +140,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       align-items: center;
     }
 
-    .nav a,
-    .theme-toggle {
+    .nav a {
       padding: 10px 14px;
       border: 1px solid var(--line);
       border-radius: 999px;
@@ -151,17 +150,66 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       font-weight: 600;
     }
 
-    body[data-theme="dark"] .nav a,
-    body[data-theme="dark"] .theme-toggle {
+    body[data-theme="dark"] .nav a {
       background: rgba(17, 24, 39, 0.92);
     }
 
-    .nav a:hover,
-    .theme-toggle:hover {
+    .nav a:hover {
       border-color: var(--line-strong);
       color: var(--text-main);
       background: var(--surface);
+    }
+
+    .theme-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 8px 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--text-soft);
       cursor: pointer;
+    }
+
+    body[data-theme="dark"] .theme-switch {
+      background: rgba(17, 24, 39, 0.92);
+    }
+
+    .theme-switch-label {
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .theme-switch-track {
+      position: relative;
+      width: 48px;
+      height: 28px;
+      border-radius: 999px;
+      background: #cbd5e1;
+      transition: background-color var(--transition);
+      flex: 0 0 auto;
+    }
+
+    .theme-switch-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
+      transition: transform var(--transition);
+    }
+
+    body[data-theme="dark"] .theme-switch-track {
+      background: #2563eb;
+    }
+
+    body[data-theme="dark"] .theme-switch-thumb {
+      transform: translateX(20px);
     }
 
     .hero,
@@ -297,14 +345,20 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       background: var(--surface-soft);
     }
 
-    .filter-buttons {
-      display: flex;
-      flex-wrap: wrap;
+    .filter-group {
+      display: grid;
       gap: 10px;
       flex: 1 1 420px;
     }
 
-    .filter-btn {
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-btn,
+    .clear-filters-btn {
       min-height: 40px;
       padding: 0 14px;
       border: 1px solid var(--line);
@@ -317,15 +371,21 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     }
 
     body[data-theme="dark"] .filter-btn,
+    body[data-theme="dark"] .clear-filters-btn,
     body[data-theme="dark"] .toolbar-search input {
       background: #0f172a;
     }
 
     .filter-btn:hover,
-    .filter-btn.active {
+    .filter-btn.active,
+    .clear-filters-btn:hover {
       border-color: #9cb6f5;
       background: var(--accent-soft);
       color: var(--text-main);
+    }
+
+    .clear-filters-btn.is-hidden {
+      display: none;
     }
 
     .toolbar-search {
@@ -548,7 +608,12 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         <p class="brand-summary">Всех приветствую. Здесь вы найдете полезные статьи по теме аналитики данных, искусственного интеллекта, вайбкодинга, мыслей автора и не только.</p>
       </div>
       <nav class="nav">
-        <button class="theme-toggle" id="theme-toggle" type="button">Темная тема</button>
+        <button class="theme-switch" id="theme-toggle" type="button" aria-label="Переключить тему">
+          <span class="theme-switch-label" id="theme-label">Светлая тема</span>
+          <span class="theme-switch-track" aria-hidden="true">
+            <span class="theme-switch-thumb"></span>
+          </span>
+        </button>
         <a href="{{ site.baseurl }}/">Главная</a>
         <a href="https://mentor.dima-sqlit.ru">Менторство</a>
         <a href="https://t.me/dima_sqlit">Telegram канал</a>
@@ -558,7 +623,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     <section class="hero">
       <div class="hero-copy">
         <h2>Контент по аналитике и смежным темам в удобном каталоге.</h2>
-        <p>Поиск и фильтры находятся сразу рядом со списком статей, поэтому не нужно лишний раз скроллить страницу. Для большого архива я уже заложил более безопасный сценарий: не бесконечная лента, а постепенная подгрузка карточек кнопкой.</p>
+        <p>Поиск и фильтры находятся сразу рядом со списком статей, поэтому не нужно лишний раз скроллить страницу. Для большого архива я оставил более безопасный сценарий: не бесконечную ленту, а постепенную подгрузку карточек кнопкой.</p>
         <div class="hero-actions">
           <a class="button-primary" href="#posts-list">Смотреть статьи</a>
         </div>
@@ -588,14 +653,19 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         </div>
 
         <div class="toolbar-controls">
-          <div class="filter-buttons">
-            <button class="filter-btn active" data-filter="all">Все</button>
-            <button class="filter-btn" data-filter="sql">SQL</button>
-            <button class="filter-btn" data-filter="python">Python</button>
-            <button class="filter-btn" data-filter="bi">BI</button>
-            <button class="filter-btn" data-filter="ai">AI</button>
-            <button class="filter-btn" data-filter="career">Career</button>
-            <button class="filter-btn" data-filter="automation">Automation</button>
+          <div class="filter-group">
+            <div class="filter-row">
+              <button class="filter-btn active" data-filter="all" type="button">Все</button>
+              <button class="filter-btn" data-filter="sql" type="button">SQL</button>
+              <button class="filter-btn" data-filter="python" type="button">Python</button>
+              <button class="filter-btn" data-filter="bi" type="button">BI</button>
+              <button class="filter-btn" data-filter="ai" type="button">AI</button>
+              <button class="filter-btn" data-filter="career" type="button">Career</button>
+              <button class="filter-btn" data-filter="automation" type="button">Automation</button>
+            </div>
+            <div class="filter-row">
+              <button class="clear-filters-btn is-hidden" id="clear-filters" type="button">Сбросить фильтры</button>
+            </div>
           </div>
 
           <div class="toolbar-search">
@@ -669,15 +739,17 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       const noResults = document.getElementById('no-results');
       const searchInput = document.getElementById('search');
       const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+      const clearFiltersButton = document.getElementById('clear-filters');
       const activeFilters = new Set();
       const loadMoreButton = document.getElementById('load-more');
       const themeToggle = document.getElementById('theme-toggle');
+      const themeLabel = document.getElementById('theme-label');
       const pageSize = 12;
       let visibleLimit = pageSize;
 
       function applyTheme(theme) {
         document.body.dataset.theme = theme;
-        themeToggle.textContent = theme === 'dark' ? 'Светлая тема' : 'Темная тема';
+        themeLabel.textContent = theme === 'dark' ? 'Темная тема' : 'Светлая тема';
       }
 
       const storedTheme = localStorage.getItem('site-theme');
@@ -697,11 +769,12 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
             button.classList.toggle('active', activeFilters.has(button.dataset.filter));
           }
         });
+
+        clearFiltersButton.classList.toggle('is-hidden', activeFilters.size === 0);
       }
 
       function applyFilters(resetLimit = false) {
         const query = searchInput.value.trim().toLowerCase();
-        let visibleCount = 0;
         let matchedCount = 0;
 
         if (resetLimit) {
@@ -715,7 +788,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
             .filter(Boolean);
           const matchesCategory =
             activeFilters.size === 0 ||
-            Array.from(activeFilters).every((filter) => postCategories.includes(filter));
+            Array.from(activeFilters).some((filter) => postCategories.includes(filter));
           const matchesQuery =
             query === '' ||
             post.dataset.title.includes(query) ||
@@ -728,10 +801,6 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 
           const shouldShow = matches && matchedCount <= visibleLimit;
           post.classList.toggle('is-hidden', !shouldShow);
-
-          if (shouldShow) {
-            visibleCount += 1;
-          }
         });
 
         noResults.classList.toggle('visible', matchedCount === 0);
@@ -745,14 +814,21 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 
           if (filter === 'all') {
             activeFilters.clear();
-          } else if (activeFilters.has(filter)) {
-            activeFilters.delete(filter);
           } else {
-            activeFilters.add(filter);
+            if (activeFilters.has(filter)) {
+              activeFilters.delete(filter);
+            } else {
+              activeFilters.add(filter);
+            }
           }
 
           applyFilters(true);
         });
+      });
+
+      clearFiltersButton.addEventListener('click', () => {
+        activeFilters.clear();
+        applyFilters(true);
       });
 
       searchInput.addEventListener('input', () => applyFilters(true));

@@ -108,8 +108,7 @@
       align-items: center;
     }
 
-    .nav a,
-    .theme-toggle {
+    .nav a {
       padding: 10px 14px;
       border: 1px solid var(--line);
       border-radius: 999px;
@@ -119,17 +118,66 @@
       font-weight: 600;
     }
 
-    body[data-theme="dark"] .nav a,
-    body[data-theme="dark"] .theme-toggle {
+    body[data-theme="dark"] .nav a {
       background: rgba(17, 24, 39, 0.92);
     }
 
-    .nav a:hover,
-    .theme-toggle:hover {
+    .nav a:hover {
       border-color: var(--line-strong);
       color: var(--text-main);
       background: var(--surface);
+    }
+
+    .theme-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 8px 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--text-soft);
       cursor: pointer;
+    }
+
+    body[data-theme="dark"] .theme-switch {
+      background: rgba(17, 24, 39, 0.92);
+    }
+
+    .theme-switch-label {
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .theme-switch-track {
+      position: relative;
+      width: 48px;
+      height: 28px;
+      border-radius: 999px;
+      background: #cbd5e1;
+      transition: background-color var(--transition);
+      flex: 0 0 auto;
+    }
+
+    .theme-switch-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
+      transition: transform var(--transition);
+    }
+
+    body[data-theme="dark"] .theme-switch-track {
+      background: #2563eb;
+    }
+
+    body[data-theme="dark"] .theme-switch-thumb {
+      transform: translateX(20px);
     }
 
     .article-shell,
@@ -368,7 +416,12 @@
         <strong>База знаний</strong>
       </div>
       <nav class="nav">
-        <button class="theme-toggle" id="theme-toggle" type="button">Темная тема</button>
+        <button class="theme-switch" id="theme-toggle" type="button" aria-label="Переключить тему">
+          <span class="theme-switch-label" id="theme-label">Светлая тема</span>
+          <span class="theme-switch-track" aria-hidden="true">
+            <span class="theme-switch-thumb"></span>
+          </span>
+        </button>
         <a href="{{ site.baseurl }}/">Главная</a>
         <a href="https://mentor.dima-sqlit.ru">Менторство</a>
         <a href="https://t.me/dima_sqlit">Telegram канал</a>
@@ -410,10 +463,11 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const themeToggle = document.getElementById('theme-toggle');
+      const themeLabel = document.getElementById('theme-label');
 
       function applyTheme(theme) {
         document.body.dataset.theme = theme;
-        themeToggle.textContent = theme === 'dark' ? 'Светлая тема' : 'Темная тема';
+        themeLabel.textContent = theme === 'dark' ? 'Темная тема' : 'Светлая тема';
       }
 
       const storedTheme = localStorage.getItem('site-theme');
