@@ -2,10 +2,20 @@
 title: "База знаний — Дима SQL-it"
 description: "База знаний по Data Analyst: SQL, Python, BI, AI и автоматизация. Статьи и посты из Telegram канала Дима SQL-it."
 ---
+{% assign sorted_pages = site.pages | sort: "date" | reverse %}
 {% assign post_count = 0 %}
-{% for post in site.pages %}
+{% assign first_post = nil %}
+{% assign latest_year = 0 %}
+{% for post in sorted_pages %}
   {% if post.path contains 'posts/' and post.path contains '.md' %}
     {% assign post_count = post_count | plus: 1 %}
+    {% if first_post == nil %}
+      {% assign first_post = post %}
+    {% endif %}
+    {% assign post_year = post.date | date: "%Y" | plus: 0 %}
+    {% if post_year > latest_year %}
+      {% assign latest_year = post_year %}
+    {% endif %}
   {% endif %}
 {% endfor %}
 <!DOCTYPE html>
@@ -17,321 +27,547 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
   {% seo %}
   <style>
     :root {
-      --bg-dark: #050507;
-      --text-main: #b4bacf;
-      --text-header: #ffffff;
-      --accent-gradient: linear-gradient(135deg, #a45eff 0%, #4f46e5 100%);
-      --accent-color: #a45eff;
-      --accent-green: #10b981;
-      --radius: 20px;
-      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --surface-soft: #f0f4fa;
+      --line: #dbe2ea;
+      --line-strong: #c7d2df;
+      --text-main: #17202b;
+      --text-soft: #526070;
+      --text-faint: #748295;
+      --accent: #2563eb;
+      --accent-soft: #e8f0ff;
+      --shadow: 0 20px 50px rgba(15, 23, 42, 0.06);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --transition: 180ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-dark);
-      background-image: radial-gradient(circle at 50% -20%, #2e1065 0%, #050507 60%);
-      background-attachment: fixed;
-      color: var(--text-main);
-      line-height: 1.6;
       min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08) 0, rgba(37, 99, 235, 0) 28%),
+        linear-gradient(180deg, #fbfcfe 0%, var(--bg) 100%);
+      color: var(--text-main);
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.6;
     }
 
-    a { text-decoration: none; color: inherit; transition: var(--transition); }
-    ul { list-style: none; padding: 0; margin: 0; }
-    * { box-sizing: border-box; }
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--transition), border-color var(--transition), background-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
 
     .container {
-      max-width: 1100px;
+      width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 0 20px;
-      width: 100%;
+      padding: 24px 0 64px;
     }
 
-    header {
-      padding: 40px 0;
-      text-align: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 20px;
     }
 
-    .logo {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--text-header);
-      margin-bottom: 10px;
+    .brand {
+      display: grid;
+      gap: 6px;
     }
 
-    .logo span {
-      background: var(--accent-gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .brand-mark {
+      color: var(--text-faint);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
-    .tagline {
-      font-size: 16px;
-      color: #9ca3af;
+    .brand-name {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 44px);
+      line-height: 1;
+      letter-spacing: -0.04em;
     }
 
-    nav {
-      margin-top: 20px;
+    .brand-summary {
+      margin: 0;
+      max-width: 620px;
+      color: var(--text-soft);
+      font-size: 15px;
     }
 
-    nav a {
-      display: inline-block;
-      padding: 10px 20px;
-      margin: 5px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 50px;
-      color: var(--text-main);
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--text-soft);
       font-size: 14px;
       font-weight: 600;
     }
 
-    nav a:hover {
-      background: rgba(164, 94, 255, 0.15);
-      border-color: var(--accent-color);
-      color: #fff;
+    .nav a:hover {
+      border-color: var(--line-strong);
+      color: var(--text-main);
+      background: var(--surface);
+    }
+
+    .hero,
+    .category-strip,
+    .posts-panel,
+    .footer {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow);
     }
 
     .hero {
-      text-align: center;
-      padding: 60px 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.8fr);
+      gap: 24px;
+      padding: 32px;
+      margin-bottom: 20px;
     }
 
-    .hero h1 {
-      font-size: 42px;
-      font-weight: 800;
-      color: var(--text-header);
-      margin: 0 0 20px;
+    .hero-copy {
+      max-width: 720px;
     }
 
-    .hero p {
-      font-size: 18px;
-      color: #9ca3af;
-      max-width: 600px;
-      margin: 0 auto 30px;
+    .hero-copy h2 {
+      margin: 0 0 14px;
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
     }
 
-    .search-box {
-      max-width: 500px;
-      margin: 0 auto;
+    .hero-copy p {
+      margin: 0 0 22px;
+      color: var(--text-soft);
+      font-size: 17px;
     }
 
-    .search-box input {
-      width: 100%;
-      padding: 16px 24px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 50px;
-      color: #fff;
-      font-size: 16px;
-      outline: none;
-      transition: var(--transition);
-    }
-
-    .search-box input:focus {
-      border-color: var(--accent-color);
-      box-shadow: 0 0 20px rgba(164, 94, 255, 0.2);
-    }
-
-    .search-box input::placeholder {
-      color: #6b7280;
-    }
-
-    .stats {
+    .hero-actions {
       display: flex;
-      justify-content: center;
-      gap: 40px;
-      margin-top: 30px;
       flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
     }
 
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-number {
-      font-size: 36px;
-      font-weight: 800;
-      color: var(--accent-color);
-    }
-
-    .stat-label {
+    .button-primary,
+    .button-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
       font-size: 14px;
-      color: #9ca3af;
-    }
-
-    .categories {
-      padding: 40px 0;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 28px;
-      color: var(--text-header);
-      margin-bottom: 30px;
       font-weight: 700;
     }
 
-    .categories-grid {
+    .button-primary {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .button-secondary {
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--text-main);
+    }
+
+    .hero-stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
     }
 
-    .category-card {
-      background: linear-gradient(160deg, rgba(30, 30, 40, 0.6) 0%, rgba(20, 20, 25, 0.8) 100%);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius);
-      padding: 24px;
-      transition: var(--transition);
-      cursor: pointer;
+    .stat-card {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
     }
 
-    .category-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(164, 94, 255, 0.5);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    .stat-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 26px;
+      line-height: 1;
+      letter-spacing: -0.04em;
     }
 
-    .category-icon {
-      font-size: 32px;
+    .stat-card span {
+      color: var(--text-soft);
+      font-size: 13px;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .hero-feature,
+    .search-panel {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .hero-feature-label,
+    .section-label {
+      margin: 0 0 10px;
+      color: var(--text-faint);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-feature h3 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-feature p,
+    .search-panel p {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 14px;
+    }
+
+    .hero-meta,
+    .post-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--text-faint);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .hero-meta {
       margin-bottom: 12px;
     }
 
-    .category-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-header);
-      margin: 0 0 8px;
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 14px;
     }
 
-    .category-count {
+    .inline-link {
+      color: var(--accent);
       font-size: 14px;
-      color: #9ca3af;
+      font-weight: 700;
     }
 
-    .posts {
-      padding: 40px 0;
+    .search-panel label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .search-panel input {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #ffffff;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .search-panel input:focus {
+      border-color: #9cb6f5;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+    }
+
+    .category-strip {
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .category-card {
+      display: grid;
+      gap: 8px;
+      min-height: 124px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: var(--text-soft);
+      cursor: pointer;
+    }
+
+    .category-card strong {
+      color: var(--text-main);
+      font-size: 17px;
+    }
+
+    .category-card span {
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .category-card:hover,
+    .category-card.is-active {
+      border-color: #9cb6f5;
+      background: var(--accent-soft);
+      color: var(--text-main);
+    }
+
+    .posts-panel {
+      padding: 24px;
+    }
+
+    .posts-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .section-heading h2 {
+      margin: 0 0 6px;
+      font-size: 32px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 15px;
+    }
+
+    .filter-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--text-soft);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: #9cb6f5;
+      background: var(--accent-soft);
+      color: var(--text-main);
     }
 
     .posts-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
     }
 
     .post-item {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 20px;
-      transition: var(--transition);
+      display: grid;
+      grid-template-rows: 180px auto;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
     }
 
     .post-item:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(164, 94, 255, 0.3);
-      transform: translateX(5px);
+      border-color: var(--line-strong);
+      transform: translateY(-2px);
+      box-shadow: 0 18px 32px rgba(15, 23, 42, 0.06);
     }
 
     .post-item.is-hidden {
       display: none;
     }
 
-    .post-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-header);
-      margin: 0 0 8px;
+    .post-media {
+      display: block;
+      background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid var(--line);
     }
 
-    .post-meta {
-      font-size: 13px;
-      color: #6b7280;
-      margin-bottom: 8px;
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
+    .post-body {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
     }
 
-    .post-excerpt {
+    .post-body h3 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+    }
+
+    .post-body p {
+      margin: 0;
+      color: var(--text-soft);
       font-size: 14px;
-      color: #9ca3af;
-      line-height: 1.5;
     }
 
-    .post-link {
-      display: inline-block;
-      margin-top: 12px;
-      color: var(--accent-color);
-      font-weight: 600;
-    }
-
-    .post-link:hover {
-      color: #fff;
+    .post-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px 14px;
     }
 
     .telegram-link {
-      margin-left: 12px;
-      font-size: 13px;
-      color: var(--accent-green);
-    }
-
-    .filter-buttons {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .filter-btn {
-      padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      color: var(--text-main);
+      color: var(--text-faint);
       font-size: 14px;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .filter-btn:hover,
-    .filter-btn.active {
-      background: rgba(164, 94, 255, 0.15);
-      border-color: var(--accent-color);
-      color: #fff;
+      font-weight: 600;
     }
 
     .no-results {
       display: none;
+      padding-top: 20px;
+      color: var(--text-soft);
       text-align: center;
-      color: #9ca3af;
-      padding: 32px 16px;
     }
 
     .no-results.visible {
       display: block;
     }
 
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 32px; }
-      .categories-grid { grid-template-columns: 1fr; }
-      .stats { gap: 20px; }
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 20px 24px;
+      margin-top: 20px;
+      color: var(--text-soft);
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    @media (max-width: 1080px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .posts-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        width: min(100% - 20px, 1180px);
+        padding: 16px 0 40px;
+      }
+
+      .topbar {
+        flex-direction: column;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      .hero,
+      .category-strip,
+      .posts-panel,
+      .footer {
+        border-radius: 20px;
+      }
+
+      .hero {
+        padding: 20px;
+      }
+
+      .hero-copy h2 {
+        font-size: 42px;
+      }
+
+      .hero-stats,
+      .category-grid,
+      .posts-list {
+        grid-template-columns: 1fr;
+      }
+
+      .posts-toolbar {
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <header>
-      <div class="logo">База знаний <span>Дима SQL-it</span></div>
-      <p class="tagline">Статьи и материалы по Data Analyst</p>
-      <nav>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">Dima SQL-it knowledge base</span>
+        <h1 class="brand-name">База знаний</h1>
+        <p class="brand-summary">Спокойная и понятная главная страница для контента: без перегруженного визуала, с нормальной карточной сеткой и местом под будущие обложки.</p>
+      </div>
+      <nav class="nav">
         <a href="{{ site.baseurl }}/">Главная</a>
         <a href="https://mentor.dima-sqlit.ru">Менторство</a>
         <a href="https://t.me/dima_sqlit">Telegram канал</a>
@@ -339,111 +575,142 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     </header>
 
     <section class="hero">
-      <h1>База знаний</h1>
-      <p>Все мои посты из Telegram в структурированном виде. Ищите по темам или используйте поиск.</p>
-      <div class="search-box">
-        <input type="text" placeholder="Поиск по статьям..." id="search">
-      </div>
-      <div class="stats">
-        <div class="stat-item">
-          <div class="stat-number" id="total-posts">{{ post_count }}</div>
-          <div class="stat-label">Постов</div>
+      <div class="hero-copy">
+        <h2>Контент по SQL, Python, BI и AI в аккуратной структуре.</h2>
+        <p>Я убрал спорные декоративные решения и оставил более чистую основу: внятный заголовок, спокойные цвета, крупные карточки статей и отдельную логику для изображений, если ты начнешь добавлять их позже.</p>
+        <div class="hero-actions">
+          <a class="button-primary" href="#posts-list">Смотреть статьи</a>
+          {% if first_post %}
+            <a class="button-secondary" href="{{ site.baseurl }}{{ first_post.url }}">Открыть свежий материал</a>
+          {% endif %}
         </div>
-        <div class="stat-item">
-          <div class="stat-number">6</div>
-          <div class="stat-label">Категорий</div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <strong>{{ post_count }}</strong>
+            <span>материалов в базе</span>
+          </div>
+          <div class="stat-card">
+            <strong>6</strong>
+            <span>основных категорий</span>
+          </div>
+          <div class="stat-card">
+            <strong>2024–{{ latest_year }}</strong>
+            <span>архив публикаций</span>
+          </div>
         </div>
-        <div class="stat-item">
-          <div class="stat-number">2024-2026</div>
-          <div class="stat-label">Годы</div>
-        </div>
       </div>
-    </section>
 
-    <section class="categories">
-      <h2 class="section-title">Категории</h2>
-      <div class="categories-grid">
-        <a href="#" class="category-card" data-category="sql">
-          <div class="category-icon">🎯</div>
-          <h3 class="category-title">SQL</h3>
-          <p class="category-count">Запросы, оптимизация, трюки</p>
-        </a>
-
-        <a href="#" class="category-card" data-category="python">
-          <div class="category-icon">🐍</div>
-          <h3 class="category-title">Python</h3>
-          <p class="category-count">Скрипты, автоматизация, библиотеки</p>
-        </a>
-
-        <a href="#" class="category-card" data-category="bi">
-          <div class="category-icon">📊</div>
-          <h3 class="category-title">BI инструменты</h3>
-          <p class="category-count">Дашборды, метрики, визуализация</p>
-        </a>
-
-        <a href="#" class="category-card" data-category="ai">
-          <div class="category-icon">🤖</div>
-          <h3 class="category-title">AI и нейросети</h3>
-          <p class="category-count">ChatGPT, Copilot, ML</p>
-        </a>
-
-        <a href="#" class="category-card" data-category="career">
-          <div class="category-icon">🚀</div>
-          <h3 class="category-title">Карьера</h3>
-          <p class="category-count">Собеседования, резюме, развитие</p>
-        </a>
-
-        <a href="#" class="category-card" data-category="automation">
-          <div class="category-icon">⚡</div>
-          <h3 class="category-title">Автоматизация</h3>
-          <p class="category-count">Боты, скрипты, Airflow</p>
-        </a>
-      </div>
-    </section>
-
-    <section class="posts">
-      <h2 class="section-title">Все статьи</h2>
-      <div class="filter-buttons">
-        <button class="filter-btn active" data-filter="all">Все</button>
-        <button class="filter-btn" data-filter="sql">SQL</button>
-        <button class="filter-btn" data-filter="python">Python</button>
-        <button class="filter-btn" data-filter="bi">BI</button>
-        <button class="filter-btn" data-filter="ai">AI</button>
-        <button class="filter-btn" data-filter="career">Карьера</button>
-        <button class="filter-btn" data-filter="automation">Автоматизация</button>
-      </div>
-      <div class="posts-list" id="posts-list">
-        {% assign sorted_pages = site.pages | sort: "date" | reverse %}
-        {% for post in sorted_pages %}
-        {% if post.path contains 'posts/' and post.path contains '.md' %}
-        {% assign excerpt_text = post.excerpt | default: post.description | default: post.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip %}
-        <article
-          class="post-item"
-          data-category="{{ post.category | downcase }}"
-          data-title="{{ post.title | downcase | escape }}"
-          data-excerpt="{{ excerpt_text | downcase | escape }}"
-        >
-          <h3 class="post-title">
-            <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-            {% if post.telegram_link %}
-            <a href="{{ post.telegram_link }}" target="_blank" rel="noopener noreferrer" class="telegram-link">Источник</a>
-            {% endif %}
-          </h3>
-          <p class="post-meta">
-            <span>{{ post.date | date: "%Y-%m-%d" }}</span>
-            <span>{{ post.category | upcase }}</span>
-          </p>
-          <p class="post-excerpt">{{ excerpt_text | truncate: 220 }}</p>
-          <a href="{{ site.baseurl }}{{ post.url }}" class="post-link">Читать далее →</a>
-        </article>
+      <div class="hero-side">
+        {% if first_post %}
+          {% assign featured_excerpt = first_post.excerpt | default: first_post.description | default: first_post.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip %}
+          <article class="hero-feature">
+            <p class="hero-feature-label">Последний материал</p>
+            <div class="hero-meta">
+              <span>{{ first_post.date | date: "%Y-%m-%d" }}</span>
+              <span>{{ first_post.category | upcase }}</span>
+            </div>
+            <h3>{{ first_post.title }}</h3>
+            <p>{{ featured_excerpt | truncate: 150 }}</p>
+            <div class="hero-links">
+              <a class="inline-link" href="{{ site.baseurl }}{{ first_post.url }}">Читать статью</a>
+              {% if first_post.telegram_link %}
+                <a class="inline-link" href="{{ first_post.telegram_link }}" target="_blank" rel="noopener noreferrer">Источник</a>
+              {% endif %}
+            </div>
+          </article>
         {% endif %}
+
+        <div class="search-panel">
+          <p class="section-label">Поиск</p>
+          <label for="search">По заголовкам и описаниям</label>
+          <input type="text" id="search" placeholder="Например: SQL, Airflow, Python...">
+          <p style="margin-top: 10px;">Когда появятся реальные обложки, их можно будет добавлять через поле <code>cover</code> у постов. Без них карточки тоже остаются аккуратными.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="category-strip">
+      <p class="section-label">Категории</p>
+      <div class="category-grid">
+        <a href="#" class="category-card" data-category="sql">
+          <strong>SQL</strong>
+          <span>Запросы, оптимизация, задачи с собеседований и практика.</span>
+        </a>
+        <a href="#" class="category-card" data-category="python">
+          <strong>Python</strong>
+          <span>Скрипты, автоматизация, работа с данными и полезные приемы.</span>
+        </a>
+        <a href="#" class="category-card" data-category="bi">
+          <strong>BI</strong>
+          <span>Дашборды, визуализация, метрики и аналитическое мышление.</span>
+        </a>
+        <a href="#" class="category-card" data-category="ai">
+          <strong>AI</strong>
+          <span>LLM, ассистенты, нейросети и рабочие кейсы применения.</span>
+        </a>
+        <a href="#" class="category-card" data-category="career">
+          <strong>Career</strong>
+          <span>Развитие, поиск работы, собеседования и рост специалиста.</span>
+        </a>
+        <a href="#" class="category-card" data-category="automation">
+          <strong>Automation</strong>
+          <span>Пайплайны, боты и все, что уменьшает ручную рутину.</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="posts-panel">
+      <div class="posts-toolbar">
+        <div class="section-heading">
+          <h2>Все статьи</h2>
+          <p>Главная теперь работает как спокойный каталог, а не как перегруженный визуальный эксперимент.</p>
+        </div>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">Все</button>
+          <button class="filter-btn" data-filter="sql">SQL</button>
+          <button class="filter-btn" data-filter="python">Python</button>
+          <button class="filter-btn" data-filter="bi">BI</button>
+          <button class="filter-btn" data-filter="ai">AI</button>
+          <button class="filter-btn" data-filter="career">Career</button>
+          <button class="filter-btn" data-filter="automation">Automation</button>
+        </div>
+      </div>
+
+      <div class="posts-list" id="posts-list">
+        {% for post in sorted_pages %}
+          {% if post.path contains 'posts/' and post.path contains '.md' %}
+            {% assign excerpt_text = post.excerpt | default: post.description | default: post.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip %}
+            <article
+              class="post-item"
+              data-category="{{ post.category | downcase }}"
+              data-title="{{ post.title | downcase | escape }}"
+              data-excerpt="{{ excerpt_text | downcase | escape }}"
+            >
+              <a class="post-media" href="{{ site.baseurl }}{{ post.url }}" {% if post.cover %}style="background-image: url('{{ post.cover | relative_url }}');"{% endif %}></a>
+              <div class="post-body">
+                <div class="post-meta">
+                  <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+                  <span>{{ post.category | upcase }}</span>
+                </div>
+                <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
+                <p>{{ excerpt_text | truncate: 150 }}</p>
+                <div class="post-footer">
+                  <a class="inline-link" href="{{ site.baseurl }}{{ post.url }}">Читать статью</a>
+                  {% if post.telegram_link %}
+                    <a href="{{ post.telegram_link }}" target="_blank" rel="noopener noreferrer" class="telegram-link">Источник</a>
+                  {% endif %}
+                </div>
+              </div>
+            </article>
+          {% endif %}
         {% endfor %}
       </div>
-      <p id="no-results" class="no-results">Посты не найдены</p>
+      <p id="no-results" class="no-results">По запросу ничего не нашлось. Попробуй другую тему или сними фильтр.</p>
     </section>
 
-    <footer>
-      <p>© 2024-2026 Дима SQL-it • <a href="https://t.me/dima_sqlit">Telegram канал</a> • <a href="https://mentor.dima-sqlit.ru">Менторство</a></p>
+    <footer class="footer">
+      <span>© 2024–{{ latest_year }} Дима SQL-it. Более нейтральная и устойчивая визуальная база для дальнейших доработок.</span>
+      <span><a href="https://t.me/dima_sqlit">Telegram</a> · <a href="https://mentor.dima-sqlit.ru">Менторство</a></span>
     </footer>
   </div>
 
@@ -452,7 +719,19 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       const posts = Array.from(document.querySelectorAll('.post-item'));
       const noResults = document.getElementById('no-results');
       const searchInput = document.getElementById('search');
+      const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+      const categoryCards = Array.from(document.querySelectorAll('.category-card'));
       let activeFilter = 'all';
+
+      function syncActiveState() {
+        filterButtons.forEach((button) => {
+          button.classList.toggle('active', button.dataset.filter === activeFilter);
+        });
+
+        categoryCards.forEach((card) => {
+          card.classList.toggle('is-active', card.dataset.category === activeFilter);
+        });
+      }
 
       function applyFilters() {
         const query = searchInput.value.trim().toLowerCase();
@@ -464,8 +743,8 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
             query === '' ||
             post.dataset.title.includes(query) ||
             post.dataset.excerpt.includes(query);
-
           const isVisible = matchesCategory && matchesQuery;
+
           post.classList.toggle('is-hidden', !isVisible);
           if (isVisible) {
             visibleCount += 1;
@@ -473,26 +752,20 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         });
 
         noResults.classList.toggle('visible', visibleCount === 0);
+        syncActiveState();
       }
 
-      document.querySelectorAll('.filter-btn').forEach((btn) => {
-        btn.addEventListener('click', (event) => {
-          document.querySelectorAll('.filter-btn').forEach((item) => item.classList.remove('active'));
-          event.currentTarget.classList.add('active');
-          activeFilter = event.currentTarget.dataset.filter;
+      filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          activeFilter = button.dataset.filter;
           applyFilters();
         });
       });
 
-      document.querySelectorAll('.category-card').forEach((card) => {
+      categoryCards.forEach((card) => {
         card.addEventListener('click', (event) => {
           event.preventDefault();
           activeFilter = card.dataset.category;
-          document.querySelectorAll('.filter-btn').forEach((item) => item.classList.remove('active'));
-          const activeButton = document.querySelector(`.filter-btn[data-filter="${activeFilter}"]`);
-          if (activeButton) {
-            activeButton.classList.add('active');
-          }
           applyFilters();
         });
       });
