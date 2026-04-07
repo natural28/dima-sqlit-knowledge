@@ -4,14 +4,10 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 ---
 {% assign sorted_pages = site.pages | sort: "date" | reverse %}
 {% assign post_count = 0 %}
-{% assign first_post = nil %}
 {% assign latest_year = 0 %}
 {% for post in sorted_pages %}
   {% if post.path contains 'posts/' and post.path contains '.md' %}
     {% assign post_count = post_count | plus: 1 %}
-    {% if first_post == nil %}
-      {% assign first_post = post %}
-    {% endif %}
     {% assign post_year = post.date | date: "%Y" | plus: 0 %}
     {% if post_year > latest_year %}
       {% assign latest_year = post_year %}
@@ -110,7 +106,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 
     .brand-summary {
       margin: 0;
-      max-width: 620px;
+      max-width: 720px;
       color: var(--text-soft);
       font-size: 15px;
     }
@@ -139,7 +135,6 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     }
 
     .hero,
-    .category-strip,
     .posts-panel,
     .footer {
       border: 1px solid var(--line);
@@ -149,15 +144,12 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     }
 
     .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.8fr);
-      gap: 24px;
       padding: 32px;
       margin-bottom: 20px;
     }
 
     .hero-copy {
-      max-width: 720px;
+      max-width: 760px;
     }
 
     .hero-copy h2 {
@@ -229,21 +221,12 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       font-size: 13px;
     }
 
-    .hero-side {
-      display: grid;
-      gap: 14px;
-      align-content: start;
+    .inline-link {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 700;
     }
 
-    .hero-feature,
-    .search-panel {
-      padding: 20px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--line);
-      background: var(--surface);
-    }
-
-    .hero-feature-label,
     .section-label {
       margin: 0 0 10px;
       color: var(--text-faint);
@@ -253,124 +236,22 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       text-transform: uppercase;
     }
 
-    .hero-feature h3 {
-      margin: 0 0 10px;
-      font-size: 24px;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-    }
-
-    .hero-feature p,
-    .search-panel p {
-      margin: 0;
-      color: var(--text-soft);
-      font-size: 14px;
-    }
-
-    .hero-meta,
-    .post-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      color: var(--text-faint);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .hero-meta {
-      margin-bottom: 12px;
-    }
-
-    .hero-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .inline-link {
-      color: var(--accent);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .search-panel label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--text-main);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .search-panel input {
-      width: 100%;
-      min-height: 48px;
-      padding: 0 14px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #ffffff;
-      color: var(--text-main);
-      outline: none;
-    }
-
-    .search-panel input:focus {
-      border-color: #9cb6f5;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
-    }
-
-    .category-strip {
-      padding: 24px;
-      margin-bottom: 20px;
-    }
-
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .category-card {
-      display: grid;
-      gap: 8px;
-      min-height: 124px;
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      background: var(--surface);
-      color: var(--text-soft);
-      cursor: pointer;
-    }
-
-    .category-card strong {
-      color: var(--text-main);
-      font-size: 17px;
-    }
-
-    .category-card span {
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .category-card:hover,
-    .category-card.is-active {
-      border-color: #9cb6f5;
-      background: var(--accent-soft);
-      color: var(--text-main);
-    }
-
     .posts-panel {
       padding: 24px;
     }
 
     .posts-toolbar {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .toolbar-top {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-end;
       justify-content: space-between;
       gap: 16px;
-      margin-bottom: 20px;
     }
 
     .section-heading h2 {
@@ -386,10 +267,23 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       font-size: 15px;
     }
 
+    .toolbar-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface-soft);
+    }
+
     .filter-buttons {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      flex: 1 1 420px;
     }
 
     .filter-btn {
@@ -409,6 +303,41 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       border-color: #9cb6f5;
       background: var(--accent-soft);
       color: var(--text-main);
+    }
+
+    .toolbar-search {
+      min-width: min(100%, 320px);
+      flex: 1 1 280px;
+    }
+
+    .toolbar-search label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .toolbar-search input {
+      width: 100%;
+      min-height: 46px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #ffffff;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .toolbar-search input:focus {
+      border-color: #9cb6f5;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+    }
+
+    .toolbar-help {
+      flex: 0 1 360px;
+      color: var(--text-soft);
+      font-size: 14px;
     }
 
     .posts-list {
@@ -448,6 +377,16 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       display: grid;
       gap: 12px;
       padding: 18px;
+    }
+
+    .post-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--text-faint);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
 
     .post-body h3 {
@@ -505,14 +444,6 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     }
 
     @media (max-width: 1080px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .category-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
       .posts-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -533,7 +464,6 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       }
 
       .hero,
-      .category-strip,
       .posts-panel,
       .footer {
         border-radius: 20px;
@@ -548,12 +478,12 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       }
 
       .hero-stats,
-      .category-grid,
       .posts-list {
         grid-template-columns: 1fr;
       }
 
-      .posts-toolbar {
+      .toolbar-top,
+      .toolbar-controls {
         align-items: flex-start;
       }
     }
@@ -565,7 +495,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       <div class="brand">
         <span class="brand-mark">Dima SQL-it knowledge base</span>
         <h1 class="brand-name">База знаний</h1>
-        <p class="brand-summary">Спокойная и понятная главная страница для контента: без перегруженного визуала, с нормальной карточной сеткой и местом под будущие обложки.</p>
+        <p class="brand-summary">Спокойная и понятная главная страница для контента: без перегруженного визуала, с нормальной карточной сеткой и удобной фильтрацией рядом со списком статей.</p>
       </div>
       <nav class="nav">
         <a href="{{ site.baseurl }}/">Главная</a>
@@ -577,12 +507,10 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     <section class="hero">
       <div class="hero-copy">
         <h2>Контент по SQL, Python, BI и AI в аккуратной структуре.</h2>
-        <p>Я убрал спорные декоративные решения и оставил более чистую основу: внятный заголовок, спокойные цвета, крупные карточки статей и отдельную логику для изображений, если ты начнешь добавлять их позже.</p>
+        <p>Убрал лишние промежуточные блоки и оставил более практичную основу. Теперь поиск и фильтры живут рядом со списком статей, а не отдельно выше по странице, так что пользоваться каталогом заметно удобнее.</p>
         <div class="hero-actions">
           <a class="button-primary" href="#posts-list">Смотреть статьи</a>
-          {% if first_post %}
-            <a class="button-secondary" href="{{ site.baseurl }}{{ first_post.url }}">Открыть свежий материал</a>
-          {% endif %}
+          <a class="button-secondary" href="#filters">Фильтры и поиск</a>
         </div>
         <div class="hero-stats">
           <div class="stat-card">
@@ -599,80 +527,38 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
           </div>
         </div>
       </div>
-
-      <div class="hero-side">
-        {% if first_post %}
-          {% assign featured_excerpt = first_post.excerpt | default: first_post.description | default: first_post.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip %}
-          <article class="hero-feature">
-            <p class="hero-feature-label">Последний материал</p>
-            <div class="hero-meta">
-              <span>{{ first_post.date | date: "%Y-%m-%d" }}</span>
-              <span>{{ first_post.category | upcase }}</span>
-            </div>
-            <h3>{{ first_post.title }}</h3>
-            <p>{{ featured_excerpt | truncate: 150 }}</p>
-            <div class="hero-links">
-              <a class="inline-link" href="{{ site.baseurl }}{{ first_post.url }}">Читать статью</a>
-              {% if first_post.telegram_link %}
-                <a class="inline-link" href="{{ first_post.telegram_link }}" target="_blank" rel="noopener noreferrer">Источник</a>
-              {% endif %}
-            </div>
-          </article>
-        {% endif %}
-
-        <div class="search-panel">
-          <p class="section-label">Поиск</p>
-          <label for="search">По заголовкам и описаниям</label>
-          <input type="text" id="search" placeholder="Например: SQL, Airflow, Python...">
-          <p style="margin-top: 10px;">Когда появятся реальные обложки, их можно будет добавлять через поле <code>cover</code> у постов. Без них карточки тоже остаются аккуратными.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="category-strip">
-      <p class="section-label">Категории</p>
-      <div class="category-grid">
-        <a href="#" class="category-card" data-category="sql">
-          <strong>SQL</strong>
-          <span>Запросы, оптимизация, задачи с собеседований и практика.</span>
-        </a>
-        <a href="#" class="category-card" data-category="python">
-          <strong>Python</strong>
-          <span>Скрипты, автоматизация, работа с данными и полезные приемы.</span>
-        </a>
-        <a href="#" class="category-card" data-category="bi">
-          <strong>BI</strong>
-          <span>Дашборды, визуализация, метрики и аналитическое мышление.</span>
-        </a>
-        <a href="#" class="category-card" data-category="ai">
-          <strong>AI</strong>
-          <span>LLM, ассистенты, нейросети и рабочие кейсы применения.</span>
-        </a>
-        <a href="#" class="category-card" data-category="career">
-          <strong>Career</strong>
-          <span>Развитие, поиск работы, собеседования и рост специалиста.</span>
-        </a>
-        <a href="#" class="category-card" data-category="automation">
-          <strong>Automation</strong>
-          <span>Пайплайны, боты и все, что уменьшает ручную рутину.</span>
-        </a>
-      </div>
     </section>
 
     <section class="posts-panel">
       <div class="posts-toolbar">
-        <div class="section-heading">
-          <h2>Все статьи</h2>
-          <p>Главная теперь работает как спокойный каталог, а не как перегруженный визуальный эксперимент.</p>
+        <div class="toolbar-top">
+          <div class="section-heading">
+            <p class="section-label">Каталог</p>
+            <h2>Все статьи</h2>
+            <p>Фильтры теперь работают в одном месте. Можно выбрать сразу несколько категорий и тут же искать по заголовкам и описаниям.</p>
+          </div>
+          <a id="filters" class="inline-link" href="#filters">Фильтры</a>
         </div>
-        <div class="filter-buttons">
-          <button class="filter-btn active" data-filter="all">Все</button>
-          <button class="filter-btn" data-filter="sql">SQL</button>
-          <button class="filter-btn" data-filter="python">Python</button>
-          <button class="filter-btn" data-filter="bi">BI</button>
-          <button class="filter-btn" data-filter="ai">AI</button>
-          <button class="filter-btn" data-filter="career">Career</button>
-          <button class="filter-btn" data-filter="automation">Automation</button>
+
+        <div class="toolbar-controls">
+          <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">Все</button>
+            <button class="filter-btn" data-filter="sql">SQL</button>
+            <button class="filter-btn" data-filter="python">Python</button>
+            <button class="filter-btn" data-filter="bi">BI</button>
+            <button class="filter-btn" data-filter="ai">AI</button>
+            <button class="filter-btn" data-filter="career">Career</button>
+            <button class="filter-btn" data-filter="automation">Automation</button>
+          </div>
+
+          <div class="toolbar-search">
+            <label for="search">Поиск по заголовкам и описаниям</label>
+            <input type="text" id="search" placeholder="Например: SQL, Airflow, Python...">
+          </div>
+
+          <div class="toolbar-help">
+            Поддержка нескольких категорий уже заложена: если у статьи будет массив <code>categories</code> в frontmatter, она сможет попадать сразу в несколько фильтров.
+          </div>
         </div>
       </div>
 
@@ -680,9 +566,16 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         {% for post in sorted_pages %}
           {% if post.path contains 'posts/' and post.path contains '.md' %}
             {% assign excerpt_text = post.excerpt | default: post.description | default: post.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip %}
+            {% assign categories_csv = "" %}
+            {% if post.categories %}
+              {% assign categories_csv = post.categories | join: "," | downcase %}
+            {% elsif post.category %}
+              {% assign categories_csv = post.category | downcase %}
+            {% endif %}
+            {% assign primary_category = post.category | default: post.categories.first %}
             <article
               class="post-item"
-              data-category="{{ post.category | downcase }}"
+              data-categories="{{ categories_csv }}"
               data-title="{{ post.title | downcase | escape }}"
               data-excerpt="{{ excerpt_text | downcase | escape }}"
             >
@@ -690,7 +583,11 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
               <div class="post-body">
                 <div class="post-meta">
                   <span>{{ post.date | date: "%Y-%m-%d" }}</span>
-                  <span>{{ post.category | upcase }}</span>
+                  {% if post.categories %}
+                    <span>{{ post.categories | join: " · " | upcase }}</span>
+                  {% elsif primary_category %}
+                    <span>{{ primary_category | upcase }}</span>
+                  {% endif %}
                 </div>
                 <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
                 <p>{{ excerpt_text | truncate: 150 }}</p>
@@ -705,7 +602,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
           {% endif %}
         {% endfor %}
       </div>
-      <p id="no-results" class="no-results">По запросу ничего не нашлось. Попробуй другую тему или сними фильтр.</p>
+      <p id="no-results" class="no-results">По запросу ничего не нашлось. Попробуй другую тему или сними часть фильтров.</p>
     </section>
 
     <footer class="footer">
@@ -720,16 +617,15 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       const noResults = document.getElementById('no-results');
       const searchInput = document.getElementById('search');
       const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
-      const categoryCards = Array.from(document.querySelectorAll('.category-card'));
-      let activeFilter = 'all';
+      const activeFilters = new Set();
 
       function syncActiveState() {
         filterButtons.forEach((button) => {
-          button.classList.toggle('active', button.dataset.filter === activeFilter);
-        });
-
-        categoryCards.forEach((card) => {
-          card.classList.toggle('is-active', card.dataset.category === activeFilter);
+          if (button.dataset.filter === 'all') {
+            button.classList.toggle('active', activeFilters.size === 0);
+          } else {
+            button.classList.toggle('active', activeFilters.has(button.dataset.filter));
+          }
         });
       }
 
@@ -738,7 +634,13 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         let visibleCount = 0;
 
         posts.forEach((post) => {
-          const matchesCategory = activeFilter === 'all' || post.dataset.category === activeFilter;
+          const postCategories = (post.dataset.categories || '')
+            .split(',')
+            .map((item) => item.trim())
+            .filter(Boolean);
+          const matchesCategory =
+            activeFilters.size === 0 ||
+            Array.from(activeFilters).every((filter) => postCategories.includes(filter));
           const matchesQuery =
             query === '' ||
             post.dataset.title.includes(query) ||
@@ -757,15 +659,16 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 
       filterButtons.forEach((button) => {
         button.addEventListener('click', () => {
-          activeFilter = button.dataset.filter;
-          applyFilters();
-        });
-      });
+          const filter = button.dataset.filter;
 
-      categoryCards.forEach((card) => {
-        card.addEventListener('click', (event) => {
-          event.preventDefault();
-          activeFilter = card.dataset.category;
+          if (filter === 'all') {
+            activeFilters.clear();
+          } else if (activeFilters.has(filter)) {
+            activeFilters.delete(filter);
+          } else {
+            activeFilters.add(filter);
+          }
+
           applyFilters();
         });
       });
