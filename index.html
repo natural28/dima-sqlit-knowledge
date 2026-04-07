@@ -40,6 +40,20 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       --transition: 180ms ease;
     }
 
+    body[data-theme="dark"] {
+      --bg: #0f172a;
+      --surface: #111827;
+      --surface-soft: #1e293b;
+      --line: #263244;
+      --line-strong: #3a4a61;
+      --text-main: #e5edf8;
+      --text-soft: #aab8cc;
+      --text-faint: #8a9bb3;
+      --accent: #7db2ff;
+      --accent-soft: rgba(125, 178, 255, 0.12);
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -57,6 +71,13 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       color: var(--text-main);
       font-family: "Segoe UI", Arial, sans-serif;
       line-height: 1.6;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    body[data-theme="dark"] {
+      background:
+        radial-gradient(circle at top left, rgba(125, 178, 255, 0.08) 0, rgba(125, 178, 255, 0) 24%),
+        linear-gradient(180deg, #08111f 0%, var(--bg) 100%);
     }
 
     a {
@@ -106,7 +127,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 
     .brand-summary {
       margin: 0;
-      max-width: 720px;
+      max-width: 760px;
       color: var(--text-soft);
       font-size: 15px;
     }
@@ -116,9 +137,11 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       flex-wrap: wrap;
       gap: 10px;
       justify-content: flex-end;
+      align-items: center;
     }
 
-    .nav a {
+    .nav a,
+    .theme-toggle {
       padding: 10px 14px;
       border: 1px solid var(--line);
       border-radius: 999px;
@@ -128,10 +151,17 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       font-weight: 600;
     }
 
-    .nav a:hover {
+    body[data-theme="dark"] .nav a,
+    body[data-theme="dark"] .theme-toggle {
+      background: rgba(17, 24, 39, 0.92);
+    }
+
+    .nav a:hover,
+    .theme-toggle:hover {
       border-color: var(--line-strong);
       color: var(--text-main);
       background: var(--surface);
+      cursor: pointer;
     }
 
     .hero,
@@ -143,13 +173,19 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       box-shadow: var(--shadow);
     }
 
+    body[data-theme="dark"] .hero,
+    body[data-theme="dark"] .posts-panel,
+    body[data-theme="dark"] .footer {
+      background: rgba(17, 24, 39, 0.88);
+    }
+
     .hero {
       padding: 32px;
       margin-bottom: 20px;
     }
 
     .hero-copy {
-      max-width: 760px;
+      max-width: 860px;
     }
 
     .hero-copy h2 {
@@ -172,8 +208,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       margin-bottom: 24px;
     }
 
-    .button-primary,
-    .button-secondary {
+    .button-primary {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -182,17 +217,8 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       border-radius: 999px;
       font-size: 14px;
       font-weight: 700;
-    }
-
-    .button-primary {
       background: var(--accent);
       color: #ffffff;
-    }
-
-    .button-secondary {
-      border: 1px solid var(--line);
-      background: #ffffff;
-      color: var(--text-main);
     }
 
     .hero-stats {
@@ -246,14 +272,6 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       margin-bottom: 20px;
     }
 
-    .toolbar-top {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
     .section-heading h2 {
       margin: 0 0 6px;
       font-size: 32px;
@@ -296,6 +314,11 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       cursor: pointer;
       font-size: 13px;
       font-weight: 700;
+    }
+
+    body[data-theme="dark"] .filter-btn,
+    body[data-theme="dark"] .toolbar-search input {
+      background: #0f172a;
     }
 
     .filter-btn:hover,
@@ -373,6 +396,10 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       border-bottom: 1px solid var(--line);
     }
 
+    body[data-theme="dark"] .post-media {
+      background: linear-gradient(135deg, #1d4f91 0%, #0f172a 100%);
+    }
+
     .post-body {
       display: grid;
       gap: 12px;
@@ -416,15 +443,43 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       font-weight: 600;
     }
 
+    .load-more-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 22px;
+    }
+
+    .load-more-btn {
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--text-main);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    body[data-theme="dark"] .load-more-btn {
+      background: #0f172a;
+    }
+
+    .load-more-btn:hover {
+      border-color: var(--line-strong);
+      background: var(--surface-soft);
+    }
+
+    .load-more-btn.is-hidden,
     .no-results {
       display: none;
-      padding-top: 20px;
-      color: var(--text-soft);
-      text-align: center;
     }
 
     .no-results.visible {
       display: block;
+      padding-top: 20px;
+      color: var(--text-soft);
+      text-align: center;
     }
 
     .footer {
@@ -481,11 +536,6 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       .posts-list {
         grid-template-columns: 1fr;
       }
-
-      .toolbar-top,
-      .toolbar-controls {
-        align-items: flex-start;
-      }
     }
   </style>
 </head>
@@ -495,9 +545,10 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       <div class="brand">
         <span class="brand-mark">Dima SQL-it knowledge base</span>
         <h1 class="brand-name">База знаний</h1>
-        <p class="brand-summary">Спокойная и понятная главная страница для контента: без перегруженного визуала, с нормальной карточной сеткой и удобной фильтрацией рядом со списком статей.</p>
+        <p class="brand-summary">Всех приветствую. Здесь вы найдете полезные статьи по теме аналитики данных, искусственного интеллекта, вайбкодинга, мыслей автора и не только.</p>
       </div>
       <nav class="nav">
+        <button class="theme-toggle" id="theme-toggle" type="button">Темная тема</button>
         <a href="{{ site.baseurl }}/">Главная</a>
         <a href="https://mentor.dima-sqlit.ru">Менторство</a>
         <a href="https://t.me/dima_sqlit">Telegram канал</a>
@@ -506,11 +557,10 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 
     <section class="hero">
       <div class="hero-copy">
-        <h2>Контент по SQL, Python, BI и AI в аккуратной структуре.</h2>
-        <p>Убрал лишние промежуточные блоки и оставил более практичную основу. Теперь поиск и фильтры живут рядом со списком статей, а не отдельно выше по странице, так что пользоваться каталогом заметно удобнее.</p>
+        <h2>Контент по аналитике и смежным темам в удобном каталоге.</h2>
+        <p>Поиск и фильтры находятся сразу рядом со списком статей, поэтому не нужно лишний раз скроллить страницу. Для большого архива я уже заложил более безопасный сценарий: не бесконечная лента, а постепенная подгрузка карточек кнопкой.</p>
         <div class="hero-actions">
           <a class="button-primary" href="#posts-list">Смотреть статьи</a>
-          <a class="button-secondary" href="#filters">Фильтры и поиск</a>
         </div>
         <div class="hero-stats">
           <div class="stat-card">
@@ -531,13 +581,10 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 
     <section class="posts-panel">
       <div class="posts-toolbar">
-        <div class="toolbar-top">
-          <div class="section-heading">
-            <p class="section-label">Каталог</p>
-            <h2>Все статьи</h2>
-            <p>Фильтры теперь работают в одном месте. Можно выбрать сразу несколько категорий и тут же искать по заголовкам и описаниям.</p>
-          </div>
-          <a id="filters" class="inline-link" href="#filters">Фильтры</a>
+        <div class="section-heading">
+          <p class="section-label">Каталог</p>
+          <h2>Все статьи</h2>
+          <p>Можно выбрать сразу несколько категорий и тут же искать по заголовкам и описаниям.</p>
         </div>
 
         <div class="toolbar-controls">
@@ -602,6 +649,11 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
           {% endif %}
         {% endfor %}
       </div>
+
+      <div class="load-more-row">
+        <button class="load-more-btn" id="load-more" type="button">Показать еще</button>
+      </div>
+
       <p id="no-results" class="no-results">По запросу ничего не нашлось. Попробуй другую тему или сними часть фильтров.</p>
     </section>
 
@@ -618,6 +670,24 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       const searchInput = document.getElementById('search');
       const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
       const activeFilters = new Set();
+      const loadMoreButton = document.getElementById('load-more');
+      const themeToggle = document.getElementById('theme-toggle');
+      const pageSize = 12;
+      let visibleLimit = pageSize;
+
+      function applyTheme(theme) {
+        document.body.dataset.theme = theme;
+        themeToggle.textContent = theme === 'dark' ? 'Светлая тема' : 'Темная тема';
+      }
+
+      const storedTheme = localStorage.getItem('site-theme');
+      applyTheme(storedTheme === 'dark' ? 'dark' : 'light');
+
+      themeToggle.addEventListener('click', () => {
+        const nextTheme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('site-theme', nextTheme);
+        applyTheme(nextTheme);
+      });
 
       function syncActiveState() {
         filterButtons.forEach((button) => {
@@ -629,9 +699,14 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         });
       }
 
-      function applyFilters() {
+      function applyFilters(resetLimit = false) {
         const query = searchInput.value.trim().toLowerCase();
         let visibleCount = 0;
+        let matchedCount = 0;
+
+        if (resetLimit) {
+          visibleLimit = pageSize;
+        }
 
         posts.forEach((post) => {
           const postCategories = (post.dataset.categories || '')
@@ -645,15 +720,22 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
             query === '' ||
             post.dataset.title.includes(query) ||
             post.dataset.excerpt.includes(query);
-          const isVisible = matchesCategory && matchesQuery;
+          const matches = matchesCategory && matchesQuery;
 
-          post.classList.toggle('is-hidden', !isVisible);
-          if (isVisible) {
+          if (matches) {
+            matchedCount += 1;
+          }
+
+          const shouldShow = matches && matchedCount <= visibleLimit;
+          post.classList.toggle('is-hidden', !shouldShow);
+
+          if (shouldShow) {
             visibleCount += 1;
           }
         });
 
-        noResults.classList.toggle('visible', visibleCount === 0);
+        noResults.classList.toggle('visible', matchedCount === 0);
+        loadMoreButton.classList.toggle('is-hidden', matchedCount <= visibleLimit || matchedCount === 0);
         syncActiveState();
       }
 
@@ -669,12 +751,17 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
             activeFilters.add(filter);
           }
 
-          applyFilters();
+          applyFilters(true);
         });
       });
 
-      searchInput.addEventListener('input', applyFilters);
-      applyFilters();
+      searchInput.addEventListener('input', () => applyFilters(true));
+      loadMoreButton.addEventListener('click', () => {
+        visibleLimit += pageSize;
+        applyFilters(false);
+      });
+
+      applyFilters(true);
     });
   </script>
 </body>

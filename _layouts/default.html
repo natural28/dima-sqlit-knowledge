@@ -23,6 +23,19 @@
       --transition: 180ms ease;
     }
 
+    body[data-theme="dark"] {
+      --bg: #0f172a;
+      --surface: #111827;
+      --surface-soft: #1e293b;
+      --line: #263244;
+      --line-strong: #3a4a61;
+      --text-main: #e5edf8;
+      --text-soft: #aab8cc;
+      --text-faint: #8a9bb3;
+      --accent: #7db2ff;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -36,6 +49,12 @@
       color: var(--text-main);
       font-family: "Segoe UI", Arial, sans-serif;
       line-height: 1.7;
+    }
+
+    body[data-theme="dark"] {
+      background:
+        radial-gradient(circle at top left, rgba(125, 178, 255, 0.08) 0, rgba(125, 178, 255, 0) 24%),
+        linear-gradient(180deg, #08111f 0%, var(--bg) 100%);
     }
 
     a {
@@ -86,9 +105,11 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      align-items: center;
     }
 
-    .nav a {
+    .nav a,
+    .theme-toggle {
       padding: 10px 14px;
       border: 1px solid var(--line);
       border-radius: 999px;
@@ -98,9 +119,17 @@
       font-weight: 600;
     }
 
-    .nav a:hover {
+    body[data-theme="dark"] .nav a,
+    body[data-theme="dark"] .theme-toggle {
+      background: rgba(17, 24, 39, 0.92);
+    }
+
+    .nav a:hover,
+    .theme-toggle:hover {
       border-color: var(--line-strong);
       color: var(--text-main);
+      background: var(--surface);
+      cursor: pointer;
     }
 
     .article-shell,
@@ -112,6 +141,12 @@
       box-shadow: var(--shadow);
     }
 
+    body[data-theme="dark"] .article-shell,
+    body[data-theme="dark"] .back-row,
+    body[data-theme="dark"] .footer {
+      background: rgba(17, 24, 39, 0.9);
+    }
+
     .article-shell {
       overflow: hidden;
     }
@@ -120,6 +155,10 @@
       padding: 28px 28px 22px;
       border-bottom: 1px solid var(--line);
       background: linear-gradient(180deg, #ffffff 0%, var(--surface-soft) 100%);
+    }
+
+    body[data-theme="dark"] .article-head {
+      background: linear-gradient(180deg, #111827 0%, var(--surface-soft) 100%);
     }
 
     .meta-row {
@@ -143,6 +182,10 @@
       background: #ffffff;
     }
 
+    body[data-theme="dark"] .meta-chip {
+      background: #0f172a;
+    }
+
     .article-head h1 {
       margin: 0;
       font-size: clamp(34px, 6vw, 54px);
@@ -157,6 +200,10 @@
       background-size: cover;
       background-position: center;
       border-bottom: 1px solid var(--line);
+    }
+
+    body[data-theme="dark"] .article-cover {
+      background: linear-gradient(135deg, #1d4f91 0%, #0f172a 100%);
     }
 
     .article-body {
@@ -229,18 +276,16 @@
       color: #f8fafc;
     }
 
-    .article-body pre code {
-      padding: 0;
-      background: none;
-      color: inherit;
-    }
-
     .article-body blockquote {
       padding: 18px 20px;
       border-left: 4px solid var(--accent);
       border-radius: 0 var(--radius-md) var(--radius-md) 0;
       background: #eff6ff;
       color: var(--text-soft);
+    }
+
+    body[data-theme="dark"] .article-body blockquote {
+      background: rgba(125, 178, 255, 0.1);
     }
 
     .article-body hr {
@@ -323,6 +368,7 @@
         <strong>База знаний</strong>
       </div>
       <nav class="nav">
+        <button class="theme-toggle" id="theme-toggle" type="button">Темная тема</button>
         <a href="{{ site.baseurl }}/">Главная</a>
         <a href="https://mentor.dima-sqlit.ru">Менторство</a>
         <a href="https://t.me/dima_sqlit">Telegram канал</a>
@@ -356,9 +402,29 @@
     </div>
 
     <footer class="footer">
-      <span>© 2024–2026 Дима SQL-it. Светлая и более нейтральная подача контента.</span>
+      <span>© 2024–2026 Дима SQL-it. Светлая и темная тема работают одинаково на всех страницах.</span>
       <span><a href="https://t.me/dima_sqlit">Telegram</a> · <a href="https://mentor.dima-sqlit.ru">Менторство</a></span>
     </footer>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const themeToggle = document.getElementById('theme-toggle');
+
+      function applyTheme(theme) {
+        document.body.dataset.theme = theme;
+        themeToggle.textContent = theme === 'dark' ? 'Светлая тема' : 'Темная тема';
+      }
+
+      const storedTheme = localStorage.getItem('site-theme');
+      applyTheme(storedTheme === 'dark' ? 'dark' : 'light');
+
+      themeToggle.addEventListener('click', () => {
+        const nextTheme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('site-theme', nextTheme);
+        applyTheme(nextTheme);
+      });
+    });
+  </script>
 </body>
 </html>
