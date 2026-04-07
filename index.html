@@ -5,6 +5,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 {% assign sorted_pages = site.pages | sort: "date" | reverse %}
 {% assign post_count = 0 %}
 {% assign latest_year = 0 %}
+{% assign ai_course_url = site.ai_course_url | default: "#" %}
 {% for post in sorted_pages %}
   {% if post.path contains 'posts/' and post.path contains '.md' %}
     {% assign post_count = post_count | plus: 1 %}
@@ -33,6 +34,9 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       --text-faint: #748295;
       --accent: #2563eb;
       --accent-soft: #e8f0ff;
+      --accent-strong: #1d4ed8;
+      --success-soft: #eefbf3;
+      --success-line: #c8edd7;
       --shadow: 0 20px 50px rgba(15, 23, 42, 0.06);
       --radius-xl: 28px;
       --radius-lg: 22px;
@@ -51,6 +55,9 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       --text-faint: #8a9bb3;
       --accent: #7db2ff;
       --accent-soft: rgba(125, 178, 255, 0.12);
+      --accent-strong: #5798ff;
+      --success-soft: rgba(34, 197, 94, 0.12);
+      --success-line: rgba(74, 222, 128, 0.24);
       --shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
     }
 
@@ -87,7 +94,8 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     }
 
     button,
-    input {
+    input,
+    select {
       font: inherit;
     }
 
@@ -140,7 +148,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       align-items: center;
     }
 
-    .nav a {
+    .nav-link {
       padding: 10px 14px;
       border: 1px solid var(--line);
       border-radius: 999px;
@@ -150,21 +158,68 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       font-weight: 600;
     }
 
-    body[data-theme="dark"] .nav a {
+    body[data-theme="dark"] .nav-link {
       background: rgba(17, 24, 39, 0.92);
     }
 
-    .nav a:hover {
+    .nav-link:hover {
       border-color: var(--line-strong);
       color: var(--text-main);
       background: var(--surface);
     }
 
-    .theme-switch {
+    .nav-link.is-highlight {
+      background: var(--accent-soft);
+      border-color: rgba(37, 99, 235, 0.18);
+      color: var(--accent-strong);
+    }
+
+    .nav-link.is-success {
+      background: var(--success-soft);
+      border-color: var(--success-line);
+      color: #15803d;
+    }
+
+    body[data-theme="dark"] .nav-link.is-success {
+      color: #86efac;
+    }
+
+    .social-link {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 6px 8px 6px 10px;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--text-soft);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    body[data-theme="dark"] .social-link {
+      background: rgba(17, 24, 39, 0.92);
+    }
+
+    .social-link:hover {
+      border-color: var(--line-strong);
+      color: var(--text-main);
+      background: var(--surface);
+    }
+
+    .social-link svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      flex: 0 0 auto;
+    }
+
+    .theme-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 6px 4px 8px;
       border: 1px solid var(--line);
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.82);
@@ -177,15 +232,15 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     }
 
     .theme-switch-label {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 700;
       white-space: nowrap;
     }
 
     .theme-switch-track {
       position: relative;
-      width: 48px;
-      height: 28px;
+      width: 38px;
+      height: 22px;
       border-radius: 999px;
       background: #cbd5e1;
       transition: background-color var(--transition);
@@ -196,8 +251,8 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       position: absolute;
       top: 3px;
       left: 3px;
-      width: 22px;
-      height: 22px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       background: #ffffff;
       box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
@@ -209,7 +264,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     }
 
     body[data-theme="dark"] .theme-switch-thumb {
-      transform: translateX(20px);
+      transform: translateX(16px);
     }
 
     .hero,
@@ -334,15 +389,20 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     }
 
     .toolbar-controls {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px 18px;
+      display: grid;
+      gap: 16px;
       padding: 18px;
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
       background: var(--surface-soft);
+    }
+
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 18px;
+      align-items: end;
+      justify-content: space-between;
     }
 
     .filter-group {
@@ -358,21 +418,30 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     }
 
     .filter-btn,
-    .clear-filters-btn {
-      min-height: 40px;
+    .clear-filters-btn,
+    .control-field input,
+    .control-field select {
+      min-height: 42px;
       padding: 0 14px;
       border: 1px solid var(--line);
-      border-radius: 999px;
+      border-radius: 14px;
       background: #ffffff;
-      color: var(--text-soft);
+      color: var(--text-main);
+      font-size: 14px;
+    }
+
+    .filter-btn,
+    .clear-filters-btn {
       cursor: pointer;
-      font-size: 13px;
       font-weight: 700;
+      border-radius: 999px;
+      color: var(--text-soft);
     }
 
     body[data-theme="dark"] .filter-btn,
     body[data-theme="dark"] .clear-filters-btn,
-    body[data-theme="dark"] .toolbar-search input {
+    body[data-theme="dark"] .control-field input,
+    body[data-theme="dark"] .control-field select {
       background: #0f172a;
     }
 
@@ -388,37 +457,44 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       display: none;
     }
 
-    .toolbar-search {
-      min-width: min(100%, 320px);
-      flex: 1 1 280px;
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 18px;
+      align-items: end;
     }
 
-    .toolbar-search label {
-      display: block;
-      margin-bottom: 8px;
+    .control-field {
+      display: grid;
+      gap: 8px;
+      min-width: 220px;
+      flex: 1 1 220px;
+    }
+
+    .control-field label {
       color: var(--text-main);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
     }
 
-    .toolbar-search input {
-      width: 100%;
-      min-height: 46px;
-      padding: 0 14px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #ffffff;
-      color: var(--text-main);
+    .control-field select {
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--text-soft) 50%), linear-gradient(135deg, var(--text-soft) 50%, transparent 50%);
+      background-position: calc(100% - 18px) calc(50% - 3px), calc(100% - 12px) calc(50% - 3px);
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 34px;
+      font-weight: 600;
+    }
+
+    .control-field input:focus,
+    .control-field select:focus {
+      border-color: #9cb6f5;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
       outline: none;
     }
 
-    .toolbar-search input:focus {
-      border-color: #9cb6f5;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
-    }
-
     .toolbar-help {
-      flex: 0 1 360px;
       color: var(--text-soft);
       font-size: 14px;
     }
@@ -609,14 +685,20 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       </div>
       <nav class="nav">
         <button class="theme-switch" id="theme-toggle" type="button" aria-label="Переключить тему">
-          <span class="theme-switch-label" id="theme-label">Светлая тема</span>
+          <span class="theme-switch-label" id="theme-label">Светлая</span>
           <span class="theme-switch-track" aria-hidden="true">
             <span class="theme-switch-thumb"></span>
           </span>
         </button>
-        <a href="{{ site.baseurl }}/">Главная</a>
-        <a href="https://mentor.dima-sqlit.ru">Менторство</a>
-        <a href="https://t.me/dima_sqlit">Telegram канал</a>
+        <a class="nav-link" href="{{ site.baseurl }}/">Главная</a>
+        <a class="nav-link is-highlight" href="https://mentor.dima-sqlit.ru">Менторство</a>
+        <a class="nav-link is-success" href="{{ ai_course_url }}">Курс по AI</a>
+        <a class="social-link" href="https://t.me/dima_sqlit" aria-label="Telegram канал">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21.4 4.6c.3-.9-.5-1.7-1.3-1.4L3.8 9.5c-1 .4-1 1.8.1 2.1l4.1 1.3 1.5 4.5c.3.9 1.5 1.1 2.1.4l2.3-2.8 4.5 3.3c.8.6 1.9.2 2.1-.8zM9.2 12.4l8.3-5.6-6.7 6.5-.3 3.6z"/>
+          </svg>
+          <span>Telegram-канал</span>
+        </a>
       </nav>
     </header>
 
@@ -649,28 +731,42 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         <div class="section-heading">
           <p class="section-label">Каталог</p>
           <h2>Все статьи</h2>
-          <p>Можно выбрать сразу несколько категорий и тут же искать по заголовкам и описаниям.</p>
+          <p>Можно выбрать сразу несколько категорий, сортировку и тут же искать по заголовкам и описаниям.</p>
         </div>
 
         <div class="toolbar-controls">
-          <div class="filter-group">
-            <div class="filter-row">
-              <button class="filter-btn active" data-filter="all" type="button">Все</button>
-              <button class="filter-btn" data-filter="sql" type="button">SQL</button>
-              <button class="filter-btn" data-filter="python" type="button">Python</button>
-              <button class="filter-btn" data-filter="bi" type="button">BI</button>
-              <button class="filter-btn" data-filter="ai" type="button">AI</button>
-              <button class="filter-btn" data-filter="career" type="button">Career</button>
-              <button class="filter-btn" data-filter="automation" type="button">Automation</button>
+          <div class="controls-row">
+            <div class="filter-group">
+              <div class="filter-row">
+                <button class="filter-btn active" data-filter="all" type="button">Все</button>
+                <button class="filter-btn" data-filter="sql" type="button">SQL</button>
+                <button class="filter-btn" data-filter="python" type="button">Python</button>
+                <button class="filter-btn" data-filter="bi" type="button">BI</button>
+                <button class="filter-btn" data-filter="ai" type="button">AI</button>
+                <button class="filter-btn" data-filter="career" type="button">Career</button>
+                <button class="filter-btn" data-filter="automation" type="button">Automation</button>
+              </div>
+              <div class="filter-row">
+                <button class="clear-filters-btn is-hidden" id="clear-filters" type="button">Сбросить фильтры</button>
+              </div>
             </div>
-            <div class="filter-row">
-              <button class="clear-filters-btn is-hidden" id="clear-filters" type="button">Сбросить фильтры</button>
+
+            <div class="control-field">
+              <label for="sort-select">Сортировка</label>
+              <select id="sort-select">
+                <option value="date_desc">Сначала новые</option>
+                <option value="date_asc">Сначала старые</option>
+                <option value="title_asc">От А до Я</option>
+                <option value="title_desc">От Я до А</option>
+              </select>
             </div>
           </div>
 
-          <div class="toolbar-search">
-            <label for="search">Поиск по заголовкам и описаниям</label>
-            <input type="text" id="search" placeholder="Например: SQL, Airflow, Python...">
+          <div class="control-row">
+            <div class="control-field">
+              <label for="search">Поиск по заголовкам и описаниям</label>
+              <input type="text" id="search" placeholder="Например: SQL, Airflow, Python...">
+            </div>
           </div>
 
           <div class="toolbar-help">
@@ -693,8 +789,10 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
             <article
               class="post-item"
               data-categories="{{ categories_csv }}"
-              data-title="{{ post.title | downcase | escape }}"
+              data-title="{{ post.title | strip | escape }}"
+              data-title-lower="{{ post.title | downcase | escape }}"
               data-excerpt="{{ excerpt_text | downcase | escape }}"
+              data-timestamp="{{ post.date | date: "%s" }}"
             >
               <a class="post-media" href="{{ site.baseurl }}{{ post.url }}" {% if post.cover %}style="background-image: url('{{ post.cover | relative_url }}');"{% endif %}></a>
               <div class="post-body">
@@ -724,7 +822,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         <button class="load-more-btn" id="load-more" type="button">Показать еще</button>
       </div>
 
-      <p id="no-results" class="no-results">По запросу ничего не нашлось. Попробуй другую тему или сними часть фильтров.</p>
+      <p id="no-results" class="no-results">По запросу ничего не нашлось. Попробуй другую тему, поиск или сортировку.</p>
     </section>
 
     <footer class="footer">
@@ -735,9 +833,11 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      const postsList = document.getElementById('posts-list');
       const posts = Array.from(document.querySelectorAll('.post-item'));
       const noResults = document.getElementById('no-results');
       const searchInput = document.getElementById('search');
+      const sortSelect = document.getElementById('sort-select');
       const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
       const clearFiltersButton = document.getElementById('clear-filters');
       const activeFilters = new Set();
@@ -749,7 +849,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 
       function applyTheme(theme) {
         document.body.dataset.theme = theme;
-        themeLabel.textContent = theme === 'dark' ? 'Темная тема' : 'Светлая тема';
+        themeLabel.textContent = theme === 'dark' ? 'Темная' : 'Светлая';
       }
 
       const storedTheme = localStorage.getItem('site-theme');
@@ -773,15 +873,34 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         clearFiltersButton.classList.toggle('is-hidden', activeFilters.size === 0);
       }
 
+      function sortPosts(items) {
+        const mode = sortSelect.value;
+        const sorted = [...items];
+
+        sorted.sort((a, b) => {
+          if (mode === 'date_asc') {
+            return Number(a.dataset.timestamp) - Number(b.dataset.timestamp);
+          }
+          if (mode === 'title_asc') {
+            return a.dataset.title.localeCompare(b.dataset.title, 'ru');
+          }
+          if (mode === 'title_desc') {
+            return b.dataset.title.localeCompare(a.dataset.title, 'ru');
+          }
+          return Number(b.dataset.timestamp) - Number(a.dataset.timestamp);
+        });
+
+        return sorted;
+      }
+
       function applyFilters(resetLimit = false) {
         const query = searchInput.value.trim().toLowerCase();
-        let matchedCount = 0;
 
         if (resetLimit) {
           visibleLimit = pageSize;
         }
 
-        posts.forEach((post) => {
+        const matchedPosts = posts.filter((post) => {
           const postCategories = (post.dataset.categories || '')
             .split(',')
             .map((item) => item.trim())
@@ -791,20 +910,27 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
             Array.from(activeFilters).some((filter) => postCategories.includes(filter));
           const matchesQuery =
             query === '' ||
-            post.dataset.title.includes(query) ||
+            post.dataset.titleLower.includes(query) ||
             post.dataset.excerpt.includes(query);
-          const matches = matchesCategory && matchesQuery;
 
-          if (matches) {
-            matchedCount += 1;
-          }
-
-          const shouldShow = matches && matchedCount <= visibleLimit;
-          post.classList.toggle('is-hidden', !shouldShow);
+          return matchesCategory && matchesQuery;
         });
 
-        noResults.classList.toggle('visible', matchedCount === 0);
-        loadMoreButton.classList.toggle('is-hidden', matchedCount <= visibleLimit || matchedCount === 0);
+        const sortedPosts = sortPosts(matchedPosts);
+
+        sortedPosts.forEach((post, index) => {
+          postsList.appendChild(post);
+          post.classList.toggle('is-hidden', index >= visibleLimit);
+        });
+
+        posts.forEach((post) => {
+          if (!sortedPosts.includes(post)) {
+            post.classList.add('is-hidden');
+          }
+        });
+
+        noResults.classList.toggle('visible', sortedPosts.length === 0);
+        loadMoreButton.classList.toggle('is-hidden', sortedPosts.length <= visibleLimit || sortedPosts.length === 0);
         syncActiveState();
       }
 
@@ -814,12 +940,10 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 
           if (filter === 'all') {
             activeFilters.clear();
+          } else if (activeFilters.has(filter)) {
+            activeFilters.delete(filter);
           } else {
-            if (activeFilters.has(filter)) {
-              activeFilters.delete(filter);
-            } else {
-              activeFilters.add(filter);
-            }
+            activeFilters.add(filter);
           }
 
           applyFilters(true);
@@ -832,6 +956,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       });
 
       searchInput.addEventListener('input', () => applyFilters(true));
+      sortSelect.addEventListener('change', () => applyFilters(true));
       loadMoreButton.addEventListener('click', () => {
         visibleLimit += pageSize;
         applyFilters(false);

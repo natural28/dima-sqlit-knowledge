@@ -16,6 +16,10 @@
       --text-soft: #526070;
       --text-faint: #748295;
       --accent: #2563eb;
+      --accent-soft: #e8f0ff;
+      --accent-strong: #1d4ed8;
+      --success-soft: #eefbf3;
+      --success-line: #c8edd7;
       --shadow: 0 20px 50px rgba(15, 23, 42, 0.06);
       --radius-xl: 28px;
       --radius-lg: 22px;
@@ -33,6 +37,10 @@
       --text-soft: #aab8cc;
       --text-faint: #8a9bb3;
       --accent: #7db2ff;
+      --accent-soft: rgba(125, 178, 255, 0.12);
+      --accent-strong: #5798ff;
+      --success-soft: rgba(34, 197, 94, 0.12);
+      --success-line: rgba(74, 222, 128, 0.24);
       --shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
     }
 
@@ -108,7 +116,7 @@
       align-items: center;
     }
 
-    .nav a {
+    .nav-link {
       padding: 10px 14px;
       border: 1px solid var(--line);
       border-radius: 999px;
@@ -118,21 +126,68 @@
       font-weight: 600;
     }
 
-    body[data-theme="dark"] .nav a {
+    body[data-theme="dark"] .nav-link {
       background: rgba(17, 24, 39, 0.92);
     }
 
-    .nav a:hover {
+    .nav-link:hover {
       border-color: var(--line-strong);
       color: var(--text-main);
       background: var(--surface);
     }
 
-    .theme-switch {
+    .nav-link.is-highlight {
+      background: var(--accent-soft);
+      border-color: rgba(37, 99, 235, 0.18);
+      color: var(--accent-strong);
+    }
+
+    .nav-link.is-success {
+      background: var(--success-soft);
+      border-color: var(--success-line);
+      color: #15803d;
+    }
+
+    body[data-theme="dark"] .nav-link.is-success {
+      color: #86efac;
+    }
+
+    .social-link {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 6px 8px 6px 10px;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--text-soft);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    body[data-theme="dark"] .social-link {
+      background: rgba(17, 24, 39, 0.92);
+    }
+
+    .social-link:hover {
+      border-color: var(--line-strong);
+      color: var(--text-main);
+      background: var(--surface);
+    }
+
+    .social-link svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      flex: 0 0 auto;
+    }
+
+    .theme-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 6px 4px 8px;
       border: 1px solid var(--line);
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.82);
@@ -145,15 +200,15 @@
     }
 
     .theme-switch-label {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 700;
       white-space: nowrap;
     }
 
     .theme-switch-track {
       position: relative;
-      width: 48px;
-      height: 28px;
+      width: 38px;
+      height: 22px;
       border-radius: 999px;
       background: #cbd5e1;
       transition: background-color var(--transition);
@@ -164,8 +219,8 @@
       position: absolute;
       top: 3px;
       left: 3px;
-      width: 22px;
-      height: 22px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       background: #ffffff;
       box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
@@ -177,7 +232,7 @@
     }
 
     body[data-theme="dark"] .theme-switch-thumb {
-      transform: translateX(20px);
+      transform: translateX(16px);
     }
 
     .article-shell,
@@ -417,14 +472,20 @@
       </div>
       <nav class="nav">
         <button class="theme-switch" id="theme-toggle" type="button" aria-label="Переключить тему">
-          <span class="theme-switch-label" id="theme-label">Светлая тема</span>
+          <span class="theme-switch-label" id="theme-label">Светлая</span>
           <span class="theme-switch-track" aria-hidden="true">
             <span class="theme-switch-thumb"></span>
           </span>
         </button>
-        <a href="{{ site.baseurl }}/">Главная</a>
-        <a href="https://mentor.dima-sqlit.ru">Менторство</a>
-        <a href="https://t.me/dima_sqlit">Telegram канал</a>
+        <a class="nav-link" href="{{ site.baseurl }}/">Главная</a>
+        <a class="nav-link is-highlight" href="https://mentor.dima-sqlit.ru">Менторство</a>
+        <a class="nav-link is-success" href="{{ site.ai_course_url | default: "#" }}">Курс по AI</a>
+        <a class="social-link" href="https://t.me/dima_sqlit" aria-label="Telegram канал">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21.4 4.6c.3-.9-.5-1.7-1.3-1.4L3.8 9.5c-1 .4-1 1.8.1 2.1l4.1 1.3 1.5 4.5c.3.9 1.5 1.1 2.1.4l2.3-2.8 4.5 3.3c.8.6 1.9.2 2.1-.8zM9.2 12.4l8.3-5.6-6.7 6.5-.3 3.6z"/>
+          </svg>
+          <span>Telegram-канал</span>
+        </a>
       </nav>
     </header>
 
@@ -467,7 +528,7 @@
 
       function applyTheme(theme) {
         document.body.dataset.theme = theme;
-        themeLabel.textContent = theme === 'dark' ? 'Темная тема' : 'Светлая тема';
+        themeLabel.textContent = theme === 'dark' ? 'Темная' : 'Светлая';
       }
 
       const storedTheme = localStorage.getItem('site-theme');
