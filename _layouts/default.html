@@ -297,16 +297,28 @@
     }
 
     .article-cover {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       height: 260px;
       background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
-      background-size: cover;
-      background-position: center;
+      padding: 18px;
       border-bottom: 1px solid var(--line);
     }
 
     body[data-theme="dark"] .article-cover {
       background: linear-gradient(135deg, #1d4f91 0%, #0f172a 100%);
+    }
+
+    .article-cover img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+      object-position: center;
+      border: 0;
+      background: transparent;
     }
 
     .article-body {
@@ -344,8 +356,69 @@
     .article-body ul,
     .article-body ol,
     .article-body blockquote,
-    .article-body pre {
+    .article-body pre,
+    .article-body figure {
       margin: 18px 0;
+    }
+
+    .article-body img {
+      display: block;
+      width: auto;
+      max-width: min(100%, 760px);
+      height: auto;
+      margin: 0 auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+    }
+
+    .article-body figure {
+      width: fit-content;
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface-soft);
+    }
+
+    .article-body figure img {
+      border: 0;
+    }
+
+    .article-body img.image-small,
+    .article-body figure.image-small img {
+      max-width: min(100%, 420px);
+    }
+
+    .article-body img.image-medium,
+    .article-body figure.image-medium img {
+      max-width: min(100%, 640px);
+    }
+
+    .article-body img.image-large,
+    .article-body figure.image-large img {
+      max-width: min(100%, 760px);
+    }
+
+    .article-body img.image-full,
+    .article-body figure.image-full {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .article-body figure.image-full img {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .article-body figcaption {
+      margin-top: 10px;
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
     }
 
     .article-body ul,
@@ -504,7 +577,11 @@
         <h1>{{ page.title }}</h1>
       </div>
 
-      <div class="article-cover" {% if page.cover %}style="background-image: url('{{ page.cover | relative_url }}');"{% endif %}></div>
+      <div class="article-cover">
+        {% if page.cover %}
+          <img src="{{ page.cover | relative_url }}" alt="{{ page.title | escape }}">
+        {% endif %}
+      </div>
 
       <div class="article-body">
         {{ content }}
