@@ -421,6 +421,96 @@
       text-align: center;
     }
 
+    .related-posts {
+      margin-top: 22px;
+      padding: 24px 28px 28px;
+      border-top: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(37, 99, 235, 0.03) 0%, transparent 100%);
+    }
+
+    .related-posts h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .related-posts p {
+      margin: 0 0 18px;
+      color: var(--text-soft);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .related-card {
+      display: grid;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .related-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      box-shadow: var(--shadow);
+    }
+
+    .related-card-media {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 138px;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+    }
+
+    body[data-theme="dark"] .related-card-media {
+      background: linear-gradient(135deg, #1d4f91 0%, #0f172a 100%);
+    }
+
+    .related-card-media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .related-card-body {
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+    }
+
+    .related-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--text-faint);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .related-card-title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.24;
+      letter-spacing: -0.03em;
+    }
+
+    .related-card-link {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
     .article-body ul,
     .article-body ol {
       padding-left: 24px;
@@ -533,10 +623,31 @@
       .article-body h3 {
         font-size: 23px;
       }
+
+      .related-posts {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
+  {% assign current_slug_source = page.slug | default: page.url | downcase %}
+  {% assign current_slug_tokens = current_slug_source | replace: "/", " " | replace: "-", " " | split: " " %}
+  {% assign candidate_posts = site.pages | sort: "date" | reverse %}
+  {% capture current_slug_lookup %}|{% endcapture %}
+  {% for token in current_slug_tokens %}
+    {% assign normalized_token = token | strip %}
+    {% if normalized_token != "" %}
+      {% capture current_slug_lookup %}{{ current_slug_lookup }}{{ normalized_token }}|{% endcapture %}
+    {% endif %}
+  {% endfor %}
+  {% assign shown_related_urls = "|" %}
+  {% assign related_count = 0 %}
   <div class="container">
     <header class="topbar">
       <div class="brand">
@@ -586,6 +697,93 @@
       <div class="article-body">
         {{ content }}
       </div>
+
+      {% if page.path contains 'posts/' %}
+        <section class="related-posts">
+          <h2>Похожие статьи</h2>
+          <p>Если тема зашла, вот ещё несколько материалов, которые могут пригодиться.</p>
+          <div class="related-grid">
+            {% for post in candidate_posts %}
+              {% if related_count >= 3 %}
+                {% break %}
+              {% endif %}
+              {% if post.url != page.url and post.path contains 'posts/' and post.path contains '.md' %}
+                {% assign candidate_slug = post.slug | default: post.url | downcase %}
+                {% assign candidate_tokens = candidate_slug | replace: "/", " " | replace: "-", " " | split: " " %}
+                {% assign token_match = false %}
+                {% for candidate_token in candidate_tokens %}
+                  {% assign token_size = candidate_token | size %}
+                  {% assign is_meaningful_token = false %}
+                  {% if token_size > 3 or candidate_token == "sql" or candidate_token == "ai" or candidate_token == "bi" %}
+                    {% assign is_meaningful_token = true %}
+                  {% endif %}
+                  {% if is_meaningful_token %}
+                    {% capture wrapped_candidate_token %}|{{ candidate_token }}|{% endcapture %}
+                    {% if current_slug_lookup contains wrapped_candidate_token %}
+                      {% assign token_match = true %}
+                      {% break %}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+                {% capture tracked_url %}|{{ post.url }}|{% endcapture %}
+                {% if token_match %}
+                  {% unless shown_related_urls contains tracked_url %}
+                    <article class="related-card">
+                      <a class="related-card-media" href="{{ post.url | relative_url }}">
+                        {% if post.cover %}
+                          <img src="{{ post.cover | relative_url }}" alt="{{ post.title | escape }}">
+                        {% endif %}
+                      </a>
+                      <div class="related-card-body">
+                        <div class="related-card-meta">
+                          {% if post.date %}<span>{{ post.date | date: "%Y-%m-%d" }}</span>{% endif %}
+                          {% if post.category %}<span>{{ post.category | upcase }}</span>{% endif %}
+                        </div>
+                        <h3 class="related-card-title">
+                          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                        </h3>
+                        <a class="related-card-link" href="{{ post.url | relative_url }}">Читать статью</a>
+                      </div>
+                    </article>
+                    {% capture shown_related_urls %}{{ shown_related_urls }}{{ post.url }}|{% endcapture %}
+                    {% assign related_count = related_count | plus: 1 %}
+                  {% endunless %}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+
+            {% for post in candidate_posts %}
+              {% if related_count >= 3 %}
+                {% break %}
+              {% endif %}
+              {% capture tracked_url %}|{{ post.url }}|{% endcapture %}
+              {% if post.url != page.url and post.path contains 'posts/' and post.path contains '.md' and post.category == page.category %}
+                {% unless shown_related_urls contains tracked_url %}
+                  <article class="related-card">
+                    <a class="related-card-media" href="{{ post.url | relative_url }}">
+                      {% if post.cover %}
+                        <img src="{{ post.cover | relative_url }}" alt="{{ post.title | escape }}">
+                      {% endif %}
+                    </a>
+                    <div class="related-card-body">
+                      <div class="related-card-meta">
+                        {% if post.date %}<span>{{ post.date | date: "%Y-%m-%d" }}</span>{% endif %}
+                        {% if post.category %}<span>{{ post.category | upcase }}</span>{% endif %}
+                      </div>
+                      <h3 class="related-card-title">
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                      </h3>
+                      <a class="related-card-link" href="{{ post.url | relative_url }}">Читать статью</a>
+                    </div>
+                  </article>
+                  {% capture shown_related_urls %}{{ shown_related_urls }}{{ post.url }}|{% endcapture %}
+                  {% assign related_count = related_count | plus: 1 %}
+                {% endunless %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
     </article>
 
     <div class="back-row">
