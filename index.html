@@ -2,10 +2,41 @@
 title: "База знаний — Дима SQL-it"
 description: "База знаний по Data Analyst: SQL, Python, BI, AI и автоматизация. Статьи и посты из Telegram канала Дима SQL-it."
 ---
+{% assign sorted_pages = site.pages | sort: "date" | reverse %}
 {% assign post_count = 0 %}
-{% for post in site.pages %}
+{% assign latest_year = 0 %}
+{% assign sql_count = 0 %}
+{% assign python_count = 0 %}
+{% assign bi_count = 0 %}
+{% assign ai_count = 0 %}
+{% assign ai_course_url = site.ai_course_url | default: "#" %}
+{% for post in sorted_pages %}
   {% if post.path contains 'posts/' and post.path contains '.md' %}
     {% assign post_count = post_count | plus: 1 %}
+    {% assign post_year = post.date | date: "%Y" | plus: 0 %}
+    {% assign post_categories = post.categories %}
+    {% if post_categories == nil or post_categories == empty %}
+      {% if post.category %}
+        {% assign post_categories = post.category | split: "|" %}
+      {% else %}
+        {% assign post_categories = "" | split: "|" %}
+      {% endif %}
+    {% endif %}
+    {% for post_category in post_categories %}
+      {% assign normalized_post_category = post_category | downcase | strip %}
+      {% if normalized_post_category == "sql" %}
+        {% assign sql_count = sql_count | plus: 1 %}
+      {% elsif normalized_post_category == "python" %}
+        {% assign python_count = python_count | plus: 1 %}
+      {% elsif normalized_post_category == "bi" %}
+        {% assign bi_count = bi_count | plus: 1 %}
+      {% elsif normalized_post_category == "ai" %}
+        {% assign ai_count = ai_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+    {% if post_year > latest_year %}
+      {% assign latest_year = post_year %}
+    {% endif %}
   {% endif %}
 {% endfor %}
 <!DOCTYPE html>
@@ -17,488 +48,1056 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
   {% seo %}
   <style>
     :root {
-      --bg-dark: #050507;
-      --text-main: #b4bacf;
-      --text-header: #ffffff;
-      --accent-gradient: linear-gradient(135deg, #a45eff 0%, #4f46e5 100%);
-      --accent-color: #a45eff;
-      --accent-green: #10b981;
-      --radius: 20px;
-      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      --bg: #f4f8fb;
+      --surface: #ffffff;
+      --surface-soft: #edf5fb;
+      --surface-muted: #e4edf5;
+      --line: #cddbe8;
+      --line-strong: #a9c4d8;
+      --text-main: #14202b;
+      --text-soft: #536576;
+      --text-faint: #7d8c99;
+      --accent: #38bdf8;
+      --accent-strong: #0284c7;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --warm: #ffd27d;
+      --shadow: 0 24px 70px rgba(14, 116, 144, 0.12);
+      --radius: 18px;
+      --transition: 180ms ease;
+    }
+
+    body[data-theme="dark"] {
+      --bg: #111315;
+      --surface: #181a1d;
+      --surface-soft: #202327;
+      --surface-muted: #282c31;
+      --line: #2d3238;
+      --line-strong: #3d4650;
+      --text-main: #f2f5f7;
+      --text-soft: #a5abb2;
+      --text-faint: #777f88;
+      --accent: #7dd3fc;
+      --accent-strong: #38bdf8;
+      --accent-soft: rgba(125, 211, 252, 0.14);
+      --warm: #ffd37a;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-dark);
-      background-image: radial-gradient(circle at 50% -20%, #2e1065 0%, #050507 60%);
-      background-attachment: fixed;
-      color: var(--text-main);
-      line-height: 1.6;
       min-height: 100vh;
-    }
-
-    a { text-decoration: none; color: inherit; transition: var(--transition); }
-    ul { list-style: none; padding: 0; margin: 0; }
-    * { box-sizing: border-box; }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 20px;
-      width: 100%;
-    }
-
-    header {
-      padding: 40px 0;
-      text-align: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .logo {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--text-header);
-      margin-bottom: 10px;
-    }
-
-    .logo span {
-      background: var(--accent-gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .tagline {
-      font-size: 16px;
-      color: #9ca3af;
-    }
-
-    nav {
-      margin-top: 20px;
-    }
-
-    nav a {
-      display: inline-block;
-      padding: 10px 20px;
-      margin: 5px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 50px;
+      background:
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.18), transparent 34%),
+        linear-gradient(180deg, #f9fcff 0%, var(--bg) 42%, var(--bg) 100%);
       color: var(--text-main);
-      font-size: 14px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.55;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    body[data-theme="dark"] {
+      background:
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.10), transparent 30%),
+        linear-gradient(180deg, #111315 0%, #14171a 48%, #111315 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page-shell {
+      width: min(1520px, calc(100% - 24px));
+      margin: 0 auto;
+      padding: 26px 0 54px;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto;
+      align-items: start;
+      gap: 22px;
+      margin-bottom: 46px;
+    }
+
+    .brand {
+      max-width: 760px;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      margin-bottom: 10px;
+      color: var(--accent-strong);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .brand-name {
+      margin: 0;
+      font-size: clamp(42px, 6vw, 74px);
+      line-height: 0.96;
+      letter-spacing: 0;
+    }
+
+    .brand-summary {
+      margin: 20px 0 0;
+      max-width: 710px;
+      color: var(--text-soft);
+      font-size: clamp(17px, 2vw, 24px);
       font-weight: 600;
     }
 
-    nav a:hover {
-      background: rgba(164, 94, 255, 0.15);
-      border-color: var(--accent-color);
-      color: #fff;
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 12px;
     }
 
-    .hero {
-      text-align: center;
-      padding: 60px 0;
-    }
-
-    .hero h1 {
-      font-size: 42px;
+    .pill-link,
+    .telegram-button,
+    .theme-trigger {
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--text-main);
       font-weight: 800;
-      color: var(--text-header);
-      margin: 0 0 20px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: transform var(--transition), border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
     }
 
-    .hero p {
-      font-size: 18px;
-      color: #9ca3af;
-      max-width: 600px;
-      margin: 0 auto 30px;
+    .pill-link:hover,
+    .telegram-button:hover,
+    .theme-trigger:hover {
+      transform: translateY(-1px);
+      border-color: var(--line-strong);
+    }
+
+    .pill-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 18px;
+      font-size: 13px;
+    }
+
+    .telegram-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-width: 178px;
+      padding: 0 28px;
+      border: 0;
+      background: linear-gradient(135deg, #e0f7ff, var(--accent), #93e5ff);
+      color: #082532;
+      box-shadow: 0 14px 34px rgba(56, 189, 248, 0.28);
+      font-size: 15px;
+    }
+
+    body[data-theme="dark"] .telegram-button {
+      background: linear-gradient(135deg, #dff7ff, #7dd3fc, #b6ecff);
+      color: #08151d;
+    }
+
+    .telegram-button svg,
+    .pill-link svg,
+    .search-icon {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      fill: currentColor;
+    }
+
+    .theme-menu {
+      position: relative;
+    }
+
+    .theme-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 16px;
+      cursor: pointer;
+    }
+
+    .theme-swatch {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      border: 1.5px solid currentColor;
+    }
+
+    .theme-swatch--light {
+      background: radial-gradient(circle at center, currentColor 0 30%, transparent 32% 100%);
+      box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 18%, transparent);
+    }
+
+    .theme-swatch--dark {
+      border-color: transparent;
+      background: currentColor;
+      box-shadow: inset 6px 0 0 0 var(--surface-soft);
+    }
+
+    .theme-swatch--system {
+      width: 18px;
+      height: 14px;
+      margin-top: 1px;
+      border-radius: 4px;
+      background: transparent;
+    }
+
+    .theme-swatch--system::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      bottom: -4px;
+      width: 6px;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .theme-popover {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      z-index: 30;
+      width: 188px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-4px);
+      transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+    }
+
+    .theme-popover.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .theme-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-height: 46px;
+      padding: 0 12px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-soft);
+      cursor: pointer;
+      text-align: left;
+      font-weight: 800;
+    }
+
+    .theme-option:hover,
+    .theme-option.is-active {
+      background: var(--surface-soft);
+      color: var(--text-main);
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 252px minmax(0, 1fr);
+      gap: 48px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 22px;
+      display: grid;
+      gap: 26px;
+    }
+
+    .side-title {
+      margin: 0 0 14px;
+      color: var(--text-faint);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .category-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      min-height: 46px;
+      padding: 0 16px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: transparent;
+      color: var(--text-soft);
+      cursor: pointer;
+      font-weight: 800;
+      text-align: left;
+      transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: rgba(56, 189, 248, 0.38);
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    .filter-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--text-main);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .mini-panel {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: color-mix(in srgb, var(--surface) 76%, transparent);
+    }
+
+    .mini-panel strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 24px;
+    }
+
+    .mini-panel span {
+      color: var(--text-soft);
+      font-size: 14px;
+    }
+
+    .main-column {
+      min-width: 0;
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      margin-bottom: 40px;
     }
 
     .search-box {
-      max-width: 500px;
-      margin: 0 auto;
+      position: relative;
     }
 
     .search-box input {
       width: 100%;
-      padding: 16px 24px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 50px;
-      color: #fff;
-      font-size: 16px;
+      height: 56px;
+      padding: 0 54px 0 52px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface-soft);
+      color: var(--text-main);
       outline: none;
-      transition: var(--transition);
+      font-size: 16px;
+      transition: border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
     }
 
     .search-box input:focus {
-      border-color: var(--accent-color);
-      box-shadow: 0 0 20px rgba(164, 94, 255, 0.2);
+      border-color: var(--accent);
+      background: var(--surface);
+      box-shadow: 0 0 0 4px var(--accent-soft);
     }
 
     .search-box input::placeholder {
-      color: #6b7280;
+      color: var(--text-faint);
     }
 
-    .stats {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      margin-top: 30px;
-      flex-wrap: wrap;
+    .search-icon {
+      position: absolute;
+      top: 19px;
+      left: 18px;
+      color: var(--text-faint);
     }
 
-    .stat-item {
+    .shortcut {
+      position: absolute;
+      top: 13px;
+      right: 14px;
+      min-width: 30px;
+      padding: 4px 7px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--text-faint);
+      font-size: 12px;
       text-align: center;
     }
 
-    .stat-number {
-      font-size: 36px;
+    .sort-select {
+      min-width: 178px;
+      height: 56px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface-soft);
+      color: var(--text-main);
+      outline: none;
       font-weight: 800;
-      color: var(--accent-color);
-    }
-
-    .stat-label {
-      font-size: 14px;
-      color: #9ca3af;
-    }
-
-    .categories {
-      padding: 40px 0;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 28px;
-      color: var(--text-header);
-      margin-bottom: 30px;
-      font-weight: 700;
-    }
-
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .category-card {
-      background: linear-gradient(160deg, rgba(30, 30, 40, 0.6) 0%, rgba(20, 20, 25, 0.8) 100%);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius);
-      padding: 24px;
-      transition: var(--transition);
-      cursor: pointer;
-    }
-
-    .category-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(164, 94, 255, 0.5);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .category-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
-    }
-
-    .category-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-header);
-      margin: 0 0 8px;
-    }
-
-    .category-count {
-      font-size: 14px;
-      color: #9ca3af;
-    }
-
-    .posts {
-      padding: 40px 0;
     }
 
     .posts-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
     }
 
     .post-item {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 20px;
-      transition: var(--transition);
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.05);
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+    }
+
+    body[data-theme="dark"] .post-item {
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.24);
     }
 
     .post-item:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(164, 94, 255, 0.3);
-      transform: translateX(5px);
+      transform: translateY(-3px);
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: var(--shadow);
     }
 
     .post-item.is-hidden {
       display: none;
     }
 
-    .post-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-header);
-      margin: 0 0 8px;
+    .post-media,
+    .post-cover-card {
+      display: block;
+      width: 100%;
+      min-height: 226px;
+      aspect-ratio: 1.68;
+      overflow: hidden;
     }
 
-    .post-meta {
-      font-size: 13px;
-      color: #6b7280;
-      margin-bottom: 8px;
+    .post-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .post-cover-card {
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 30px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.20), transparent 30%),
+        linear-gradient(145deg, rgba(56, 189, 248, 0.18), rgba(30, 41, 59, 0.04) 34%, rgba(2, 132, 199, 0.18)),
+        #172032;
+      color: #dff7ff;
+      text-align: center;
+    }
+
+    body[data-theme="dark"] .post-cover-card {
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.13), transparent 30%),
+        linear-gradient(145deg, rgba(255, 210, 125, 0.20), rgba(18, 22, 33, 0.88) 44%, rgba(56, 189, 248, 0.18)),
+        #121620;
+      color: #f4fbff;
+    }
+
+    .cover-chip {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 11px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.10);
+      color: var(--warm);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: lowercase;
+    }
+
+    .cover-title {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      overflow: hidden;
+      color: var(--warm);
+      font-size: clamp(20px, 2vw, 25px);
+      font-weight: 900;
+      line-height: 1.2;
+      text-wrap: balance;
+    }
+
+    .post-body {
+      display: grid;
+      gap: 16px;
+      padding: 20px;
+    }
+
+    .post-body p {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      min-height: 50px;
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 15px;
+    }
+
+    .post-tag {
       display: flex;
-      gap: 15px;
       flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .post-excerpt {
+    .post-tag span {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--text-soft);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .post-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--text-faint);
       font-size: 14px;
-      color: #9ca3af;
-      line-height: 1.5;
     }
 
-    .post-link {
-      display: inline-block;
-      margin-top: 12px;
-      color: var(--accent-color);
-      font-weight: 600;
+    .post-date {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
     }
 
-    .post-link:hover {
-      color: #fff;
+    .post-date svg {
+      width: 15px;
+      height: 15px;
+      fill: currentColor;
     }
 
-    .telegram-link {
-      margin-left: 12px;
-      font-size: 13px;
-      color: var(--accent-green);
+    .inline-link {
+      color: var(--accent-strong);
+      font-weight: 900;
+      white-space: nowrap;
     }
 
-    .filter-buttons {
+    .load-more-row {
       display: flex;
-      gap: 10px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
       justify-content: center;
+      margin-top: 36px;
     }
 
-    .filter-btn {
-      padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      color: var(--text-main);
-      font-size: 14px;
+    .load-more-btn {
+      min-height: 52px;
+      padding: 0 28px;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #e0f7ff, var(--accent), #93e5ff);
+      color: #082532;
       cursor: pointer;
-      transition: var(--transition);
+      font-weight: 900;
+      box-shadow: 0 14px 34px rgba(56, 189, 248, 0.24);
     }
 
-    .filter-btn:hover,
-    .filter-btn.active {
-      background: rgba(164, 94, 255, 0.15);
-      border-color: var(--accent-color);
-      color: #fff;
+    .load-more-btn.is-hidden {
+      display: none;
     }
 
     .no-results {
       display: none;
+      margin: 28px 0 0;
+      padding: 22px;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius);
+      color: var(--text-soft);
       text-align: center;
-      color: #9ca3af;
-      padding: 32px 16px;
     }
 
     .no-results.visible {
       display: block;
     }
 
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 32px; }
-      .categories-grid { grid-template-columns: 1fr; }
-      .stats { gap: 20px; }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 58px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+      color: var(--text-faint);
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: var(--accent-strong);
+      font-weight: 800;
+    }
+
+    @media (max-width: 1180px) {
+      .posts-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px) {
+      .topbar,
+      .content-grid,
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .category-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page-shell {
+        width: min(100% - 20px, 1520px);
+        padding-top: 18px;
+      }
+
+      .topbar {
+        margin-bottom: 32px;
+      }
+
+      .brand-name {
+        font-size: 40px;
+      }
+
+      .brand-summary {
+        font-size: 17px;
+      }
+
+      .nav {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .telegram-button,
+      .pill-link,
+      .theme-trigger {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .theme-popover {
+        left: 0;
+        right: auto;
+        width: 100%;
+      }
+
+      .category-list,
+      .posts-list {
+        grid-template-columns: 1fr;
+      }
+
+      .post-media,
+      .post-cover-card {
+        min-height: 194px;
+      }
+
+      .footer {
+        display: grid;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">База знаний <span>Дима SQL-it</span></div>
-      <p class="tagline">Статьи и материалы по Data Analyst</p>
-      <nav>
-        <a href="{{ site.baseurl }}/">Главная</a>
-        <a href="https://mentor.dima-sqlit.ru">Менторство</a>
-        <a href="https://t.me/dima_sqlit">Telegram канал</a>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">Dima SQL-it knowledge base</span>
+        <h1 class="brand-name">База знаний</h1>
+        <p class="brand-summary">Практичные разборы по SQL, Python, BI и AI, чтобы быстрее решать рабочие задачи, расти в аналитике и не тратить часы на поиск нормального объяснения.</p>
+      </div>
+
+      <nav class="nav" aria-label="Главная навигация">
+        <div class="theme-menu">
+          <button class="theme-trigger" id="theme-trigger" type="button" aria-expanded="false" aria-controls="theme-popover">
+            <span class="theme-swatch theme-swatch--system" id="theme-trigger-swatch" aria-hidden="true"></span>
+            <span id="theme-label">Системная</span>
+          </button>
+          <div class="theme-popover" id="theme-popover">
+            <button class="theme-option" data-theme-choice="light" type="button">
+              <span class="theme-swatch theme-swatch--light" aria-hidden="true"></span>
+              Светлая
+            </button>
+            <button class="theme-option" data-theme-choice="dark" type="button">
+              <span class="theme-swatch theme-swatch--dark" aria-hidden="true"></span>
+              Темная
+            </button>
+            <button class="theme-option" data-theme-choice="system" type="button">
+              <span class="theme-swatch theme-swatch--system" aria-hidden="true"></span>
+              Системная
+            </button>
+          </div>
+        </div>
+
+        <a class="pill-link" href="https://mentor.dima-sqlit.ru">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Zm-7 8.2V15c0 2.2 3.1 4 7 4s7-1.8 7-4v-4.8l-7 3.5-7-3.5Z"/></svg>
+          Менторство
+        </a>
+        <a class="telegram-button" href="https://t.me/dima_sqlit" target="_blank" rel="noopener noreferrer">
+          Telegram
+          <span aria-hidden="true">→</span>
+        </a>
       </nav>
     </header>
 
-    <section class="hero">
-      <h1>База знаний</h1>
-      <p>Все мои посты из Telegram в структурированном виде. Ищите по темам или используйте поиск.</p>
-      <div class="search-box">
-        <input type="text" placeholder="Поиск по статьям..." id="search">
-      </div>
-      <div class="stats">
-        <div class="stat-item">
-          <div class="stat-number" id="total-posts">{{ post_count }}</div>
-          <div class="stat-label">Постов</div>
+    <main class="content-grid">
+      <aside class="sidebar" aria-label="Категории">
+        <div>
+          <h2 class="side-title">Категории</h2>
+          <div class="category-list">
+            <button class="filter-btn active" data-filter="all" type="button">
+              <span>Все конспекты</span>
+              <span class="filter-count">{{ post_count }}</span>
+            </button>
+            <button class="filter-btn" data-filter="sql" type="button">
+              <span>SQL</span>
+              <span class="filter-count">{{ sql_count }}</span>
+            </button>
+            <button class="filter-btn" data-filter="python" type="button">
+              <span>Python</span>
+              <span class="filter-count">{{ python_count }}</span>
+            </button>
+            <button class="filter-btn" data-filter="bi" type="button">
+              <span>BI</span>
+              <span class="filter-count">{{ bi_count }}</span>
+            </button>
+            <button class="filter-btn" data-filter="ai" type="button">
+              <span>AI</span>
+              <span class="filter-count">{{ ai_count }}</span>
+            </button>
+          </div>
         </div>
-        <div class="stat-item">
-          <div class="stat-number">6</div>
-          <div class="stat-label">Категорий</div>
+
+        <div class="mini-panel">
+          <strong>{{ post_count }}</strong>
+          <span>материалов в архиве за 2024–{{ latest_year }}</span>
         </div>
-        <div class="stat-item">
-          <div class="stat-number">2024-2026</div>
-          <div class="stat-label">Годы</div>
+      </aside>
+
+      <section class="main-column" aria-label="Список статей">
+        <div class="search-row">
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.15 10.46l3.45 3.44a1 1 0 0 1-1.42 1.42l-3.44-3.45A6.5 6.5 0 1 1 10.5 4Zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z"/>
+            </svg>
+            <input type="text" id="search" placeholder="Поиск по статьям...">
+            <span class="shortcut">⌘K</span>
+          </div>
+          <select class="sort-select" id="sort-select" aria-label="Сортировка">
+            <option value="date_desc">Сначала новые</option>
+            <option value="date_asc">Сначала старые</option>
+            <option value="title_asc">От А до Я</option>
+            <option value="title_desc">От Я до А</option>
+          </select>
         </div>
-      </div>
-    </section>
 
-    <section class="categories">
-      <h2 class="section-title">Категории</h2>
-      <div class="categories-grid">
-        <a href="#" class="category-card" data-category="sql">
-          <div class="category-icon">🎯</div>
-          <h3 class="category-title">SQL</h3>
-          <p class="category-count">Запросы, оптимизация, трюки</p>
-        </a>
-
-        <a href="#" class="category-card" data-category="python">
-          <div class="category-icon">🐍</div>
-          <h3 class="category-title">Python</h3>
-          <p class="category-count">Скрипты, автоматизация, библиотеки</p>
-        </a>
-
-        <a href="#" class="category-card" data-category="bi">
-          <div class="category-icon">📊</div>
-          <h3 class="category-title">BI инструменты</h3>
-          <p class="category-count">Дашборды, метрики, визуализация</p>
-        </a>
-
-        <a href="#" class="category-card" data-category="ai">
-          <div class="category-icon">🤖</div>
-          <h3 class="category-title">AI и нейросети</h3>
-          <p class="category-count">ChatGPT, Copilot, ML</p>
-        </a>
-
-        <a href="#" class="category-card" data-category="career">
-          <div class="category-icon">🚀</div>
-          <h3 class="category-title">Карьера</h3>
-          <p class="category-count">Собеседования, резюме, развитие</p>
-        </a>
-
-        <a href="#" class="category-card" data-category="automation">
-          <div class="category-icon">⚡</div>
-          <h3 class="category-title">Автоматизация</h3>
-          <p class="category-count">Боты, скрипты, Airflow</p>
-        </a>
-      </div>
-    </section>
-
-    <section class="posts">
-      <h2 class="section-title">Все статьи</h2>
-      <div class="filter-buttons">
-        <button class="filter-btn active" data-filter="all">Все</button>
-        <button class="filter-btn" data-filter="sql">SQL</button>
-        <button class="filter-btn" data-filter="python">Python</button>
-        <button class="filter-btn" data-filter="bi">BI</button>
-        <button class="filter-btn" data-filter="ai">AI</button>
-        <button class="filter-btn" data-filter="career">Карьера</button>
-        <button class="filter-btn" data-filter="automation">Автоматизация</button>
-      </div>
-      <div class="posts-list" id="posts-list">
-        {% assign sorted_pages = site.pages | sort: "date" | reverse %}
-        {% for post in sorted_pages %}
-        {% if post.path contains 'posts/' and post.path contains '.md' %}
-        {% assign excerpt_text = post.excerpt | default: post.description | default: post.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip %}
-        <article
-          class="post-item"
-          data-category="{{ post.category | downcase }}"
-          data-title="{{ post.title | downcase | escape }}"
-          data-excerpt="{{ excerpt_text | downcase | escape }}"
-        >
-          <h3 class="post-title">
-            <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-            {% if post.telegram_link %}
-            <a href="{{ post.telegram_link }}" target="_blank" rel="noopener noreferrer" class="telegram-link">Источник</a>
+        <div class="posts-list" id="posts-list">
+          {% for post in sorted_pages %}
+            {% if post.path contains 'posts/' and post.path contains '.md' %}
+              {% assign excerpt_text = post.excerpt | default: post.description | default: post.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip %}
+              {% assign post_categories = post.categories %}
+              {% if post_categories == nil or post_categories == empty %}
+                {% if post.category %}
+                  {% assign post_categories = post.category | split: "|" %}
+                {% else %}
+                  {% assign post_categories = "" | split: "|" %}
+                {% endif %}
+              {% endif %}
+              {% assign categories_csv = post_categories | join: "," | downcase %}
+              {% assign primary_category = post.category | default: post_categories.first %}
+              <article
+                class="post-item"
+                data-categories="{{ categories_csv }}"
+                data-title="{{ post.title | strip | escape }}"
+                data-title-lower="{{ post.title | downcase | escape }}"
+                data-excerpt="{{ excerpt_text | downcase | escape }}"
+                data-timestamp="{{ post.date | date: "%s" }}"
+              >
+                <a class="post-media" href="{{ post.url | relative_url }}" aria-label="{{ post.title | escape }}">
+                  {% if post.cover %}
+                    <img src="{{ post.cover | relative_url }}" alt="{{ post.title | escape }}">
+                  {% else %}
+                    <span class="post-cover-card">
+                      {% if primary_category %}<span class="cover-chip">{{ primary_category }}</span>{% endif %}
+                      <span class="cover-title">{{ post.title }}</span>
+                    </span>
+                  {% endif %}
+                </a>
+                <div class="post-body">
+                  {% if post_categories.size > 0 %}
+                    <div class="post-tag">
+                      {% for category in post_categories limit: 3 %}
+                        {% assign trimmed_category = category | strip %}
+                        {% if trimmed_category != "" %}<span>{{ trimmed_category }}</span>{% endif %}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                  <p>{{ excerpt_text | truncate: 132 }}</p>
+                  <div class="post-footer">
+                    <span class="post-date">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm13 8H4v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8Z"/></svg>
+                      {{ post.date | date: "%d.%m.%Y" }}
+                    </span>
+                    <a class="inline-link" href="{{ post.url | relative_url }}">Читать →</a>
+                  </div>
+                </div>
+              </article>
             {% endif %}
-          </h3>
-          <p class="post-meta">
-            <span>{{ post.date | date: "%Y-%m-%d" }}</span>
-            <span>{{ post.category | upcase }}</span>
-          </p>
-          <p class="post-excerpt">{{ excerpt_text | truncate: 220 }}</p>
-          <a href="{{ site.baseurl }}{{ post.url }}" class="post-link">Читать далее →</a>
-        </article>
-        {% endif %}
-        {% endfor %}
-      </div>
-      <p id="no-results" class="no-results">Посты не найдены</p>
-    </section>
+          {% endfor %}
+        </div>
 
-    <footer>
-      <p>© 2024-2026 Дима SQL-it • <a href="https://t.me/dima_sqlit">Telegram канал</a> • <a href="https://mentor.dima-sqlit.ru">Менторство</a></p>
+        <div class="load-more-row">
+          <button class="load-more-btn" id="load-more" type="button">Показать еще</button>
+        </div>
+
+        <p id="no-results" class="no-results">По запросу ничего не нашлось. Попробуй другую тему или категорию.</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>© 2024–{{ latest_year }} Дима SQL-it. База знаний для аналитиков и всех, кто любит быстро доходить до сути.</span>
+      <span><a href="https://t.me/dima_sqlit">Telegram</a> · <a href="https://mentor.dima-sqlit.ru">Менторство</a></span>
     </footer>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      const postsList = document.getElementById('posts-list');
       const posts = Array.from(document.querySelectorAll('.post-item'));
       const noResults = document.getElementById('no-results');
       const searchInput = document.getElementById('search');
-      let activeFilter = 'all';
+      const sortSelect = document.getElementById('sort-select');
+      const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+      const loadMoreButton = document.getElementById('load-more');
+      const themeTrigger = document.getElementById('theme-trigger');
+      const themeTriggerSwatch = document.getElementById('theme-trigger-swatch');
+      const themePopover = document.getElementById('theme-popover');
+      const themeLabel = document.getElementById('theme-label');
+      const themeOptions = Array.from(document.querySelectorAll('.theme-option'));
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+      const pageSize = 12;
+      const labels = {
+        light: 'Светлая',
+        dark: 'Темная',
+        system: 'Системная'
+      };
+      let visibleLimit = pageSize;
+      let activeFilters = new Set();
 
-      function applyFilters() {
-        const query = searchInput.value.trim().toLowerCase();
-        let visibleCount = 0;
-
-        posts.forEach((post) => {
-          const matchesCategory = activeFilter === 'all' || post.dataset.category === activeFilter;
-          const matchesQuery =
-            query === '' ||
-            post.dataset.title.includes(query) ||
-            post.dataset.excerpt.includes(query);
-
-          const isVisible = matchesCategory && matchesQuery;
-          post.classList.toggle('is-hidden', !isVisible);
-          if (isVisible) {
-            visibleCount += 1;
-          }
-        });
-
-        noResults.classList.toggle('visible', visibleCount === 0);
+      function resolveTheme(choice) {
+        if (choice === 'system') {
+          return systemTheme.matches ? 'dark' : 'light';
+        }
+        return choice;
       }
 
-      document.querySelectorAll('.filter-btn').forEach((btn) => {
-        btn.addEventListener('click', (event) => {
-          document.querySelectorAll('.filter-btn').forEach((item) => item.classList.remove('active'));
-          event.currentTarget.classList.add('active');
-          activeFilter = event.currentTarget.dataset.filter;
-          applyFilters();
+      function applyTheme(choice) {
+        const selected = choice || 'system';
+        document.body.dataset.theme = resolveTheme(selected);
+        themeLabel.textContent = labels[selected];
+        themeTriggerSwatch.className = `theme-swatch theme-swatch--${selected}`;
+        themeOptions.forEach((option) => {
+          option.classList.toggle('is-active', option.dataset.themeChoice === selected);
+        });
+      }
+
+      function setTheme(choice) {
+        localStorage.setItem('site-theme-choice', choice);
+        applyTheme(choice);
+      }
+
+      const storedTheme = localStorage.getItem('site-theme-choice') || 'system';
+      applyTheme(storedTheme);
+
+      systemTheme.addEventListener('change', () => {
+        if ((localStorage.getItem('site-theme-choice') || 'system') === 'system') {
+          applyTheme('system');
+        }
+      });
+
+      themeTrigger.addEventListener('click', () => {
+        const isOpen = themePopover.classList.toggle('is-open');
+        themeTrigger.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      themeOptions.forEach((option) => {
+        option.addEventListener('click', () => {
+          setTheme(option.dataset.themeChoice);
+          themePopover.classList.remove('is-open');
+          themeTrigger.setAttribute('aria-expanded', 'false');
         });
       });
 
-      document.querySelectorAll('.category-card').forEach((card) => {
-        card.addEventListener('click', (event) => {
+      document.addEventListener('click', (event) => {
+        if (!themeTrigger.contains(event.target) && !themePopover.contains(event.target)) {
+          themePopover.classList.remove('is-open');
+          themeTrigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        const isMac = navigator.platform.toUpperCase().includes('MAC');
+        const modifierPressed = isMac ? event.metaKey : event.ctrlKey;
+        if (modifierPressed && event.key.toLowerCase() === 'k') {
           event.preventDefault();
-          activeFilter = card.dataset.category;
-          document.querySelectorAll('.filter-btn').forEach((item) => item.classList.remove('active'));
-          const activeButton = document.querySelector(`.filter-btn[data-filter="${activeFilter}"]`);
-          if (activeButton) {
-            activeButton.classList.add('active');
+          searchInput.focus();
+        }
+      });
+
+      function sortPosts(items) {
+        const mode = sortSelect.value;
+        const sorted = [...items];
+
+        sorted.sort((a, b) => {
+          if (mode === 'date_asc') {
+            return Number(a.dataset.timestamp) - Number(b.dataset.timestamp);
           }
-          applyFilters();
+          if (mode === 'title_asc') {
+            return a.dataset.title.localeCompare(b.dataset.title, 'ru');
+          }
+          if (mode === 'title_desc') {
+            return b.dataset.title.localeCompare(a.dataset.title, 'ru');
+          }
+          return Number(b.dataset.timestamp) - Number(a.dataset.timestamp);
+        });
+
+        return sorted;
+      }
+
+      function applyFilters(resetLimit = false) {
+        const query = searchInput.value.trim().toLowerCase();
+
+        if (resetLimit) {
+          visibleLimit = pageSize;
+        }
+
+        const matchedPosts = posts.filter((post) => {
+          const postCategories = (post.dataset.categories || '')
+            .split(',')
+            .map((item) => item.trim())
+            .filter(Boolean);
+          const matchesCategory =
+            activeFilters.size === 0 ||
+            Array.from(activeFilters).some((filter) => postCategories.includes(filter));
+          const matchesQuery =
+            query === '' ||
+            post.dataset.titleLower.includes(query) ||
+            post.dataset.excerpt.includes(query);
+
+          return matchesCategory && matchesQuery;
+        });
+
+        const sortedPosts = sortPosts(matchedPosts);
+
+        sortedPosts.forEach((post, index) => {
+          postsList.appendChild(post);
+          post.classList.toggle('is-hidden', index >= visibleLimit);
+        });
+
+        posts.forEach((post) => {
+          if (!sortedPosts.includes(post)) {
+            post.classList.add('is-hidden');
+          }
+        });
+
+        filterButtons.forEach((button) => {
+          const filter = button.dataset.filter;
+          button.classList.toggle('active', filter === 'all' ? activeFilters.size === 0 : activeFilters.has(filter));
+        });
+
+        noResults.classList.toggle('visible', sortedPosts.length === 0);
+        loadMoreButton.classList.toggle('is-hidden', sortedPosts.length <= visibleLimit || sortedPosts.length === 0);
+      }
+
+      filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const filter = button.dataset.filter;
+          if (filter === 'all') {
+            activeFilters.clear();
+          } else if (activeFilters.has(filter)) {
+            activeFilters.delete(filter);
+          } else {
+            activeFilters.add(filter);
+          }
+          applyFilters(true);
         });
       });
 
-      searchInput.addEventListener('input', applyFilters);
-      applyFilters();
+      searchInput.addEventListener('input', () => applyFilters(true));
+      sortSelect.addEventListener('change', () => applyFilters(true));
+      loadMoreButton.addEventListener('click', () => {
+        visibleLimit += pageSize;
+        applyFilters(false);
+      });
+
+      applyFilters(true);
     });
   </script>
 </body>
