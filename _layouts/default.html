@@ -7,20 +7,20 @@
   {% seo %}
   <style>
     :root {
-      --bg: #f6f7fb;
+      --bg: #f4f8fb;
       --surface: #ffffff;
-      --surface-soft: #f6f8fc;
-      --line: #dbe2ea;
-      --line-strong: #c7d2df;
-      --text-main: #17202b;
-      --text-soft: #526070;
-      --text-faint: #748295;
-      --accent: #2563eb;
-      --accent-soft: #e8f0ff;
-      --accent-strong: #1d4ed8;
+      --surface-soft: #edf5fb;
+      --line: #cddbe8;
+      --line-strong: #a9c4d8;
+      --text-main: #14202b;
+      --text-soft: #536576;
+      --text-faint: #7d8c99;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --accent-strong: #0284c7;
       --success-soft: #eefbf3;
       --success-line: #c8edd7;
-      --shadow: 0 20px 50px rgba(15, 23, 42, 0.06);
+      --shadow: 0 24px 70px rgba(14, 116, 144, 0.12);
       --radius-xl: 28px;
       --radius-lg: 22px;
       --radius-md: 16px;
@@ -28,17 +28,17 @@
     }
 
     body[data-theme="dark"] {
-      --bg: #0f172a;
-      --surface: #111827;
-      --surface-soft: #1e293b;
-      --line: #263244;
-      --line-strong: #3a4a61;
-      --text-main: #e5edf8;
-      --text-soft: #aab8cc;
-      --text-faint: #8a9bb3;
-      --accent: #7db2ff;
-      --accent-soft: rgba(125, 178, 255, 0.12);
-      --accent-strong: #5798ff;
+      --bg: #111315;
+      --surface: #181a1d;
+      --surface-soft: #202327;
+      --line: #2d3238;
+      --line-strong: #3d4650;
+      --text-main: #f2f5f7;
+      --text-soft: #a5abb2;
+      --text-faint: #777f88;
+      --accent: #7dd3fc;
+      --accent-soft: rgba(125, 211, 252, 0.14);
+      --accent-strong: #38bdf8;
       --success-soft: rgba(34, 197, 94, 0.12);
       --success-line: rgba(74, 222, 128, 0.24);
       --shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
@@ -52,8 +52,8 @@
       margin: 0;
       min-height: 100vh;
       background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08) 0, rgba(37, 99, 235, 0) 30%),
-        linear-gradient(180deg, #fbfcfe 0%, var(--bg) 100%);
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 34%),
+        linear-gradient(180deg, #f9fcff 0%, var(--bg) 42%, var(--bg) 100%);
       color: var(--text-main);
       font-family: "Segoe UI", Arial, sans-serif;
       line-height: 1.7;
@@ -61,8 +61,8 @@
 
     body[data-theme="dark"] {
       background:
-        radial-gradient(circle at top left, rgba(125, 178, 255, 0.08) 0, rgba(125, 178, 255, 0) 24%),
-        linear-gradient(180deg, #08111f 0%, var(--bg) 100%);
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.10), transparent 30%),
+        linear-gradient(180deg, #111315 0%, #14171a 48%, #111315 100%);
     }
 
     a {
@@ -116,123 +116,158 @@
       align-items: center;
     }
 
-    .nav-link {
-      padding: 10px 14px;
+    .pill-link,
+    .telegram-button,
+    .theme-trigger {
+      min-height: 48px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.82);
-      color: var(--text-soft);
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    body[data-theme="dark"] .nav-link {
-      background: rgba(17, 24, 39, 0.92);
-    }
-
-    .nav-link:hover {
-      border-color: var(--line-strong);
+      background: var(--surface-soft);
       color: var(--text-main);
-      background: var(--surface);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: transform var(--transition), border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
     }
 
-    .nav-link.is-highlight {
-      background: var(--accent-soft);
-      border-color: rgba(37, 99, 235, 0.18);
-      color: var(--accent-strong);
+    .pill-link:hover,
+    .telegram-button:hover,
+    .theme-trigger:hover {
+      transform: translateY(-1px);
+      border-color: var(--line-strong);
     }
 
-    .nav-link.is-success {
-      background: var(--success-soft);
-      border-color: var(--success-line);
-      color: #15803d;
-    }
-
-    body[data-theme="dark"] .nav-link.is-success {
-      color: #86efac;
-    }
-
-    .social-link {
+    .pill-link {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      min-height: 48px;
       padding: 0 18px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.82);
-      color: var(--text-soft);
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 13px;
     }
 
-    body[data-theme="dark"] .social-link {
-      background: rgba(17, 24, 39, 0.92);
-    }
-
-    .social-link:hover {
-      border-color: var(--line-strong);
-      color: var(--text-main);
-      background: var(--surface);
-    }
-
-    .social-link svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-      flex: 0 0 auto;
-    }
-
-    .theme-switch {
+    .telegram-button {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 4px 6px 4px 8px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.82);
-      color: var(--text-soft);
+      justify-content: center;
+      gap: 12px;
+      min-width: 178px;
+      padding: 0 28px;
+      border: 0;
+      background: linear-gradient(135deg, #e0f7ff, var(--accent), #93e5ff);
+      color: #082532;
+      box-shadow: 0 14px 34px rgba(56, 189, 248, 0.28);
+      font-size: 15px;
+    }
+
+    body[data-theme="dark"] .telegram-button {
+      background: linear-gradient(135deg, #dff7ff, #7dd3fc, #b6ecff);
+      color: #08151d;
+    }
+
+    .telegram-button svg,
+    .pill-link svg,
+    .theme-trigger svg,
+    .theme-option svg {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      fill: currentColor;
+    }
+
+    .theme-menu {
+      position: relative;
+    }
+
+    .theme-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 16px;
       cursor: pointer;
     }
 
-    body[data-theme="dark"] .theme-switch {
-      background: rgba(17, 24, 39, 0.92);
-    }
-
-    .theme-switch-label {
-      font-size: 11px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .theme-switch-track {
+    .theme-swatch {
       position: relative;
-      width: 38px;
-      height: 22px;
-      border-radius: 999px;
-      background: #cbd5e1;
-      transition: background-color var(--transition);
+      width: 18px;
+      height: 18px;
       flex: 0 0 auto;
-    }
-
-    .theme-switch-thumb {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 16px;
-      height: 16px;
       border-radius: 50%;
-      background: #ffffff;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
-      transition: transform var(--transition);
+      border: 1.5px solid currentColor;
     }
 
-    body[data-theme="dark"] .theme-switch-track {
-      background: #2563eb;
+    .theme-swatch--light {
+      background: radial-gradient(circle at center, currentColor 0 30%, transparent 32% 100%);
+      box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 18%, transparent);
     }
 
-    body[data-theme="dark"] .theme-switch-thumb {
-      transform: translateX(16px);
+    .theme-swatch--dark {
+      border-color: transparent;
+      background: currentColor;
+      box-shadow: inset 6px 0 0 0 var(--surface-soft);
+    }
+
+    .theme-swatch--system {
+      width: 18px;
+      height: 14px;
+      margin-top: 1px;
+      border-radius: 4px;
+      background: transparent;
+    }
+
+    .theme-swatch--system::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      bottom: -4px;
+      width: 6px;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .theme-popover {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      z-index: 30;
+      width: 188px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-4px);
+      transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+    }
+
+    .theme-popover.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .theme-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-height: 46px;
+      padding: 0 12px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-soft);
+      cursor: pointer;
+      text-align: left;
+      font-weight: 800;
+    }
+
+    .theme-option:hover,
+    .theme-option.is-active {
+      background: var(--surface-soft);
+      color: var(--text-main);
     }
 
     .article-shell,
@@ -257,11 +292,7 @@
     .article-head {
       padding: 28px 28px 22px;
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, #ffffff 0%, var(--surface-soft) 100%);
-    }
-
-    body[data-theme="dark"] .article-head {
-      background: linear-gradient(180deg, #111827 0%, var(--surface-soft) 100%);
+      background: var(--surface);
     }
 
     .meta-row {
@@ -282,11 +313,7 @@
       padding: 0 12px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: #ffffff;
-    }
-
-    body[data-theme="dark"] .meta-chip {
-      background: #0f172a;
+      background: var(--surface-soft);
     }
 
     .article-head h1 {
@@ -301,13 +328,9 @@
       align-items: center;
       justify-content: center;
       height: 260px;
-      background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+      background: var(--surface-soft);
       padding: 18px;
       border-bottom: 1px solid var(--line);
-    }
-
-    body[data-theme="dark"] .article-cover {
-      background: linear-gradient(135deg, #1d4f91 0%, #0f172a 100%);
     }
 
     .article-cover img {
@@ -319,6 +342,41 @@
       object-position: center;
       border: 0;
       background: transparent;
+    }
+
+    .article-cover-card {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.20), transparent 30%),
+        linear-gradient(145deg, rgba(56, 189, 248, 0.18), rgba(30, 41, 59, 0.04) 34%, rgba(2, 132, 199, 0.18)),
+        #172032;
+      color: #dff7ff;
+      text-align: center;
+    }
+
+    body[data-theme="dark"] .article-cover-card {
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.13), transparent 30%),
+        linear-gradient(145deg, rgba(255, 210, 125, 0.20), rgba(18, 22, 33, 0.88) 44%, rgba(56, 189, 248, 0.18)),
+        #121620;
+      color: #f4fbff;
+    }
+
+    .article-cover-title {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      overflow: hidden;
+      color: var(--warm);
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 900;
+      line-height: 1.15;
+      text-wrap: balance;
     }
 
     .article-body {
@@ -425,7 +483,7 @@
       margin-top: 22px;
       padding: 24px 28px 28px;
       border-top: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(37, 99, 235, 0.03) 0%, transparent 100%);
+      background: var(--surface);
     }
 
     .related-posts h2 {
@@ -468,11 +526,7 @@
       min-height: 138px;
       padding: 12px;
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
-    }
-
-    body[data-theme="dark"] .related-card-media {
-      background: linear-gradient(135deg, #1d4f91 0%, #0f172a 100%);
+      background: var(--surface-soft);
     }
 
     .related-card-media img {
@@ -481,6 +535,41 @@
       height: 100%;
       object-fit: contain;
       object-position: center;
+    }
+
+    .related-cover-card {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      min-height: 138px;
+      padding: 18px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.20), transparent 30%),
+        linear-gradient(145deg, rgba(56, 189, 248, 0.18), rgba(30, 41, 59, 0.04) 34%, rgba(2, 132, 199, 0.18)),
+        #172032;
+      color: #dff7ff;
+      text-align: center;
+    }
+
+    body[data-theme="dark"] .related-cover-card {
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.13), transparent 30%),
+        linear-gradient(145deg, rgba(255, 210, 125, 0.20), rgba(18, 22, 33, 0.88) 44%, rgba(56, 189, 248, 0.18)),
+        #121620;
+      color: #f4fbff;
+    }
+
+    .related-cover-title {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      color: var(--warm);
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.2;
+      text-wrap: balance;
     }
 
     .related-card-body {
@@ -546,12 +635,8 @@
       padding: 18px 20px;
       border-left: 4px solid var(--accent);
       border-radius: 0 var(--radius-md) var(--radius-md) 0;
-      background: #eff6ff;
+      background: var(--surface-soft);
       color: var(--text-soft);
-    }
-
-    body[data-theme="dark"] .article-body blockquote {
-      background: rgba(125, 178, 255, 0.1);
     }
 
     .article-body hr {
@@ -639,6 +724,14 @@
   {% assign current_slug_source = page.slug | default: page.url | downcase %}
   {% assign current_slug_tokens = current_slug_source | replace: "/", " " | replace: "-", " " | split: " " %}
   {% assign candidate_posts = site.pages | sort: "date" | reverse %}
+  {% assign page_categories = page.categories %}
+  {% if page_categories == nil or page_categories == empty %}
+    {% if page.category %}
+      {% assign page_categories = page.category | split: "|" %}
+    {% else %}
+      {% assign page_categories = "" | split: "|" %}
+    {% endif %}
+  {% endif %}
   {% capture current_slug_lookup %}|{% endcapture %}
   {% for token in current_slug_tokens %}
     {% assign normalized_token = token | strip %}
@@ -655,21 +748,29 @@
         <strong>База знаний</strong>
       </div>
       <nav class="nav">
-        <button class="theme-switch" id="theme-toggle" type="button" aria-label="Переключить тему">
-          <span class="theme-switch-label" id="theme-label">Светлая</span>
-          <span class="theme-switch-track" aria-hidden="true">
-            <span class="theme-switch-thumb"></span>
-          </span>
-        </button>
-        <a class="nav-link" href="{{ site.baseurl }}/">Главная</a>
-        <a class="nav-link is-highlight" href="https://mentor.dima-sqlit.ru">Менторство</a>
-        <a class="nav-link is-success" href="{{ site.ai_course_url | default: "#" }}">Курс по AI</a>
-        <a class="social-link" href="https://t.me/dima_sqlit" aria-label="Telegram канал">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M21.4 4.6c.3-.9-.5-1.7-1.3-1.4L3.8 9.5c-1 .4-1 1.8.1 2.1l4.1 1.3 1.5 4.5c.3.9 1.5 1.1 2.1.4l2.3-2.8 4.5 3.3c.8.6 1.9.2 2.1-.8zM9.2 12.4l8.3-5.6-6.7 6.5-.3 3.6z"/>
-          </svg>
-          <span>Telegram-канал</span>
-        </a>
+        <div class="theme-menu">
+          <button class="theme-trigger" id="theme-trigger" type="button" aria-expanded="false" aria-controls="theme-popover">
+            <span class="theme-swatch theme-swatch--system" id="theme-trigger-swatch" aria-hidden="true"></span>
+            <span id="theme-label">Системная</span>
+          </button>
+          <div class="theme-popover" id="theme-popover">
+            <button class="theme-option" data-theme-choice="light" type="button">
+              <span class="theme-swatch theme-swatch--light" aria-hidden="true"></span>
+              Светлая
+            </button>
+            <button class="theme-option" data-theme-choice="dark" type="button">
+              <span class="theme-swatch theme-swatch--dark" aria-hidden="true"></span>
+              Темная
+            </button>
+            <button class="theme-option" data-theme-choice="system" type="button">
+              <span class="theme-swatch theme-swatch--system" aria-hidden="true"></span>
+              Системная
+            </button>
+          </div>
+        </div>
+        <a class="pill-link" href="{{ site.baseurl }}/">Главная</a>
+        <a class="pill-link" href="https://mentor.dima-sqlit.ru">Менторство</a>
+        <a class="telegram-button" href="https://t.me/dima_sqlit" target="_blank" rel="noopener noreferrer">Telegram <span aria-hidden="true">→</span></a>
       </nav>
     </header>
 
@@ -677,7 +778,10 @@
       <div class="article-head">
         <div class="meta-row">
           {% if page.date %}<span class="meta-chip">{{ page.date | date: "%Y-%m-%d" }}</span>{% endif %}
-          {% if page.category %}<span class="meta-chip">{{ page.category | upcase }}</span>{% endif %}
+          {% for category in page_categories %}
+            {% assign trimmed_category = category | strip %}
+            {% if trimmed_category != "" %}<span class="meta-chip">{{ trimmed_category | upcase }}</span>{% endif %}
+          {% endfor %}
           {% if page.telegram_link %}<a class="meta-chip" href="{{ page.telegram_link }}" target="_blank" rel="noopener noreferrer">Источник</a>{% endif %}
           {% if page.sources %}
             {% for source in page.sources %}
@@ -691,6 +795,10 @@
       <div class="article-cover">
         {% if page.cover %}
           <img src="{{ page.cover | relative_url }}" alt="{{ page.title | escape }}">
+        {% else %}
+          <div class="article-cover-card">
+            <span class="article-cover-title">{{ page.title }}</span>
+          </div>
         {% endif %}
       </div>
 
@@ -708,6 +816,14 @@
                 {% break %}
               {% endif %}
               {% if post.url != page.url and post.path contains 'posts/' and post.path contains '.md' %}
+                {% assign related_categories = post.categories %}
+                {% if related_categories == nil or related_categories == empty %}
+                  {% if post.category %}
+                    {% assign related_categories = post.category | split: "|" %}
+                  {% else %}
+                    {% assign related_categories = "" | split: "|" %}
+                  {% endif %}
+                {% endif %}
                 {% assign candidate_slug = post.slug | default: post.url | downcase %}
                 {% assign candidate_tokens = candidate_slug | replace: "/", " " | replace: "-", " " | split: " " %}
                 {% assign token_match = false %}
@@ -732,12 +848,17 @@
                       <a class="related-card-media" href="{{ post.url | relative_url }}">
                         {% if post.cover %}
                           <img src="{{ post.cover | relative_url }}" alt="{{ post.title | escape }}">
+                        {% else %}
+                          <span class="related-cover-card">
+                            <span class="related-cover-title">{{ post.title }}</span>
+                          </span>
                         {% endif %}
                       </a>
                       <div class="related-card-body">
                         <div class="related-card-meta">
                           {% if post.date %}<span>{{ post.date | date: "%Y-%m-%d" }}</span>{% endif %}
-                          {% if post.category %}<span>{{ post.category | upcase }}</span>{% endif %}
+                          {% assign related_primary_category = post.category | default: related_categories.first %}
+                          {% if related_primary_category %}<span>{{ related_primary_category | upcase }}</span>{% endif %}
                         </div>
                         <h3 class="related-card-title">
                           <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
@@ -757,18 +878,49 @@
                 {% break %}
               {% endif %}
               {% capture tracked_url %}|{{ post.url }}|{% endcapture %}
-              {% if post.url != page.url and post.path contains 'posts/' and post.path contains '.md' and post.category == page.category %}
+              {% assign has_shared_category = false %}
+              {% if post.url != page.url and post.path contains 'posts/' and post.path contains '.md' %}
+                {% assign related_categories = post.categories %}
+                {% if related_categories == nil or related_categories == empty %}
+                  {% if post.category %}
+                    {% assign related_categories = post.category | split: "|" %}
+                  {% else %}
+                    {% assign related_categories = "" | split: "|" %}
+                  {% endif %}
+                {% endif %}
+                {% for page_category in page_categories %}
+                  {% assign normalized_page_category = page_category | downcase | strip %}
+                  {% if normalized_page_category != "" %}
+                    {% for related_category in related_categories %}
+                      {% assign normalized_related_category = related_category | downcase | strip %}
+                      {% if normalized_related_category == normalized_page_category %}
+                        {% assign has_shared_category = true %}
+                        {% break %}
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                  {% if has_shared_category %}
+                    {% break %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+              {% if post.url != page.url and post.path contains 'posts/' and post.path contains '.md' and has_shared_category %}
                 {% unless shown_related_urls contains tracked_url %}
                   <article class="related-card">
                     <a class="related-card-media" href="{{ post.url | relative_url }}">
                       {% if post.cover %}
                         <img src="{{ post.cover | relative_url }}" alt="{{ post.title | escape }}">
+                      {% else %}
+                        <span class="related-cover-card">
+                          <span class="related-cover-title">{{ post.title }}</span>
+                        </span>
                       {% endif %}
                     </a>
                     <div class="related-card-body">
                       <div class="related-card-meta">
                         {% if post.date %}<span>{{ post.date | date: "%Y-%m-%d" }}</span>{% endif %}
-                        {% if post.category %}<span>{{ post.category | upcase }}</span>{% endif %}
+                        {% assign related_primary_category = post.category | default: related_categories.first %}
+                        {% if related_primary_category %}<span>{{ related_primary_category | upcase }}</span>{% endif %}
                       </div>
                       <h3 class="related-card-title">
                         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
@@ -798,21 +950,67 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const themeToggle = document.getElementById('theme-toggle');
+      const themeTrigger = document.getElementById('theme-trigger');
+      const themeTriggerSwatch = document.getElementById('theme-trigger-swatch');
+      const themePopover = document.getElementById('theme-popover');
       const themeLabel = document.getElementById('theme-label');
+      const themeOptions = Array.from(document.querySelectorAll('.theme-option'));
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+      const labels = {
+        light: 'Светлая',
+        dark: 'Темная',
+        system: 'Системная'
+      };
 
-      function applyTheme(theme) {
-        document.body.dataset.theme = theme;
-        themeLabel.textContent = theme === 'dark' ? 'Темная' : 'Светлая';
+      function resolveTheme(choice) {
+        if (choice === 'system') {
+          return systemTheme.matches ? 'dark' : 'light';
+        }
+        return choice;
       }
 
-      const storedTheme = localStorage.getItem('site-theme');
-      applyTheme(storedTheme === 'dark' ? 'dark' : 'light');
+      function applyTheme(choice) {
+        const selected = choice || 'system';
+        document.body.dataset.theme = resolveTheme(selected);
+        themeLabel.textContent = labels[selected];
+        themeTriggerSwatch.className = `theme-swatch theme-swatch--${selected}`;
+        themeOptions.forEach((option) => {
+          option.classList.toggle('is-active', option.dataset.themeChoice === selected);
+        });
+      }
 
-      themeToggle.addEventListener('click', () => {
-        const nextTheme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('site-theme', nextTheme);
-        applyTheme(nextTheme);
+      function setTheme(choice) {
+        localStorage.setItem('site-theme-choice', choice);
+        applyTheme(choice);
+      }
+
+      const storedTheme = localStorage.getItem('site-theme-choice') || 'system';
+      applyTheme(storedTheme);
+
+      systemTheme.addEventListener('change', () => {
+        if ((localStorage.getItem('site-theme-choice') || 'system') === 'system') {
+          applyTheme('system');
+        }
+      });
+
+      themeTrigger.addEventListener('click', () => {
+        const isOpen = themePopover.classList.toggle('is-open');
+        themeTrigger.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      themeOptions.forEach((option) => {
+        option.addEventListener('click', () => {
+          setTheme(option.dataset.themeChoice);
+          themePopover.classList.remove('is-open');
+          themeTrigger.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!themeTrigger.contains(event.target) && !themePopover.contains(event.target)) {
+          themePopover.classList.remove('is-open');
+          themeTrigger.setAttribute('aria-expanded', 'false');
+        }
       });
     });
   </script>

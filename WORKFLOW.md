@@ -16,7 +16,8 @@
 layout: default
 title: "Мой новый пост"
 date: 2026-03-28
-category: sql
+categories:
+  - sql
 slug: moy-novyy-post
 excerpt: "Короткий анонс для карточки на главной."
 description: "Короткое SEO-описание статьи."

@@ -114,7 +114,7 @@ sources:
 
 Проверь по порядку:
 
-1. Есть ли нормальный `title`, `date`, `category`, `slug` в посте
+1. Есть ли нормальный `title`, `date`, `slug` и `categories` (или хотя бы `category`) в посте
 2. Запускается ли `bundle exec jekyll serve --livereload`
 3. Открываешь ли именно адрес с `dima-sqlit-knowledge`
 4. Нет ли в markdown старых ручных ссылок назад

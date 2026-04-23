@@ -5,11 +5,35 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 {% assign sorted_pages = site.pages | sort: "date" | reverse %}
 {% assign post_count = 0 %}
 {% assign latest_year = 0 %}
+{% assign sql_count = 0 %}
+{% assign python_count = 0 %}
+{% assign bi_count = 0 %}
+{% assign ai_count = 0 %}
 {% assign ai_course_url = site.ai_course_url | default: "#" %}
 {% for post in sorted_pages %}
   {% if post.path contains 'posts/' and post.path contains '.md' %}
     {% assign post_count = post_count | plus: 1 %}
     {% assign post_year = post.date | date: "%Y" | plus: 0 %}
+    {% assign post_categories = post.categories %}
+    {% if post_categories == nil or post_categories == empty %}
+      {% if post.category %}
+        {% assign post_categories = post.category | split: "|" %}
+      {% else %}
+        {% assign post_categories = "" | split: "|" %}
+      {% endif %}
+    {% endif %}
+    {% for post_category in post_categories %}
+      {% assign normalized_post_category = post_category | downcase | strip %}
+      {% if normalized_post_category == "sql" %}
+        {% assign sql_count = sql_count | plus: 1 %}
+      {% elsif normalized_post_category == "python" %}
+        {% assign python_count = python_count | plus: 1 %}
+      {% elsif normalized_post_category == "bi" %}
+        {% assign bi_count = bi_count | plus: 1 %}
+      {% elsif normalized_post_category == "ai" %}
+        {% assign ai_count = ai_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
     {% if post_year > latest_year %}
       {% assign latest_year = post_year %}
     {% endif %}
@@ -24,41 +48,39 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
   {% seo %}
   <style>
     :root {
-      --bg: #f6f7fb;
+      --bg: #f4f8fb;
       --surface: #ffffff;
-      --surface-soft: #f0f4fa;
-      --line: #dbe2ea;
-      --line-strong: #c7d2df;
-      --text-main: #17202b;
-      --text-soft: #526070;
-      --text-faint: #748295;
-      --accent: #2563eb;
-      --accent-soft: #e8f0ff;
-      --accent-strong: #1d4ed8;
-      --success-soft: #eefbf3;
-      --success-line: #c8edd7;
-      --shadow: 0 20px 50px rgba(15, 23, 42, 0.06);
-      --radius-xl: 28px;
-      --radius-lg: 22px;
-      --radius-md: 16px;
+      --surface-soft: #edf5fb;
+      --surface-muted: #e4edf5;
+      --line: #cddbe8;
+      --line-strong: #a9c4d8;
+      --text-main: #14202b;
+      --text-soft: #536576;
+      --text-faint: #7d8c99;
+      --accent: #38bdf8;
+      --accent-strong: #0284c7;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --warm: #ffd27d;
+      --shadow: 0 24px 70px rgba(14, 116, 144, 0.12);
+      --radius: 18px;
       --transition: 180ms ease;
     }
 
     body[data-theme="dark"] {
-      --bg: #0f172a;
-      --surface: #111827;
-      --surface-soft: #1e293b;
-      --line: #263244;
-      --line-strong: #3a4a61;
-      --text-main: #e5edf8;
-      --text-soft: #aab8cc;
-      --text-faint: #8a9bb3;
-      --accent: #7db2ff;
-      --accent-soft: rgba(125, 178, 255, 0.12);
-      --accent-strong: #5798ff;
-      --success-soft: rgba(34, 197, 94, 0.12);
-      --success-line: rgba(74, 222, 128, 0.24);
-      --shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
+      --bg: #111315;
+      --surface: #181a1d;
+      --surface-soft: #202327;
+      --surface-muted: #282c31;
+      --line: #2d3238;
+      --line-strong: #3d4650;
+      --text-main: #f2f5f7;
+      --text-soft: #a5abb2;
+      --text-faint: #777f88;
+      --accent: #7dd3fc;
+      --accent-strong: #38bdf8;
+      --accent-soft: rgba(125, 211, 252, 0.14);
+      --warm: #ffd37a;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
     }
 
     * {
@@ -73,773 +95,834 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       margin: 0;
       min-height: 100vh;
       background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08) 0, rgba(37, 99, 235, 0) 28%),
-        linear-gradient(180deg, #fbfcfe 0%, var(--bg) 100%);
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.18), transparent 34%),
+        linear-gradient(180deg, #f9fcff 0%, var(--bg) 42%, var(--bg) 100%);
       color: var(--text-main);
       font-family: "Segoe UI", Arial, sans-serif;
-      line-height: 1.6;
+      line-height: 1.55;
       transition: background-color var(--transition), color var(--transition);
     }
 
     body[data-theme="dark"] {
       background:
-        radial-gradient(circle at top left, rgba(125, 178, 255, 0.08) 0, rgba(125, 178, 255, 0) 24%),
-        linear-gradient(180deg, #08111f 0%, var(--bg) 100%);
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.10), transparent 30%),
+        linear-gradient(180deg, #111315 0%, #14171a 48%, #111315 100%);
     }
 
     a {
       color: inherit;
       text-decoration: none;
-      transition: color var(--transition), border-color var(--transition), background-color var(--transition), transform var(--transition), box-shadow var(--transition);
     }
 
     button,
-    input,
-    select {
+    input {
       font: inherit;
     }
 
-    .container {
-      width: min(1180px, calc(100% - 32px));
+    .page-shell {
+      width: min(1520px, calc(100% - 24px));
       margin: 0 auto;
-      padding: 24px 0 64px;
+      padding: 26px 0 54px;
     }
 
     .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto;
+      align-items: start;
+      gap: 22px;
+      margin-bottom: 46px;
     }
 
     .brand {
-      display: grid;
-      gap: 6px;
+      max-width: 760px;
     }
 
     .brand-mark {
-      color: var(--text-faint);
+      display: inline-flex;
+      margin-bottom: 10px;
+      color: var(--accent-strong);
       font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
+      font-weight: 800;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
     }
 
     .brand-name {
       margin: 0;
-      font-size: clamp(30px, 5vw, 44px);
-      line-height: 1;
-      letter-spacing: -0.04em;
+      font-size: clamp(42px, 6vw, 74px);
+      line-height: 0.96;
+      letter-spacing: 0;
     }
 
     .brand-summary {
-      margin: 0;
-      max-width: 760px;
+      margin: 20px 0 0;
+      max-width: 710px;
       color: var(--text-soft);
-      font-size: 15px;
+      font-size: clamp(17px, 2vw, 24px);
+      font-weight: 600;
     }
 
     .nav {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
       justify-content: flex-end;
       align-items: center;
+      gap: 12px;
     }
 
-    .nav-link {
-      padding: 10px 14px;
+    .pill-link,
+    .telegram-button,
+    .theme-trigger {
+      min-height: 48px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.82);
-      color: var(--text-soft);
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    body[data-theme="dark"] .nav-link {
-      background: rgba(17, 24, 39, 0.92);
-    }
-
-    .nav-link:hover {
-      border-color: var(--line-strong);
+      background: var(--surface-soft);
       color: var(--text-main);
-      background: var(--surface);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: transform var(--transition), border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
     }
 
-    .nav-link.is-highlight {
-      background: var(--accent-soft);
-      border-color: rgba(37, 99, 235, 0.18);
-      color: var(--accent-strong);
+    .pill-link:hover,
+    .telegram-button:hover,
+    .theme-trigger:hover {
+      transform: translateY(-1px);
+      border-color: var(--line-strong);
     }
 
-    .nav-link.is-success {
-      background: var(--success-soft);
-      border-color: var(--success-line);
-      color: #15803d;
-    }
-
-    body[data-theme="dark"] .nav-link.is-success {
-      color: #86efac;
-    }
-
-    .social-link {
+    .pill-link {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      min-height: 48px;
       padding: 0 18px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.82);
-      color: var(--text-soft);
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 13px;
     }
 
-    body[data-theme="dark"] .social-link {
-      background: rgba(17, 24, 39, 0.92);
-    }
-
-    .social-link:hover {
-      border-color: var(--line-strong);
-      color: var(--text-main);
-      background: var(--surface);
-    }
-
-    .social-link svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-      flex: 0 0 auto;
-    }
-
-    .theme-switch {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 6px 4px 8px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.82);
-      color: var(--text-soft);
-      cursor: pointer;
-    }
-
-    body[data-theme="dark"] .theme-switch {
-      background: rgba(17, 24, 39, 0.92);
-    }
-
-    .theme-switch-label {
-      font-size: 11px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .theme-switch-track {
-      position: relative;
-      width: 38px;
-      height: 22px;
-      border-radius: 999px;
-      background: #cbd5e1;
-      transition: background-color var(--transition);
-      flex: 0 0 auto;
-    }
-
-    .theme-switch-thumb {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #ffffff;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
-      transition: transform var(--transition);
-    }
-
-    body[data-theme="dark"] .theme-switch-track {
-      background: #2563eb;
-    }
-
-    body[data-theme="dark"] .theme-switch-thumb {
-      transform: translateX(16px);
-    }
-
-    .hero,
-    .posts-panel,
-    .footer {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      background: rgba(255, 255, 255, 0.86);
-      box-shadow: var(--shadow);
-    }
-
-    body[data-theme="dark"] .hero,
-    body[data-theme="dark"] .posts-panel,
-    body[data-theme="dark"] .footer {
-      background: rgba(17, 24, 39, 0.88);
-    }
-
-    .hero {
-      padding: 32px;
-      margin-bottom: 20px;
-    }
-
-    .hero-copy {
-      max-width: 860px;
-    }
-
-    .hero-copy h2 {
-      margin: 0 0 14px;
-      font-size: clamp(34px, 6vw, 58px);
-      line-height: 0.98;
-      letter-spacing: -0.05em;
-    }
-
-    .hero-copy p {
-      margin: 0 0 22px;
-      color: var(--text-soft);
-      font-size: 17px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .button-primary {
+    .telegram-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 46px;
-      padding: 0 18px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 700;
-      background: var(--accent);
-      color: #ffffff;
-    }
-
-    .hero-stats {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
-    }
-
-    .stat-card {
-      padding: 16px;
-      border-radius: var(--radius-md);
-      background: var(--surface-soft);
-      border: 1px solid var(--line);
-    }
-
-    .stat-card strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 26px;
-      line-height: 1;
-      letter-spacing: -0.04em;
-    }
-
-    .stat-card span {
-      color: var(--text-soft);
-      font-size: 13px;
-    }
-
-    .inline-link {
-      color: var(--accent);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .section-label {
-      margin: 0 0 10px;
-      color: var(--text-faint);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .posts-panel {
-      padding: 24px;
-    }
-
-    .posts-toolbar {
-      display: grid;
-      gap: 18px;
-      margin-bottom: 20px;
-    }
-
-    .section-heading h2 {
-      margin: 0 0 6px;
-      font-size: 32px;
-      line-height: 1;
-      letter-spacing: -0.04em;
-    }
-
-    .section-heading p {
-      margin: 0;
-      color: var(--text-soft);
+      min-width: 178px;
+      padding: 0 28px;
+      border: 0;
+      background: linear-gradient(135deg, #e0f7ff, var(--accent), #93e5ff);
+      color: #082532;
+      box-shadow: 0 14px 34px rgba(56, 189, 248, 0.28);
       font-size: 15px;
     }
 
-    .toolbar-controls {
-      display: grid;
-      gap: 16px;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      background: var(--surface-soft);
+    body[data-theme="dark"] .telegram-button {
+      background: linear-gradient(135deg, #dff7ff, #7dd3fc, #b6ecff);
+      color: #08151d;
     }
 
-    .controls-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px 18px;
-      align-items: end;
-      justify-content: space-between;
+    .telegram-button svg,
+    .pill-link svg,
+    .search-icon {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      fill: currentColor;
     }
 
-    .filter-group {
-      display: grid;
+    .theme-menu {
+      position: relative;
+    }
+
+    .theme-trigger {
+      display: inline-flex;
+      align-items: center;
       gap: 10px;
-      flex: 1 1 420px;
-    }
-
-    .filter-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .filter-btn,
-    .clear-filters-btn,
-    .control-field input,
-    .control-field select {
-      min-height: 42px;
-      padding: 0 14px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #ffffff;
-      color: var(--text-main);
-      font-size: 14px;
-    }
-
-    .filter-btn,
-    .clear-filters-btn {
+      padding: 0 16px;
       cursor: pointer;
-      font-weight: 700;
-      border-radius: 999px;
-      color: var(--text-soft);
     }
 
-    body[data-theme="dark"] .filter-btn,
-    body[data-theme="dark"] .clear-filters-btn,
-    body[data-theme="dark"] .control-field input,
-    body[data-theme="dark"] .control-field select {
-      background: #0f172a;
+    .theme-swatch {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      border: 1.5px solid currentColor;
+    }
+
+    .theme-swatch--light {
+      background: radial-gradient(circle at center, currentColor 0 30%, transparent 32% 100%);
+      box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 18%, transparent);
+    }
+
+    .theme-swatch--dark {
+      border-color: transparent;
+      background: currentColor;
+      box-shadow: inset 6px 0 0 0 var(--surface-soft);
+    }
+
+    .theme-swatch--system {
+      width: 18px;
+      height: 14px;
+      margin-top: 1px;
+      border-radius: 4px;
+      background: transparent;
+    }
+
+    .theme-swatch--system::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      bottom: -4px;
+      width: 6px;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .theme-popover {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      z-index: 30;
+      width: 188px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-4px);
+      transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+    }
+
+    .theme-popover.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .theme-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-height: 46px;
+      padding: 0 12px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-soft);
+      cursor: pointer;
+      text-align: left;
+      font-weight: 800;
+    }
+
+    .theme-option:hover,
+    .theme-option.is-active {
+      background: var(--surface-soft);
+      color: var(--text-main);
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 252px minmax(0, 1fr);
+      gap: 48px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 22px;
+      display: grid;
+      gap: 26px;
+    }
+
+    .side-title {
+      margin: 0 0 14px;
+      color: var(--text-faint);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .category-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      min-height: 46px;
+      padding: 0 16px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: transparent;
+      color: var(--text-soft);
+      cursor: pointer;
+      font-weight: 800;
+      text-align: left;
+      transition: background-color var(--transition), border-color var(--transition), color var(--transition);
     }
 
     .filter-btn:hover,
-    .filter-btn.active,
-    .clear-filters-btn:hover {
-      border-color: #9cb6f5;
+    .filter-btn.active {
+      border-color: rgba(56, 189, 248, 0.38);
       background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    .filter-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: var(--surface-soft);
       color: var(--text-main);
+      font-size: 15px;
+      font-weight: 900;
     }
 
-    .clear-filters-btn.is-hidden {
-      display: none;
+    .mini-panel {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: color-mix(in srgb, var(--surface) 76%, transparent);
     }
 
-    .control-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px 18px;
-      align-items: end;
+    .mini-panel strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 24px;
     }
 
-    .control-field {
-      display: grid;
-      gap: 8px;
-      min-width: 220px;
-      flex: 1 1 220px;
-    }
-
-    .control-field label {
-      color: var(--text-main);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .control-field select {
-      appearance: none;
-      background-image: linear-gradient(45deg, transparent 50%, var(--text-soft) 50%), linear-gradient(135deg, var(--text-soft) 50%, transparent 50%);
-      background-position: calc(100% - 18px) calc(50% - 3px), calc(100% - 12px) calc(50% - 3px);
-      background-size: 6px 6px, 6px 6px;
-      background-repeat: no-repeat;
-      padding-right: 34px;
-      font-weight: 600;
-    }
-
-    .control-field input:focus,
-    .control-field select:focus {
-      border-color: #9cb6f5;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
-      outline: none;
-    }
-
-    .toolbar-help {
+    .mini-panel span {
       color: var(--text-soft);
       font-size: 14px;
+    }
+
+    .main-column {
+      min-width: 0;
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      height: 56px;
+      padding: 0 54px 0 52px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface-soft);
+      color: var(--text-main);
+      outline: none;
+      font-size: 16px;
+      transition: border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent);
+      background: var(--surface);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    .search-box input::placeholder {
+      color: var(--text-faint);
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 19px;
+      left: 18px;
+      color: var(--text-faint);
+    }
+
+    .shortcut {
+      position: absolute;
+      top: 13px;
+      right: 14px;
+      min-width: 30px;
+      padding: 4px 7px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--text-faint);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .sort-select {
+      min-width: 178px;
+      height: 56px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface-soft);
+      color: var(--text-main);
+      outline: none;
+      font-weight: 800;
     }
 
     .posts-list {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
+      gap: 28px;
     }
 
     .post-item {
-      display: grid;
-      grid-template-rows: 180px auto;
+      min-width: 0;
       overflow: hidden;
       border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius);
       background: var(--surface);
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.05);
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+    }
+
+    body[data-theme="dark"] .post-item {
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.24);
     }
 
     .post-item:hover {
-      border-color: var(--line-strong);
-      transform: translateY(-2px);
-      box-shadow: 0 18px 32px rgba(15, 23, 42, 0.06);
+      transform: translateY(-3px);
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: var(--shadow);
     }
 
     .post-item.is-hidden {
       display: none;
     }
 
-    .post-media {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
-      padding: 12px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    body[data-theme="dark"] .post-media {
-      background: linear-gradient(135deg, #1d4f91 0%, #0f172a 100%);
+    .post-media,
+    .post-cover-card {
+      display: block;
+      width: 100%;
+      min-height: 226px;
+      aspect-ratio: 1.68;
+      overflow: hidden;
     }
 
     .post-media img {
-      display: block;
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      object-position: center;
+      object-fit: cover;
+      display: block;
+    }
+
+    .post-cover-card {
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 30px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.20), transparent 30%),
+        linear-gradient(145deg, rgba(56, 189, 248, 0.18), rgba(30, 41, 59, 0.04) 34%, rgba(2, 132, 199, 0.18)),
+        #172032;
+      color: #dff7ff;
+      text-align: center;
+    }
+
+    body[data-theme="dark"] .post-cover-card {
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.13), transparent 30%),
+        linear-gradient(145deg, rgba(255, 210, 125, 0.20), rgba(18, 22, 33, 0.88) 44%, rgba(56, 189, 248, 0.18)),
+        #121620;
+      color: #f4fbff;
+    }
+
+    .cover-chip {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 11px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.10);
+      color: var(--warm);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: lowercase;
+    }
+
+    .cover-title {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      overflow: hidden;
+      color: var(--warm);
+      font-size: clamp(20px, 2vw, 25px);
+      font-weight: 900;
+      line-height: 1.2;
+      text-wrap: balance;
     }
 
     .post-body {
       display: grid;
-      gap: 12px;
-      padding: 18px;
-    }
-
-    .post-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      color: var(--text-faint);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .post-body h3 {
-      margin: 0;
-      font-size: 20px;
-      line-height: 1.18;
-      letter-spacing: -0.03em;
+      gap: 16px;
+      padding: 20px;
     }
 
     .post-body p {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      min-height: 50px;
       margin: 0;
       color: var(--text-soft);
-      font-size: 14px;
+      font-size: 15px;
+    }
+
+    .post-tag {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .post-tag span {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--text-soft);
+      font-size: 13px;
+      font-weight: 800;
     }
 
     .post-footer {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 10px 14px;
-    }
-
-    .telegram-link {
+      gap: 14px;
       color: var(--text-faint);
       font-size: 14px;
-      font-weight: 600;
+    }
+
+    .post-date {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .post-date svg {
+      width: 15px;
+      height: 15px;
+      fill: currentColor;
+    }
+
+    .inline-link {
+      color: var(--accent-strong);
+      font-weight: 900;
+      white-space: nowrap;
     }
 
     .load-more-row {
       display: flex;
       justify-content: center;
-      margin-top: 22px;
+      margin-top: 36px;
     }
 
     .load-more-btn {
-      min-height: 44px;
-      padding: 0 18px;
-      border: 1px solid var(--line);
+      min-height: 52px;
+      padding: 0 28px;
+      border: 0;
       border-radius: 999px;
-      background: #ffffff;
-      color: var(--text-main);
+      background: linear-gradient(135deg, #e0f7ff, var(--accent), #93e5ff);
+      color: #082532;
       cursor: pointer;
-      font-size: 14px;
-      font-weight: 700;
+      font-weight: 900;
+      box-shadow: 0 14px 34px rgba(56, 189, 248, 0.24);
     }
 
-    body[data-theme="dark"] .load-more-btn {
-      background: #0f172a;
-    }
-
-    .load-more-btn:hover {
-      border-color: var(--line-strong);
-      background: var(--surface-soft);
-    }
-
-    .load-more-btn.is-hidden,
-    .no-results {
+    .load-more-btn.is-hidden {
       display: none;
     }
 
-    .no-results.visible {
-      display: block;
-      padding-top: 20px;
+    .no-results {
+      display: none;
+      margin: 28px 0 0;
+      padding: 22px;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius);
       color: var(--text-soft);
       text-align: center;
     }
 
+    .no-results.visible {
+      display: block;
+    }
+
     .footer {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
-      gap: 12px;
-      padding: 20px 24px;
-      margin-top: 20px;
-      color: var(--text-soft);
+      gap: 18px;
+      margin-top: 58px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+      color: var(--text-faint);
       font-size: 14px;
     }
 
     .footer a {
-      color: var(--text-main);
-      font-weight: 600;
+      color: var(--accent-strong);
+      font-weight: 800;
     }
 
-    @media (max-width: 1080px) {
+    @media (max-width: 1180px) {
       .posts-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
-    @media (max-width: 760px) {
-      .container {
-        width: min(100% - 20px, 1180px);
-        padding: 16px 0 40px;
-      }
-
-      .topbar {
-        flex-direction: column;
+    @media (max-width: 900px) {
+      .topbar,
+      .content-grid,
+      .search-row {
+        grid-template-columns: 1fr;
       }
 
       .nav {
         justify-content: flex-start;
       }
 
-      .hero,
-      .posts-panel,
-      .footer {
-        border-radius: 20px;
+      .sidebar {
+        position: static;
       }
 
-      .hero {
-        padding: 20px;
+      .category-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page-shell {
+        width: min(100% - 20px, 1520px);
+        padding-top: 18px;
       }
 
-      .hero-copy h2 {
-        font-size: 42px;
+      .topbar {
+        margin-bottom: 32px;
       }
 
-      .hero-stats,
+      .brand-name {
+        font-size: 40px;
+      }
+
+      .brand-summary {
+        font-size: 17px;
+      }
+
+      .nav {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .telegram-button,
+      .pill-link,
+      .theme-trigger {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .theme-popover {
+        left: 0;
+        right: auto;
+        width: 100%;
+      }
+
+      .category-list,
       .posts-list {
         grid-template-columns: 1fr;
+      }
+
+      .post-media,
+      .post-cover-card {
+        min-height: 194px;
+      }
+
+      .footer {
+        display: grid;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="page-shell">
     <header class="topbar">
       <div class="brand">
         <span class="brand-mark">Dima SQL-it knowledge base</span>
         <h1 class="brand-name">База знаний</h1>
-        <p class="brand-summary">Всех приветствую. Здесь вы найдете полезные статьи по теме аналитики данных, искусственного интеллекта, вайбкодинга, мыслей автора и не только.</p>
+        <p class="brand-summary">Практичные разборы по SQL, Python, BI и AI, чтобы быстрее решать рабочие задачи, расти в аналитике и не тратить часы на поиск нормального объяснения.</p>
       </div>
-      <nav class="nav">
-        <button class="theme-switch" id="theme-toggle" type="button" aria-label="Переключить тему">
-          <span class="theme-switch-label" id="theme-label">Светлая</span>
-          <span class="theme-switch-track" aria-hidden="true">
-            <span class="theme-switch-thumb"></span>
-          </span>
-        </button>
-        <a class="nav-link" href="{{ site.baseurl }}/">Главная</a>
-        <a class="nav-link is-highlight" href="https://mentor.dima-sqlit.ru">Менторство</a>
-        <a class="nav-link is-success" href="{{ ai_course_url }}">Курс по AI</a>
-        <a class="social-link" href="https://t.me/dima_sqlit" aria-label="Telegram канал">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M21.4 4.6c.3-.9-.5-1.7-1.3-1.4L3.8 9.5c-1 .4-1 1.8.1 2.1l4.1 1.3 1.5 4.5c.3.9 1.5 1.1 2.1.4l2.3-2.8 4.5 3.3c.8.6 1.9.2 2.1-.8zM9.2 12.4l8.3-5.6-6.7 6.5-.3 3.6z"/>
-          </svg>
-          <span>Telegram-канал</span>
+
+      <nav class="nav" aria-label="Главная навигация">
+        <div class="theme-menu">
+          <button class="theme-trigger" id="theme-trigger" type="button" aria-expanded="false" aria-controls="theme-popover">
+            <span class="theme-swatch theme-swatch--system" id="theme-trigger-swatch" aria-hidden="true"></span>
+            <span id="theme-label">Системная</span>
+          </button>
+          <div class="theme-popover" id="theme-popover">
+            <button class="theme-option" data-theme-choice="light" type="button">
+              <span class="theme-swatch theme-swatch--light" aria-hidden="true"></span>
+              Светлая
+            </button>
+            <button class="theme-option" data-theme-choice="dark" type="button">
+              <span class="theme-swatch theme-swatch--dark" aria-hidden="true"></span>
+              Темная
+            </button>
+            <button class="theme-option" data-theme-choice="system" type="button">
+              <span class="theme-swatch theme-swatch--system" aria-hidden="true"></span>
+              Системная
+            </button>
+          </div>
+        </div>
+
+        <a class="pill-link" href="https://mentor.dima-sqlit.ru">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5Zm-7 8.2V15c0 2.2 3.1 4 7 4s7-1.8 7-4v-4.8l-7 3.5-7-3.5Z"/></svg>
+          Менторство
+        </a>
+        <a class="telegram-button" href="https://t.me/dima_sqlit" target="_blank" rel="noopener noreferrer">
+          Telegram
+          <span aria-hidden="true">→</span>
         </a>
       </nav>
     </header>
 
-    <section class="hero">
-      <div class="hero-copy">
-        <h2>Контент по аналитике и смежным темам в удобном каталоге.</h2>
-        <p>Поиск и фильтры находятся сразу рядом со списком статей, поэтому не нужно лишний раз скроллить страницу. Для большого архива я оставил более безопасный сценарий: не бесконечную ленту, а постепенную подгрузку карточек кнопкой.</p>
-        <div class="hero-actions">
-          <a class="button-primary" href="#posts-list">Смотреть статьи</a>
-        </div>
-        <div class="hero-stats">
-          <div class="stat-card">
-            <strong>{{ post_count }}</strong>
-            <span>материалов в базе</span>
-          </div>
-          <div class="stat-card">
-            <strong>6</strong>
-            <span>основных категорий</span>
-          </div>
-          <div class="stat-card">
-            <strong>2024–{{ latest_year }}</strong>
-            <span>архив публикаций</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="posts-panel">
-      <div class="posts-toolbar">
-        <div class="section-heading">
-          <p class="section-label">Каталог</p>
-          <h2>Все статьи</h2>
-          <p>Можно выбрать сразу несколько категорий, сортировку и тут же искать по заголовкам и описаниям.</p>
-        </div>
-
-        <div class="toolbar-controls">
-          <div class="controls-row">
-            <div class="filter-group">
-              <div class="filter-row">
-                <button class="filter-btn active" data-filter="all" type="button">Все</button>
-                <button class="filter-btn" data-filter="sql" type="button">SQL</button>
-                <button class="filter-btn" data-filter="python" type="button">Python</button>
-                <button class="filter-btn" data-filter="bi" type="button">BI</button>
-                <button class="filter-btn" data-filter="ai" type="button">AI</button>
-                <button class="filter-btn" data-filter="career" type="button">Career</button>
-                <button class="filter-btn" data-filter="automation" type="button">Automation</button>
-              </div>
-              <div class="filter-row">
-                <button class="clear-filters-btn is-hidden" id="clear-filters" type="button">Сбросить фильтры</button>
-              </div>
-            </div>
-
-            <div class="control-field">
-              <label for="sort-select">Сортировка</label>
-              <select id="sort-select">
-                <option value="date_desc">Сначала новые</option>
-                <option value="date_asc">Сначала старые</option>
-                <option value="title_asc">От А до Я</option>
-                <option value="title_desc">От Я до А</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="control-row">
-            <div class="control-field">
-              <label for="search">Поиск по заголовкам и описаниям</label>
-              <input type="text" id="search" placeholder="Например: SQL, Airflow, Python...">
-            </div>
-          </div>
-
-          <div class="toolbar-help">
-            Поддержка нескольких категорий уже заложена: если у статьи будет массив <code>categories</code> в frontmatter, она сможет попадать сразу в несколько фильтров.
+    <main class="content-grid">
+      <aside class="sidebar" aria-label="Категории">
+        <div>
+          <h2 class="side-title">Категории</h2>
+          <div class="category-list">
+            <button class="filter-btn active" data-filter="all" type="button">
+              <span>Все конспекты</span>
+              <span class="filter-count">{{ post_count }}</span>
+            </button>
+            <button class="filter-btn" data-filter="sql" type="button">
+              <span>SQL</span>
+              <span class="filter-count">{{ sql_count }}</span>
+            </button>
+            <button class="filter-btn" data-filter="python" type="button">
+              <span>Python</span>
+              <span class="filter-count">{{ python_count }}</span>
+            </button>
+            <button class="filter-btn" data-filter="bi" type="button">
+              <span>BI</span>
+              <span class="filter-count">{{ bi_count }}</span>
+            </button>
+            <button class="filter-btn" data-filter="ai" type="button">
+              <span>AI</span>
+              <span class="filter-count">{{ ai_count }}</span>
+            </button>
           </div>
         </div>
-      </div>
 
-      <div class="posts-list" id="posts-list">
-        {% for post in sorted_pages %}
-          {% if post.path contains 'posts/' and post.path contains '.md' %}
-            {% assign excerpt_text = post.excerpt | default: post.description | default: post.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip %}
-            {% assign categories_csv = "" %}
-            {% if post.categories %}
-              {% assign categories_csv = post.categories | join: "," | downcase %}
-            {% elsif post.category %}
-              {% assign categories_csv = post.category | downcase %}
-            {% endif %}
-            {% assign primary_category = post.category | default: post.categories.first %}
-            <article
-              class="post-item"
-              data-categories="{{ categories_csv }}"
-              data-title="{{ post.title | strip | escape }}"
-              data-title-lower="{{ post.title | downcase | escape }}"
-              data-excerpt="{{ excerpt_text | downcase | escape }}"
-              data-timestamp="{{ post.date | date: "%s" }}"
-            >
-              <a class="post-media" href="{{ site.baseurl }}{{ post.url }}">
-                {% if post.cover %}
-                  <img src="{{ post.cover | relative_url }}" alt="{{ post.title | escape }}">
+        <div class="mini-panel">
+          <strong>{{ post_count }}</strong>
+          <span>материалов в архиве за 2024–{{ latest_year }}</span>
+        </div>
+      </aside>
+
+      <section class="main-column" aria-label="Список статей">
+        <div class="search-row">
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.15 10.46l3.45 3.44a1 1 0 0 1-1.42 1.42l-3.44-3.45A6.5 6.5 0 1 1 10.5 4Zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z"/>
+            </svg>
+            <input type="text" id="search" placeholder="Поиск по статьям...">
+            <span class="shortcut">⌘K</span>
+          </div>
+          <select class="sort-select" id="sort-select" aria-label="Сортировка">
+            <option value="date_desc">Сначала новые</option>
+            <option value="date_asc">Сначала старые</option>
+            <option value="title_asc">От А до Я</option>
+            <option value="title_desc">От Я до А</option>
+          </select>
+        </div>
+
+        <div class="posts-list" id="posts-list">
+          {% for post in sorted_pages %}
+            {% if post.path contains 'posts/' and post.path contains '.md' %}
+              {% assign excerpt_text = post.excerpt | default: post.description | default: post.content | markdownify | strip_html | strip_newlines | replace: "  ", " " | strip %}
+              {% assign post_categories = post.categories %}
+              {% if post_categories == nil or post_categories == empty %}
+                {% if post.category %}
+                  {% assign post_categories = post.category | split: "|" %}
+                {% else %}
+                  {% assign post_categories = "" | split: "|" %}
                 {% endif %}
-              </a>
-              <div class="post-body">
-                <div class="post-meta">
-                  <span>{{ post.date | date: "%Y-%m-%d" }}</span>
-                  {% if post.categories %}
-                    <span>{{ post.categories | join: " · " | upcase }}</span>
-                  {% elsif primary_category %}
-                    <span>{{ primary_category | upcase }}</span>
+              {% endif %}
+              {% assign categories_csv = post_categories | join: "," | downcase %}
+              {% assign primary_category = post.category | default: post_categories.first %}
+              <article
+                class="post-item"
+                data-categories="{{ categories_csv }}"
+                data-title="{{ post.title | strip | escape }}"
+                data-title-lower="{{ post.title | downcase | escape }}"
+                data-excerpt="{{ excerpt_text | downcase | escape }}"
+                data-timestamp="{{ post.date | date: "%s" }}"
+              >
+                <a class="post-media" href="{{ post.url | relative_url }}" aria-label="{{ post.title | escape }}">
+                  {% if post.cover %}
+                    <img src="{{ post.cover | relative_url }}" alt="{{ post.title | escape }}">
+                  {% else %}
+                    <span class="post-cover-card">
+                      {% if primary_category %}<span class="cover-chip">{{ primary_category }}</span>{% endif %}
+                      <span class="cover-title">{{ post.title }}</span>
+                    </span>
                   {% endif %}
-                </div>
-                <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
-                <p>{{ excerpt_text | truncate: 150 }}</p>
-                <div class="post-footer">
-                  <a class="inline-link" href="{{ site.baseurl }}{{ post.url }}">Читать статью</a>
-                  {% if post.telegram_link %}
-                    <a href="{{ post.telegram_link }}" target="_blank" rel="noopener noreferrer" class="telegram-link">Источник</a>
+                </a>
+                <div class="post-body">
+                  {% if post_categories.size > 0 %}
+                    <div class="post-tag">
+                      {% for category in post_categories limit: 3 %}
+                        {% assign trimmed_category = category | strip %}
+                        {% if trimmed_category != "" %}<span>{{ trimmed_category }}</span>{% endif %}
+                      {% endfor %}
+                    </div>
                   {% endif %}
+                  <p>{{ excerpt_text | truncate: 132 }}</p>
+                  <div class="post-footer">
+                    <span class="post-date">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm13 8H4v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8Z"/></svg>
+                      {{ post.date | date: "%d.%m.%Y" }}
+                    </span>
+                    <a class="inline-link" href="{{ post.url | relative_url }}">Читать →</a>
+                  </div>
                 </div>
-              </div>
-            </article>
-          {% endif %}
-        {% endfor %}
-      </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
 
-      <div class="load-more-row">
-        <button class="load-more-btn" id="load-more" type="button">Показать еще</button>
-      </div>
+        <div class="load-more-row">
+          <button class="load-more-btn" id="load-more" type="button">Показать еще</button>
+        </div>
 
-      <p id="no-results" class="no-results">По запросу ничего не нашлось. Попробуй другую тему, поиск или сортировку.</p>
-    </section>
+        <p id="no-results" class="no-results">По запросу ничего не нашлось. Попробуй другую тему или категорию.</p>
+      </section>
+    </main>
 
     <footer class="footer">
-      <span>© 2024–{{ latest_year }} Дима SQL-it. Более нейтральная и устойчивая визуальная база для дальнейших доработок.</span>
+      <span>© 2024–{{ latest_year }} Дима SQL-it. База знаний для аналитиков и всех, кто любит быстро доходить до сути.</span>
       <span><a href="https://t.me/dima_sqlit">Telegram</a> · <a href="https://mentor.dima-sqlit.ru">Менторство</a></span>
     </footer>
   </div>
@@ -852,39 +935,81 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       const searchInput = document.getElementById('search');
       const sortSelect = document.getElementById('sort-select');
       const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
-      const clearFiltersButton = document.getElementById('clear-filters');
-      const activeFilters = new Set();
       const loadMoreButton = document.getElementById('load-more');
-      const themeToggle = document.getElementById('theme-toggle');
+      const themeTrigger = document.getElementById('theme-trigger');
+      const themeTriggerSwatch = document.getElementById('theme-trigger-swatch');
+      const themePopover = document.getElementById('theme-popover');
       const themeLabel = document.getElementById('theme-label');
+      const themeOptions = Array.from(document.querySelectorAll('.theme-option'));
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
       const pageSize = 12;
+      const labels = {
+        light: 'Светлая',
+        dark: 'Темная',
+        system: 'Системная'
+      };
       let visibleLimit = pageSize;
+      let activeFilters = new Set();
 
-      function applyTheme(theme) {
-        document.body.dataset.theme = theme;
-        themeLabel.textContent = theme === 'dark' ? 'Темная' : 'Светлая';
+      function resolveTheme(choice) {
+        if (choice === 'system') {
+          return systemTheme.matches ? 'dark' : 'light';
+        }
+        return choice;
       }
 
-      const storedTheme = localStorage.getItem('site-theme');
-      applyTheme(storedTheme === 'dark' ? 'dark' : 'light');
+      function applyTheme(choice) {
+        const selected = choice || 'system';
+        document.body.dataset.theme = resolveTheme(selected);
+        themeLabel.textContent = labels[selected];
+        themeTriggerSwatch.className = `theme-swatch theme-swatch--${selected}`;
+        themeOptions.forEach((option) => {
+          option.classList.toggle('is-active', option.dataset.themeChoice === selected);
+        });
+      }
 
-      themeToggle.addEventListener('click', () => {
-        const nextTheme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('site-theme', nextTheme);
-        applyTheme(nextTheme);
+      function setTheme(choice) {
+        localStorage.setItem('site-theme-choice', choice);
+        applyTheme(choice);
+      }
+
+      const storedTheme = localStorage.getItem('site-theme-choice') || 'system';
+      applyTheme(storedTheme);
+
+      systemTheme.addEventListener('change', () => {
+        if ((localStorage.getItem('site-theme-choice') || 'system') === 'system') {
+          applyTheme('system');
+        }
       });
 
-      function syncActiveState() {
-        filterButtons.forEach((button) => {
-          if (button.dataset.filter === 'all') {
-            button.classList.toggle('active', activeFilters.size === 0);
-          } else {
-            button.classList.toggle('active', activeFilters.has(button.dataset.filter));
-          }
-        });
+      themeTrigger.addEventListener('click', () => {
+        const isOpen = themePopover.classList.toggle('is-open');
+        themeTrigger.setAttribute('aria-expanded', String(isOpen));
+      });
 
-        clearFiltersButton.classList.toggle('is-hidden', activeFilters.size === 0);
-      }
+      themeOptions.forEach((option) => {
+        option.addEventListener('click', () => {
+          setTheme(option.dataset.themeChoice);
+          themePopover.classList.remove('is-open');
+          themeTrigger.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!themeTrigger.contains(event.target) && !themePopover.contains(event.target)) {
+          themePopover.classList.remove('is-open');
+          themeTrigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        const isMac = navigator.platform.toUpperCase().includes('MAC');
+        const modifierPressed = isMac ? event.metaKey : event.ctrlKey;
+        if (modifierPressed && event.key.toLowerCase() === 'k') {
+          event.preventDefault();
+          searchInput.focus();
+        }
+      });
 
       function sortPosts(items) {
         const mode = sortSelect.value;
@@ -942,15 +1067,18 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
           }
         });
 
+        filterButtons.forEach((button) => {
+          const filter = button.dataset.filter;
+          button.classList.toggle('active', filter === 'all' ? activeFilters.size === 0 : activeFilters.has(filter));
+        });
+
         noResults.classList.toggle('visible', sortedPosts.length === 0);
         loadMoreButton.classList.toggle('is-hidden', sortedPosts.length <= visibleLimit || sortedPosts.length === 0);
-        syncActiveState();
       }
 
       filterButtons.forEach((button) => {
         button.addEventListener('click', () => {
           const filter = button.dataset.filter;
-
           if (filter === 'all') {
             activeFilters.clear();
           } else if (activeFilters.has(filter)) {
@@ -958,14 +1086,8 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
           } else {
             activeFilters.add(filter);
           }
-
           applyFilters(true);
         });
-      });
-
-      clearFiltersButton.addEventListener('click', () => {
-        activeFilters.clear();
-        applyFilters(true);
       });
 
       searchInput.addEventListener('input', () => applyFilters(true));
