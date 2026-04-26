@@ -657,12 +657,83 @@
       border-radius: 0;
     }
 
+    .code-block {
+      position: relative;
+      margin: 18px 0;
+    }
+
+    .article-body .code-block pre {
+      margin: 0;
+      padding-top: 52px;
+    }
+
+    .copy-code-button,
+    .quick-nav-button {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text-main);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+      transition: transform var(--transition), border-color var(--transition), background-color var(--transition), color var(--transition), opacity var(--transition);
+    }
+
+    .copy-code-button:hover,
+    .quick-nav-button:hover {
+      transform: translateY(-1px);
+      border-color: var(--line-strong);
+      background: var(--surface-soft);
+    }
+
+    .copy-code-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      color: var(--text-soft);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .copy-code-button.is-copied {
+      border-color: var(--success-line);
+      background: var(--success-soft);
+      color: var(--text-main);
+    }
+
     .article-body blockquote {
       padding: 18px 20px;
       border-left: 4px solid var(--accent);
       border-radius: 0 var(--radius-md) var(--radius-md) 0;
       background: var(--surface-soft);
       color: var(--text-soft);
+    }
+
+    .article-body table {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      border-collapse: collapse;
+      border-spacing: 0;
+      font-size: 0.95em;
+    }
+
+    .article-body th,
+    .article-body td {
+      min-width: 160px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+
+    .article-body th {
+      background: var(--surface-soft);
+      text-align: left;
     }
 
     .article-body hr {
@@ -695,6 +766,30 @@
     .footer a {
       color: var(--text-main);
       font-weight: 600;
+    }
+
+    .quick-nav {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      display: grid;
+      gap: 8px;
+    }
+
+    .quick-nav-button {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      box-shadow: 0 12px 30px rgba(14, 116, 144, 0.16);
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    body[data-theme="dark"] .quick-nav-button {
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.3);
     }
 
     @media (max-width: 900px) {
@@ -759,6 +854,25 @@
 
       .article-body h3 {
         font-size: 23px;
+      }
+
+      .copy-code-button {
+        min-height: 32px;
+        padding: 0 10px;
+        font-size: 11px;
+      }
+
+      .quick-nav {
+        right: auto;
+        left: 50%;
+        bottom: 12px;
+        grid-template-columns: repeat(3, 42px);
+        transform: translateX(-50%);
+      }
+
+      .quick-nav-button {
+        width: 42px;
+        height: 42px;
       }
 
       .related-posts {
@@ -1007,6 +1121,12 @@
     </footer>
   </div>
 
+  <nav class="quick-nav" aria-label="Быстрая навигация">
+    <a class="quick-nav-button" href="{{ site.baseurl }}/" aria-label="На главную" title="На главную">⌂</a>
+    <button class="quick-nav-button" type="button" data-scroll-target="top" aria-label="Вверх" title="Вверх">↑</button>
+    <button class="quick-nav-button" type="button" data-scroll-target="bottom" aria-label="Вниз" title="Вниз">↓</button>
+  </nav>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const themeTrigger = document.getElementById('theme-trigger');
@@ -1073,6 +1193,74 @@
         if (!themeTrigger.contains(event.target) && !themePopover.contains(event.target)) {
           setThemePopoverOpen(false);
         }
+      });
+
+      async function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        textarea.remove();
+      }
+
+      document.querySelectorAll('.article-body pre').forEach((pre) => {
+        if (pre.closest('.code-block')) {
+          return;
+        }
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-block';
+        const button = document.createElement('button');
+        button.className = 'copy-code-button';
+        button.type = 'button';
+        button.textContent = 'Копировать';
+        button.setAttribute('aria-label', 'Скопировать код');
+
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+        wrapper.appendChild(button);
+
+        button.addEventListener('click', async () => {
+          const code = pre.innerText;
+
+          try {
+            await copyText(code);
+            button.textContent = 'Скопировано';
+            button.classList.add('is-copied');
+            setTimeout(() => {
+              button.textContent = 'Копировать';
+              button.classList.remove('is-copied');
+            }, 1600);
+          } catch (error) {
+            button.textContent = 'Не вышло';
+            setTimeout(() => {
+              button.textContent = 'Копировать';
+            }, 1600);
+          }
+        });
+      });
+
+      document.querySelectorAll('[data-scroll-target]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const target = button.dataset.scrollTarget;
+          const top = target === 'bottom'
+            ? Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
+            : 0;
+
+          window.scrollTo({
+            top,
+            behavior: 'smooth'
+          });
+        });
       });
     });
   </script>

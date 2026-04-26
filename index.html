@@ -709,6 +709,43 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       font-weight: 800;
     }
 
+    .quick-nav {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      display: grid;
+      gap: 8px;
+    }
+
+    .quick-nav-button {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text-main);
+      box-shadow: 0 12px 30px rgba(14, 116, 144, 0.16);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+      line-height: 1;
+      text-decoration: none;
+      transition: transform var(--transition), border-color var(--transition), background-color var(--transition);
+    }
+
+    .quick-nav-button:hover {
+      transform: translateY(-1px);
+      border-color: var(--line-strong);
+      background: var(--surface-soft);
+    }
+
+    body[data-theme="dark"] .quick-nav-button {
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.3);
+    }
+
     @media (max-width: 1180px) {
       .posts-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -758,6 +795,19 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       .theme-option {
         min-height: 50px;
         border-radius: 12px;
+      }
+
+      .quick-nav {
+        right: auto;
+        left: 50%;
+        bottom: 12px;
+        grid-template-columns: repeat(3, 42px);
+        transform: translateX(-50%);
+      }
+
+      .quick-nav-button {
+        width: 42px;
+        height: 42px;
       }
     }
 
@@ -968,6 +1018,12 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     </footer>
   </div>
 
+  <nav class="quick-nav" aria-label="Быстрая навигация">
+    <a class="quick-nav-button" href="{{ site.baseurl }}/" aria-label="На главную" title="На главную">⌂</a>
+    <button class="quick-nav-button" type="button" data-scroll-target="top" aria-label="Вверх" title="Вверх">↑</button>
+    <button class="quick-nav-button" type="button" data-scroll-target="bottom" aria-label="Вниз" title="Вниз">↓</button>
+  </nav>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const postsList = document.getElementById('posts-list');
@@ -1044,6 +1100,20 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         if (!themeTrigger.contains(event.target) && !themePopover.contains(event.target)) {
           setThemePopoverOpen(false);
         }
+      });
+
+      document.querySelectorAll('[data-scroll-target]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const target = button.dataset.scrollTarget;
+          const top = target === 'bottom'
+            ? Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
+            : 0;
+
+          window.scrollTo({
+            top,
+            behavior: 'smooth'
+          });
+        });
       });
 
       document.addEventListener('keydown', (event) => {
