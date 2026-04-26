@@ -4,8 +4,9 @@ title: "Как за 5 минут превратить CSV файлы в полн
 date: 2025-08-12
 category: sql
 slug: kak-za-5-minut-prevratit-csv-fayly-v-polnotsennuyu
+description: "Пошагово показываем, как за несколько минут превратить CSV-файлы в базу SQLite через DBeaver для JOIN, фильтрации и анализа."
 telegram_link: "https://t.me/c/2216284248/40"
----
+--- 
 🔥 **Как за 5 минут превратить CSV файлы в полноценную базу данных через SQLite в DBeaver:**
 
 💎 <u>Представьте:</u> 

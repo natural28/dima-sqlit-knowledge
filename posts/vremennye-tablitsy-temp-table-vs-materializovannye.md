@@ -4,8 +4,9 @@ title: "Временные таблицы (TEMP TABLE) vs Материализо
 date: 2025-09-22
 category: sql
 slug: vremennye-tablitsy-temp-table-vs-materializovannye
+description: "Понятное сравнение TEMP TABLE и MATERIALIZED VIEW в SQL: как они работают, где хранят данные и в чем между ними разница."
 telegram_link: "https://t.me/c/2216284248/68"
----
+--- 
 🧐 **Временные таблицы (TEMP TABLE) vs Материализованные представления (MATERIALIZED VIEW) в SQL — простое объяснение: что это такое и в чём разница? Часть 2.**
 
 Продолжаем разбираться с временными конструкциями в SQL.

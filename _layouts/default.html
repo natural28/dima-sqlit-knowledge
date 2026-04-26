@@ -18,6 +18,9 @@
       --accent: #38bdf8;
       --accent-soft: rgba(56, 189, 248, 0.15);
       --accent-strong: #0284c7;
+      --code-bg: #eef4fa;
+      --code-inline-bg: #e7f0f8;
+      --code-text: #14202b;
       --success-soft: #eefbf3;
       --success-line: #c8edd7;
       --shadow: 0 24px 70px rgba(14, 116, 144, 0.12);
@@ -39,6 +42,9 @@
       --accent: #7dd3fc;
       --accent-soft: rgba(125, 211, 252, 0.14);
       --accent-strong: #38bdf8;
+      --code-bg: #111827;
+      --code-inline-bg: #202327;
+      --code-text: #f8fafc;
       --success-soft: rgba(34, 197, 94, 0.12);
       --success-line: rgba(74, 222, 128, 0.24);
       --shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
@@ -63,6 +69,15 @@
       background:
         radial-gradient(circle at top right, rgba(56, 189, 248, 0.10), transparent 30%),
         linear-gradient(180deg, #111315 0%, #14171a 48%, #111315 100%);
+    }
+
+    body.theme-popover-open::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 25;
+      background: rgba(7, 12, 17, 0.42);
+      backdrop-filter: blur(4px);
     }
 
     a {
@@ -619,7 +634,8 @@
     .article-body code {
       padding: 0.12em 0.38em;
       border-radius: 8px;
-      background: var(--surface-soft);
+      background: var(--code-inline-bg);
+      color: var(--code-text);
       font-size: 0.9em;
     }
 
@@ -627,8 +643,18 @@
       overflow-x: auto;
       padding: 20px;
       border-radius: var(--radius-md);
-      background: #111827;
-      color: #f8fafc;
+      border: 1px solid var(--line);
+      background: var(--code-bg);
+      color: var(--code-text);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .article-body pre code {
+      display: block;
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      border-radius: 0;
     }
 
     .article-body blockquote {
@@ -669,6 +695,32 @@
     .footer a {
       color: var(--text-main);
       font-weight: 600;
+    }
+
+    @media (max-width: 900px) {
+      .theme-popover {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 12px !important;
+        left: 10px !important;
+        right: 10px !important;
+        width: auto !important;
+        max-width: calc(100vw - 20px) !important;
+        margin-top: 0;
+        border-radius: 18px;
+        transform: translateY(16px) !important;
+      }
+
+      .theme-popover.is-open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) !important;
+      }
+
+      .theme-option {
+        min-height: 50px;
+        border-radius: 12px;
+      }
     }
 
     @media (max-width: 760px) {
@@ -780,7 +832,14 @@
           {% if page.date %}<span class="meta-chip">{{ page.date | date: "%Y-%m-%d" }}</span>{% endif %}
           {% for category in page_categories %}
             {% assign trimmed_category = category | strip %}
-            {% if trimmed_category != "" %}<span class="meta-chip">{{ trimmed_category | upcase }}</span>{% endif %}
+            {% assign normalized_category = trimmed_category | downcase %}
+            {% if trimmed_category != "" %}
+              {% if normalized_category == "sql" or normalized_category == "python" or normalized_category == "bi" or normalized_category == "ai" %}
+                <a class="meta-chip" href="{{ '/category/' | append: normalized_category | append: '/' | relative_url }}">{{ trimmed_category | upcase }}</a>
+              {% else %}
+                <span class="meta-chip">{{ trimmed_category | upcase }}</span>
+              {% endif %}
+            {% endif %}
           {% endfor %}
           {% if page.telegram_link %}<a class="meta-chip" href="{{ page.telegram_link }}" target="_blank" rel="noopener noreferrer">Источник</a>{% endif %}
           {% if page.sources %}
@@ -984,6 +1043,12 @@
         applyTheme(choice);
       }
 
+      function setThemePopoverOpen(isOpen) {
+        themePopover.classList.toggle('is-open', isOpen);
+        themeTrigger.setAttribute('aria-expanded', String(isOpen));
+        document.body.classList.toggle('theme-popover-open', isOpen);
+      }
+
       const storedTheme = localStorage.getItem('site-theme-choice') || 'system';
       applyTheme(storedTheme);
 
@@ -994,22 +1059,19 @@
       });
 
       themeTrigger.addEventListener('click', () => {
-        const isOpen = themePopover.classList.toggle('is-open');
-        themeTrigger.setAttribute('aria-expanded', String(isOpen));
+        setThemePopoverOpen(!themePopover.classList.contains('is-open'));
       });
 
       themeOptions.forEach((option) => {
         option.addEventListener('click', () => {
           setTheme(option.dataset.themeChoice);
-          themePopover.classList.remove('is-open');
-          themeTrigger.setAttribute('aria-expanded', 'false');
+          setThemePopoverOpen(false);
         });
       });
 
       document.addEventListener('click', (event) => {
         if (!themeTrigger.contains(event.target) && !themePopover.contains(event.target)) {
-          themePopover.classList.remove('is-open');
-          themeTrigger.setAttribute('aria-expanded', 'false');
+          setThemePopoverOpen(false);
         }
       });
     });
