@@ -4,8 +4,9 @@ title: "SQL Ловушка: почему оператор NOT IN ломаетс�
 date: 2025-08-06
 category: sql
 slug: sql-lovushka-pochemu-operator-not-in-lomaetsya-a-e
+description: "Объясняем, почему NOT IN в SQL может ломаться из-за NULL, и когда EXISTS оказывается надежнее и понятнее."
 telegram_link: "https://t.me/c/2216284248/35"
----
+--- 
 ⚠️ **SQL Ловушка: почему оператор NOT IN ломается, а EXISTS работает**:
 
 Рассмотрим классическую проблему с которой встречались многие.

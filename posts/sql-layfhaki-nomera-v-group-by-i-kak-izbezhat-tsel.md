@@ -4,8 +4,9 @@ title: "SQL-лайфхаки — номера в GROUP BY и как избежа
 date: 2025-11-18
 category: sql
 slug: sql-layfhaki-nomera-v-group-by-i-kak-izbezhat-tsel
+description: "Разбираем SQL-лайфхаки с GROUP BY по номерам столбцов и делением без потери дробной части в расчетах."
 telegram_link: "https://t.me/c/2216284248/101"
----
+--- 
 💯 **SQL-лайфхаки — номера в GROUP BY и как избежать целых чисел в расчётах при делении:**
 
 <u>Группировка в SQL: по именам и по номерам столбцов</u> 🔵

@@ -4,8 +4,9 @@ title: "Как загружать данные из CSV, Excel или Pandas Dat
 date: 2025-09-30
 category: sql
 slug: kak-zagruzhat-dannye-iz-csv-excel-ili-pandas-dataf
+description: "Разбираем, как загружать CSV, Excel и Pandas DataFrame во временные данные ClickHouse без прав на создание таблиц."
 telegram_link: "https://t.me/c/2216284248/75"
----
+--- 
 😭 **Как загружать данные из CSV, Excel или Pandas DataFrame во временные таблицы ClickHouse:**
 
 Работая с ClickHouse, часто сталкиваешься с ситуацией: тебе дали список из десятков тысяч user_id или сотен городов, и нужно отфильтровать данные по ним. Но часто возникают проблемы следующего характера:

@@ -4,8 +4,9 @@ title: "Казалось бы, агрегатные функции в SQL (SUM, 
 date: 2025-08-27
 category: sql
 slug: kazalos-by-agregatnye-funktsii-v-sql-sum-avg-count
+description: "Объясняем, как агрегатные функции SUM, AVG и COUNT ведут себя с NULL в SQL и где из-за этого чаще всего ошибаются."
 telegram_link: "https://t.me/c/2216284248/54"
----
+--- 
 👨‍💻 **Казалось бы, агрегатные функции в SQL (SUM, AVG, COUNT) просто считают значения — что тут сложного? Но есть скрытая ловушка: как они ведут себя с NULL?**
 
 Давайте посмотрим на таблицу:

@@ -4,8 +4,9 @@ title: "Как работают конструкции ANY и ALL в SQL — о�
 date: 2025-08-29
 category: sql
 slug: kak-rabotayut-konstruktsii-any-i-all-v-sql-obyasne
+description: "Разбираем конструкции ANY и ALL в SQL на простых примерах: как они работают и когда полезнее обычных сравнений и подзапросов."
 telegram_link: "https://t.me/c/2216284248/55"
----
+--- 
 ⚡️ **Как работают конструкции ANY и ALL в SQL — объяснение на простых примерах:**
 
 Будем работать вот с такой таблицей:

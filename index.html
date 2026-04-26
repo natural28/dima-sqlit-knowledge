@@ -109,6 +109,15 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         linear-gradient(180deg, #111315 0%, #14171a 48%, #111315 100%);
     }
 
+    body.theme-popover-open::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 25;
+      background: rgba(7, 12, 17, 0.42);
+      backdrop-filter: blur(4px);
+    }
+
     a {
       color: inherit;
       text-decoration: none;
@@ -366,14 +375,27 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       cursor: pointer;
       font-weight: 800;
       text-align: left;
+      -webkit-tap-highlight-color: transparent;
       transition: background-color var(--transition), border-color var(--transition), color var(--transition);
     }
 
-    .filter-btn:hover,
     .filter-btn.active {
       border-color: rgba(56, 189, 248, 0.38);
       background: var(--accent-soft);
       color: var(--accent-strong);
+    }
+
+    .filter-btn:focus-visible {
+      outline: 2px solid color-mix(in srgb, var(--accent) 62%, transparent);
+      outline-offset: 2px;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .filter-btn:hover {
+        border-color: rgba(56, 189, 248, 0.38);
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+      }
     }
 
     .filter-count {
@@ -713,6 +735,32 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       }
     }
 
+    @media (max-width: 900px) {
+      .theme-popover {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 12px !important;
+        left: 10px !important;
+        right: 10px !important;
+        width: auto !important;
+        max-width: calc(100vw - 20px) !important;
+        margin-top: 0;
+        border-radius: 18px;
+        transform: translateY(16px) !important;
+      }
+
+      .theme-popover.is-open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) !important;
+      }
+
+      .theme-option {
+        min-height: 50px;
+        border-radius: 12px;
+      }
+    }
+
     @media (max-width: 620px) {
       .page-shell {
         width: min(100% - 20px, 1520px);
@@ -735,17 +783,10 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         display: grid;
         grid-template-columns: 1fr;
       }
-
       .telegram-button,
       .pill-link,
-      .theme-trigger {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .theme-popover {
-        left: 0;
-        right: auto;
+      .theme-trigger,
+      .theme-menu {
         width: 100%;
       }
 
@@ -949,7 +990,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         system: 'Системная'
       };
       let visibleLimit = pageSize;
-      let activeFilters = new Set();
+      const activeFilters = new Set();
 
       function resolveTheme(choice) {
         if (choice === 'system') {
@@ -973,6 +1014,12 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         applyTheme(choice);
       }
 
+      function setThemePopoverOpen(isOpen) {
+        themePopover.classList.toggle('is-open', isOpen);
+        themeTrigger.setAttribute('aria-expanded', String(isOpen));
+        document.body.classList.toggle('theme-popover-open', isOpen);
+      }
+
       const storedTheme = localStorage.getItem('site-theme-choice') || 'system';
       applyTheme(storedTheme);
 
@@ -983,22 +1030,19 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
       });
 
       themeTrigger.addEventListener('click', () => {
-        const isOpen = themePopover.classList.toggle('is-open');
-        themeTrigger.setAttribute('aria-expanded', String(isOpen));
+        setThemePopoverOpen(!themePopover.classList.contains('is-open'));
       });
 
       themeOptions.forEach((option) => {
         option.addEventListener('click', () => {
           setTheme(option.dataset.themeChoice);
-          themePopover.classList.remove('is-open');
-          themeTrigger.setAttribute('aria-expanded', 'false');
+          setThemePopoverOpen(false);
         });
       });
 
       document.addEventListener('click', (event) => {
         if (!themeTrigger.contains(event.target) && !themePopover.contains(event.target)) {
-          themePopover.classList.remove('is-open');
-          themeTrigger.setAttribute('aria-expanded', 'false');
+          setThemePopoverOpen(false);
         }
       });
 
@@ -1068,8 +1112,10 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
         });
 
         filterButtons.forEach((button) => {
-          const filter = button.dataset.filter;
-          button.classList.toggle('active', filter === 'all' ? activeFilters.size === 0 : activeFilters.has(filter));
+          const filter = (button.dataset.filter || '').trim().toLowerCase();
+          const isActive = filter === 'all' ? activeFilters.size === 0 : activeFilters.has(filter);
+          button.classList.toggle('active', isActive);
+          button.setAttribute('aria-pressed', String(isActive));
         });
 
         noResults.classList.toggle('visible', sortedPosts.length === 0);
@@ -1078,7 +1124,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 
       filterButtons.forEach((button) => {
         button.addEventListener('click', () => {
-          const filter = button.dataset.filter;
+          const filter = (button.dataset.filter || '').trim().toLowerCase();
           if (filter === 'all') {
             activeFilters.clear();
           } else if (activeFilters.has(filter)) {
@@ -1086,6 +1132,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
           } else {
             activeFilters.add(filter);
           }
+          button.blur();
           applyFilters(true);
         });
       });
