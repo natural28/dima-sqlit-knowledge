@@ -46,33 +46,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/favicon.ico">
   {% seo %}
-  {% if site.yandex_metrika_id %}
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
-      (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {
-          if (document.scripts[j].src === r) {
-            return;
-          }
-        }
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a);
-      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id={{ site.yandex_metrika_id }}', 'ym');
-
-      ym({{ site.yandex_metrika_id }}, 'init', {
-        ssr: true,
-        webvisor: true,
-        clickmap: true,
-        ecommerce: "dataLayer",
-        referrer: document.referrer,
-        url: location.href,
-        accurateTrackBounce: true,
-        trackLinks: true
-      });
-    </script>
-    <!-- /Yandex.Metrika counter -->
-  {% endif %}
+  {% include analytics-consent-head.html %}
   <style>
     :root {
       --bg: #f4f8fb;
@@ -884,13 +858,6 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
   </style>
 </head>
 <body>
-  {% if site.yandex_metrika_id %}
-    <noscript>
-      <div>
-        <img src="https://mc.yandex.ru/watch/{{ site.yandex_metrika_id }}" style="position:absolute; left:-9999px;" alt="">
-      </div>
-    </noscript>
-  {% endif %}
   <div class="page-shell">
     <header class="topbar">
       <div class="brand">
@@ -1048,7 +1015,7 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
 
     <footer class="footer">
       <span>© 2024–{{ latest_year }} Дима SQL-it. База знаний для аналитиков и всех, кто любит быстро доходить до сути.</span>
-      <span><a href="https://t.me/dima_sqlit">Telegram</a> · <a href="https://mentor.dima-sqlit.ru">Менторство</a></span>
+      <span><a href="https://t.me/dima_sqlit">Telegram</a> · <a href="https://mentor.dima-sqlit.ru">Менторство</a> · <a href="{{ '/cookies/' | relative_url }}">Cookies</a></span>
     </footer>
   </div>
 
@@ -1057,6 +1024,8 @@ description: "База знаний по Data Analyst: SQL, Python, BI, AI и а
     <button class="quick-nav-button" type="button" data-scroll-target="top" aria-label="Вверх" title="Вверх">↑</button>
     <button class="quick-nav-button" type="button" data-scroll-target="bottom" aria-label="Вниз" title="Вниз">↓</button>
   </nav>
+
+  {% include analytics-consent-banner.html %}
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
