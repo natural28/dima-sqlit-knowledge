@@ -1,0 +1,143 @@
+{% if site.yandex_metrika_id %}
+  <script>
+    window.siteAnalyticsId = {{ site.yandex_metrika_id }};
+
+    window.loadSiteAnalytics = function() {
+      if (window.siteAnalyticsLoaded || !window.siteAnalyticsId) {
+        return;
+      }
+
+      window.siteAnalyticsLoaded = true;
+
+      (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {
+          if (document.scripts[j].src === r) {
+            return;
+          }
+        }
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a);
+      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=' + window.siteAnalyticsId, 'ym');
+
+      ym(window.siteAnalyticsId, 'init', {
+        ssr: true,
+        webvisor: true,
+        clickmap: true,
+        ecommerce: "dataLayer",
+        referrer: document.referrer,
+        url: location.href,
+        accurateTrackBounce: true,
+        trackLinks: true
+      });
+    };
+
+    if (localStorage.getItem('site-cookie-consent') === 'analytics') {
+      window.loadSiteAnalytics();
+    }
+  </script>
+{% endif %}
+
+<style>
+  .cookie-consent {
+    position: fixed;
+    left: 18px;
+    bottom: 18px;
+    z-index: 60;
+    display: none;
+    width: min(472px, calc(100vw - 36px));
+    padding: 20px;
+    border: 1px solid rgba(34, 197, 94, 0.42);
+    border-radius: 10px;
+    background: #0f1115;
+    color: #d7dce3;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  }
+
+  .cookie-consent.is-visible {
+    display: block;
+  }
+
+  .cookie-consent__eyebrow {
+    margin: 0 0 12px;
+    color: #34d399;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .cookie-consent__text {
+    margin: 0;
+    color: #c6ccd5;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .cookie-consent__text + .cookie-consent__text {
+    margin-top: 8px;
+  }
+
+  .cookie-consent__link {
+    color: #34d399;
+    font-weight: 800;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  .cookie-consent__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .cookie-consent__button {
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    background: transparent;
+    color: #c6ccd5;
+    cursor: pointer;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, color 180ms ease;
+  }
+
+  .cookie-consent__button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+  }
+
+  .cookie-consent__button--primary {
+    border-color: #34d399;
+    background: #34d399;
+    color: #06130d;
+  }
+
+  .cookie-consent__button--primary:hover {
+    border-color: #6ee7b7;
+    background: #6ee7b7;
+    color: #06130d;
+  }
+
+  @media (max-width: 560px) {
+    .cookie-consent {
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      width: auto;
+      padding: 16px;
+    }
+
+    .cookie-consent__actions {
+      flex-direction: column;
+    }
+
+    .cookie-consent__button {
+      width: 100%;
+    }
+  }
+</style>
